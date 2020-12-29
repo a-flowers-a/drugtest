@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { StyleSheet, View} from "react-native";
-import { FlatList } from 'react-native-gesture-handler';
+import { StyleSheet} from "react-native";
+import { ScrollView } from 'react-native-gesture-handler';
 import QuestionFPt from '../components/QuestionFPt';
 
 function QuestScreen(props){
 
     const styles = StyleSheet.create({
-        screen: {
+        container: {
             backgroundColor: "#120078",/*120078 */
+            flex:1,
         },
     });
     
@@ -25,25 +26,37 @@ function QuestScreen(props){
     ];
 
     const [answPt1, setAnswPt1] = useState({});
+    const [qstNumber, setQstNumber] = useState(0);
 
     /*  Receives: index of the question (1-4 questions),
             index of the tapped button (1-5) consume frequency
         Set the answer values for each question
     */
     function handleFAnswers(question, answer){
-        console.log(question);
-        console.log(answer);
+        console.log("q# " + question + " answ " +answer);
         setAnswPt1( prevValues => {
             return { ...prevValues,
                     [question]:answer
             };
         });
+        setQstNumber( prevQNumber => {
+            if (prevQNumber < 3)
+                return prevQNumber += 1;
+            else
+                //here must be the sending of the next questions
+                return 0;
+        });
         console.log(answPt1);
     }//checkButton
 
     return(
-        <View style={styles.screen}>
-            <FlatList
+        <ScrollView style={styles.container}>
+            <QuestionFPt 
+                onPressFunc= {handleFAnswers}
+                questIndex= {qstNumber}
+                question= {fPtQuestions[qstNumber]}
+            />
+            {/*<FlatList
                 data={fPtQuestions}
                 renderItem={({item, index}) =>
                     <QuestionFPt 
@@ -52,8 +65,8 @@ function QuestScreen(props){
                         questIndex={index}
                     />
                 }
-            />
-        </View>
+            />*/}
+        </ScrollView>
     );
 }//QuestScreen
 
