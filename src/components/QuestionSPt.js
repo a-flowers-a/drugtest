@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 
-function QuestionFPt(props){
+function QuestionSPt(props){
 
     const styles = StyleSheet.create({
         btnText: {
@@ -45,40 +45,19 @@ function QuestionFPt(props){
             
             <TouchableOpacity
                 style={styles.button}
-                onPress={() => props.onPressFunc(props.questIndex, 4)}
+                onPress={() => props.onPressFunc(props.questIndex, true)}
             >
-                <Text style={styles.btnText}>Diario o casi diario</Text>
+                <Text style={styles.btnText}>Sí</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
                 style={styles.button}
-                onPress={() => props.onPressFunc(props.questIndex, 3)}
+                onPress={() => props.onPressFunc(props.questIndex, false)}
             >
-                <Text style={styles.btnText}>Semanal</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => props.onPressFunc(props.questIndex, 2)}
-            >
-                <Text style={styles.btnText}>Mensual</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => props.onPressFunc(props.questIndex, 1)}
-            >
-                <Text style={styles.btnText}>Menos que mensual</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => props.onPressFunc(props.questIndex, 0)}
-            >
-                <Text style={styles.btnText}>Nunca</Text>
+                <Text style={styles.btnText}>No</Text>
             </TouchableOpacity>
         </View>
     );
-}//QuestionFPt
+}//QuestionSPt
 
-export default QuestionFPt;
+export default QuestionSPt;
