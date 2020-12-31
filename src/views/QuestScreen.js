@@ -27,14 +27,17 @@ function QuestScreen(props){
         "4. En los últimos 12 meses, ¿con qué frecuencia ha utilizado cualquier medicamento recetado sólo para la sensación, más de lo prescrito o que no se prescribieron para usted? Los medicamentos recetados que se pueden utilizar a su manera incluyen: Analgésicos opiáceos (por ejemplo, OxyContin, Vicodin, Percocet, Metadona). Medicamentos para la ansiedad o el sueño (por ejemplo, Xanax, Ativan, Klonopin) Medicamentos para el Trastorno de Déficit de Atención e Hiperactividad (por ejemplo, Adderall o Ritalin)."
     ];
     
+    /*if they are not with state, since it needs to be initialized with 0,
+    every re render is reinitialized to 0*/
     const [answPt1, setAnswPt1] = useState(new Array(4).fill(0));
     const [answPt2, setAnswPt2] = useState(new Array(5).fill(0));
 
     const [fstQNum, setFstQNum] = useState(0);
     const [secQNum, setSecQNum] = useState(0);
+    const [subQstIndex, setSubQIndex] = useState(0);
 
-    const [questionII, setQuestionII] = useState("");
     const [taps1, setTaps1] = useState(true);
+    let toDispQsts = [];
 
     /*  Receives: index of the question (1-4 questions),
             index of the tapped button (0-4) consume frequency
@@ -63,14 +66,53 @@ function QuestScreen(props){
     
     function setTapsIIQst(){
         console.log("las answ1",answPt1);
-        //using map returns an array with at least the 4 original spaces
-        let toDispQst = [];
         answPt1.map((answer,index) => {
             if(answer > 0)
-                toDispQst.push(...questionsII[index]);
+                toDispQsts.push(questionsII[index]);
         });
-        console.log(toDispQst);
+        console.log(toDispQsts);
     }//setTapsIIQst
+
+    function nextIndexQst(qstIndex){
+        //last second pat question
+        if(qstIndex == (toDispQsts.length - 1) )
+            console.log("test finished");
+        else
+        {
+            setSecQNum(prevQstIn => prevQstIn += 1);
+            setSubQIndex(0);
+        }
+    }//nextIndexQst
+
+    function nextSubIndex(qstIndex){
+        let numNextQst = 1;
+        if( subQstIndex == 0 || subQstIndex == 3 || subQstIndex == 6 || subQstIndex == 9)
+            numNextQst = 3;
+        const nextIndex = subQstIndex + numNextQst;
+        //last subquestion
+        if(nextIndex >= (toDispQsts[qstIndex].length - 1) )
+            nextIndexQst(qstIndex);
+        else
+            setSubQIndex(nextIndex);
+    }//nextSubIndex
+
+    function handleSAnswers(qstIndex, answer){
+        //positive answer
+        if(answer)
+        {
+            setAnswPt2( prevValues => {
+                prevValues[qstIndex] += answer;
+                return prevValues;
+            });
+            nextSubIndex(qstIndex);
+        }
+        //negative answer
+        else
+        {
+            nextSubIndex(qstIndex);
+        }
+
+    }//handleSAnswers
 
     //next questions (TAPS-2)
     /*function handleSAnswers(question, answer){
@@ -161,12 +203,12 @@ function QuestScreen(props){
                     questIndex= {fstQNum}
                     question= {fPtQuestions[fstQNum]}
                 />
-                :null
-                /*<QuestionSPt
+                :
+                <QuestionSPt
                     onPressFunc= {handleSAnswers}
                     questIndex= {secQNum}
-                    question= {questionII}
-                />*/
+                    question= {toDispQsts[secQNum][subQstIndex]}
+                />
             }
             
             {/*<FlatList
