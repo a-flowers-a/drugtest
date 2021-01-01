@@ -27,11 +27,13 @@ function QuestScreen(props){
         "4. En los últimos 12 meses, ¿con qué frecuencia ha utilizado cualquier medicamento recetado sólo para la sensación, más de lo prescrito o que no se prescribieron para usted? Los medicamentos recetados que se pueden utilizar a su manera incluyen: Analgésicos opiáceos (por ejemplo, OxyContin, Vicodin, Percocet, Metadona). Medicamentos para la ansiedad o el sueño (por ejemplo, Xanax, Ativan, Klonopin) Medicamentos para el Trastorno de Déficit de Atención e Hiperactividad (por ejemplo, Adderall o Ritalin)."
     ];
     
-    /*if they are not with state, since it needs to be initialized with 0,
+    /*if they do not have state, since it needs to be initialized with 0,
     every re render is reinitialized to 0*/
     const [answPt1, setAnswPt1] = useState(new Array(4).fill(0));
     const [answPt2, setAnswPt2] = useState(new Array(5).fill(0));
 
+    /*  this two can be just one, after the first part is finished, 
+        it is not used again  */
     const [fstQNum, setFstQNum] = useState(0);
     const [secQNum, setSecQNum] = useState(0);
     const [subQstIndex, setSubQIndex] = useState(0);
@@ -64,6 +66,8 @@ function QuestScreen(props){
     if(!taps1)
         setTapsIIQst();
     
+    console.log("answ2", answPt2);
+    
     function setTapsIIQst(){
         console.log("las answ1",answPt1);
         answPt1.map((answer,index) => {
@@ -76,7 +80,10 @@ function QuestScreen(props){
     function nextIndexQst(qstIndex){
         //last second pat question
         if(qstIndex == (toDispQsts.length - 1) )
-            console.log("test finished");
+        {
+            console.log("test finished, display finish/send button");
+            
+        }
         else
         {
             setSecQNum(prevQstIn => prevQstIn += 1);
@@ -84,16 +91,20 @@ function QuestScreen(props){
         }
     }//nextIndexQst
 
-    function nextSubIndex(qstIndex){
-        let numNextQst = 1;
-        if( subQstIndex == 0 || subQstIndex == 3 || subQstIndex == 6 || subQstIndex == 9)
-            numNextQst = 3;
-        const nextIndex = subQstIndex + numNextQst;
+    function nextSubIndex(qstIndex, indexJump){
+        const nextIndex = subQstIndex + indexJump;
+        console.log("in nextSubIn, current subindex:", subQstIndex);
+        console.log("nextSub would be ", nextIndex);
         //last subquestion
-        if(nextIndex >= (toDispQsts[qstIndex].length - 1) )
+        if(nextIndex > (toDispQsts[qstIndex].length - 1) )
+        {
+            console.log("going to next qstIndex ");
             nextIndexQst(qstIndex);
+        }
         else
+        {
             setSubQIndex(nextIndex);
+        }
     }//nextSubIndex
 
     function handleSAnswers(qstIndex, answer){
@@ -101,99 +112,27 @@ function QuestScreen(props){
         if(answer)
         {
             setAnswPt2( prevValues => {
-                prevValues[qstIndex] += answer;
+                prevValues[qstIndex] += 1;
                 return prevValues;
             });
-            nextSubIndex(qstIndex);
+            nextSubIndex(qstIndex, 1);
         }
         //negative answer
         else
         {
-            nextSubIndex(qstIndex);
+            let numNextQst = 1;
+            if( subQstIndex == 0 || subQstIndex == 3 || subQstIndex == 6 || subQstIndex == 9)
+            {
+                //in case they are the alcohol questions (must be 4)
+                if(toDispQsts[qstIndex].length == 4)
+                    numNextQst = 4;
+                else
+                    numNextQst = 3;
+            }
+            nextSubIndex(qstIndex, numNextQst);
         }
 
     }//handleSAnswers
-
-    //next questions (TAPS-2)
-    /*function handleSAnswers(question, answer){
-        console.log("amsw 1",answPt1);
-        console.log("inside taps2, fstQNum ", fstQNum);
-        setTaps1(false);
-        //tobacco questions
-        if(secQNum < 3 && answPt1[0] > 0)
-        {
-            console.log("inside tobacco, secQNum ", secQNum);
-            //not first tobacco question
-            if(secQNum > 0 && answer)
-            {
-                setAnswPt2(prevValues => {
-                    prevValues[0] += 1;
-                    return prevValues;
-                });
-                //next Question TAPS II
-                setSecQNum( prevIndex => prevIndex += 1);
-            }
-        }//tobacco
-        //alcohol questions
-        else if(secQNum < 7 && answPt1[1] > 0)
-        {
-            console.log("inside alcohol, secQNum ", secQNum);
-            //first alcohol question
-            if(secQNum < 3)
-                setSecQNum(3);
-            else
-            {
-                if(answer)
-                    setAnswPt2(prevValues => {
-                        prevValues[1] += 1;
-                        return prevValues;
-                    });
-                //next Question TAPS II
-                setSecQNum( prevIndex => prevIndex += 1);
-            }
-        }//alcohol
-        //drugs questions
-        else if(secQNum < 18 && answPt1[2] > 0)
-        {
-            console.log("inside drugs, secQNum ", secQNum);
-            //first drugs question
-            if(secQNum < 7)
-                setSecQNum(7);
-            else
-            {
-                if(answer)
-                    setAnswPt2(prevValues => {
-                        prevValues[2] += 1;
-                        return prevValues;
-                    });
-                //next Question TAPS II
-                setSecQNum( prevIndex => prevIndex += 1);
-            }
-        }//drugs
-        //medicine questions
-        else if(secQNum < 25 && answPt1[3] > 0)
-        {
-            console.log("inside medicine, secQNum ", secQNum);
-            console.log("answPt1 in 3", answPt1[3]);
-            //first medicine question
-            if(secQNum < 16)
-                setSecQNum(16);
-            else
-            {
-                if(answer)
-                    setAnswPt2(prevValues => {
-                        prevValues[3] += 1;
-                        return prevValues;
-                    });
-                //next Question TAPS II
-                setSecQNum( prevIndex => prevIndex += 1);
-            }
-        }//medicine
-        console.log("index qII ",secQNum);
-        console.log("AnswPt2",answPt2);
-        setQuestionII(questionsII[secQNum]);
-    }//handleSAnswers
-    */
 
     return(
         <ScrollView style={styles.container}>
