@@ -67,6 +67,29 @@ function QuestScreen(props){
         setTapsIIQst();
     
     console.log("answ2", answPt2);
+
+    function submitAnswers(){
+        console.log("submitAnswers");
+    /*
+        const url = ´´;
+        axios.post(url, objectToSend, {headers:{
+            "Content-Type": "application/json"},
+        })
+          .then((result) => {
+            const respMessage = JSON.stringify(result.data.message);
+            const success = result.data.success;
+            //console.log(result.data);
+            if(success)
+            {
+                console.log();
+            }
+            else
+            {
+                console.log();
+            }
+          });
+    */
+    }//submitAnswers
     
     function setTapsIIQst(){
         console.log("las answ1",answPt1);
