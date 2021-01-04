@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
-import { StyleSheet} from "react-native";
+import { StyleSheet } from "react-native";
 import { ScrollView } from 'react-native-gesture-handler';
 import QuestionFPt from '../components/QuestionFPt';
 import QuestionSPt from '../components/QuestionSPt';
 import questionsII from '../res/questionsII';
+import axios from 'axios';
 
-function QuestScreen(props){
+function QuestScreen(props) {
 
     const styles = StyleSheet.create({
         container: {
             backgroundColor: "#120078",/*120078 */
-            flex:1,
+            flex: 1,
         },
     });
-    
+
     const sex = false;
     let numDrinks = 5;
 
@@ -26,7 +27,7 @@ function QuestScreen(props){
         "3. En los últimos 12 meses, ¿con qué frecuencia ha consumido drogas como marihuana, cocaína o crack, heroína, metanfetamina (metanfetamina de cristal), alucinógenos, éxtasis/MDMA?",
         "4. En los últimos 12 meses, ¿con qué frecuencia ha utilizado cualquier medicamento recetado sólo para la sensación, más de lo prescrito o que no se prescribieron para usted? Los medicamentos recetados que se pueden utilizar a su manera incluyen: Analgésicos opiáceos (por ejemplo, OxyContin, Vicodin, Percocet, Metadona). Medicamentos para la ansiedad o el sueño (por ejemplo, Xanax, Ativan, Klonopin) Medicamentos para el Trastorno de Déficit de Atención e Hiperactividad (por ejemplo, Adderall o Ritalin)."
     ];
-    
+
     /*if they do not have state, since it needs to be initialized with 0,
     every re render is reinitialized to 0*/
     const [answPt1, setAnswPt1] = useState(new Array(4).fill(0));
@@ -45,17 +46,16 @@ function QuestScreen(props){
             index of the tapped button (0-4) consume frequency
         Set the answer values for each question
     */
-    function handleFAnswers(question, answer){
-        console.log("q# " + question + " answ " +answer);
-        setAnswPt1( prevValues => {
+    function handleFAnswers(question, answer) {
+        console.log("q# " + question + " answ " + answer);
+        setAnswPt1(prevValues => {
             prevValues[question] = answer;
             return prevValues;
         });
-        setFstQNum( prevQNumber => {
-            if(prevQNumber < 3)
+        setFstQNum(prevQNumber => {
+            if (prevQNumber < 3)
                 return prevQNumber += 1;
-            else
-            {
+            else {
                 setTaps1(false);
                 return 3;
             }
@@ -63,91 +63,84 @@ function QuestScreen(props){
         console.log(answPt1);
     }//handleFAnswers
 
-    if(!taps1)
+    if (!taps1)
         setTapsIIQst();
-    
+
     console.log("answ2", answPt2);
 
-    function submitAnswers(){
+    function submitAnswers() {
         console.log("submitAnswers");
-    /*
-        const url = ´´;
-        axios.post(url, objectToSend, {headers:{
-            "Content-Type": "application/json"},
+
+        const url = "localhost:3030/analysis/save-quest-answers";
+        axios.post(url, { resTaps2: answPt2, resTaps1: answPt1, boleta: 2017630042, password: 123 }, {
+            headers: {
+                "Content-Type": "application/json"
+            },
         })
-          .then((result) => {
-            const respMessage = JSON.stringify(result.data.message);
-            const success = result.data.success;
-            //console.log(result.data);
-            if(success)
-            {
-                console.log();
-            }
-            else
-            {
-                console.log();
-            }
-          });
-    */
+            .then((result) => {
+                //const respMessage = JSON.stringify(result.data.message);
+                const success = result.data.success;
+                //console.log(result.data);
+                if (success) {
+                    console.log('success');
+                }
+                else {
+                    console.log('error');
+                }
+            });
+
     }//submitAnswers
-    
-    function setTapsIIQst(){
-        console.log("las answ1",answPt1);
-        answPt1.map((answer,index) => {
-            if(answer > 0)
+
+    function setTapsIIQst() {
+        console.log("las answ1", answPt1);
+        answPt1.map((answer, index) => {
+            if (answer > 0)
                 toDispQsts.push(questionsII[index]);
         });
         console.log(toDispQsts);
     }//setTapsIIQst
 
-    function nextIndexQst(qstIndex){
+    function nextIndexQst(qstIndex) {
         //last second pat question
-        if(qstIndex == (toDispQsts.length - 1) )
-        {
+        if (qstIndex == (toDispQsts.length - 1)) {
             console.log("test finished, display finish/send button");
-            
+            submitAnswers();
         }
-        else
-        {
+        else {
             setSecQNum(prevQstIn => prevQstIn += 1);
             setSubQIndex(0);
         }
     }//nextIndexQst
 
-    function nextSubIndex(qstIndex, indexJump){
+    function nextSubIndex(qstIndex, indexJump) {
         const nextIndex = subQstIndex + indexJump;
         console.log("in nextSubIn, current subindex:", subQstIndex);
         console.log("nextSub would be ", nextIndex);
         //last subquestion
-        if(nextIndex > (toDispQsts[qstIndex].length - 1) )
-        {
+        if (nextIndex > (toDispQsts[qstIndex].length - 1)) {
             console.log("going to next qstIndex ");
             nextIndexQst(qstIndex);
         }
-        else
-        {
+        else {
             setSubQIndex(nextIndex);
         }
     }//nextSubIndex
 
-    function handleSAnswers(qstIndex, answer){
+    function handleSAnswers(qstIndex, answer) {
         //positive answer
-        if(answer)
-        {
-            setAnswPt2( prevValues => {
+        if (answer) {
+            setAnswPt2(prevValues => {
                 prevValues[qstIndex] += 1;
                 return prevValues;
             });
             nextSubIndex(qstIndex, 1);
         }
         //negative answer
-        else
-        {
+        else {
             let numNextQst = 1;
-            if( subQstIndex == 0 || subQstIndex == 3 || subQstIndex == 6 || subQstIndex == 9)
-            {
+            if (subQstIndex == 0 || subQstIndex == 3 || subQstIndex == 6 || subQstIndex == 9) {
                 //in case they are the alcohol questions (must be 4)
-                if(toDispQsts[qstIndex].length == 4)
+                if (toDispQsts[qstIndex].length == 4)
                     numNextQst = 4;
                 else
                     numNextQst = 3;
@@ -157,22 +150,22 @@ function QuestScreen(props){
 
     }//handleSAnswers
 
-    return(
+    return (
         <ScrollView style={styles.container}>
             {taps1 ?
-                <QuestionFPt 
-                    onPressFunc= {handleFAnswers}
-                    questIndex= {fstQNum}
-                    question= {fPtQuestions[fstQNum]}
+                <QuestionFPt
+                    onPressFunc={handleFAnswers}
+                    questIndex={fstQNum}
+                    question={fPtQuestions[fstQNum]}
                 />
                 :
                 <QuestionSPt
-                    onPressFunc= {handleSAnswers}
-                    questIndex= {secQNum}
-                    question= {toDispQsts[secQNum][subQstIndex]}
+                    onPressFunc={handleSAnswers}
+                    questIndex={secQNum}
+                    question={toDispQsts[secQNum][subQstIndex]}
                 />
             }
-            
+
             {/*<FlatList
                 data={fPtQuestions}
                 renderItem={({item, index}) =>
