@@ -31,7 +31,8 @@ function QuestScreen(props) {
     /*if they do not have state, since it needs to be initialized with 0,
     every re render is reinitialized to 0*/
     const [answPt1, setAnswPt1] = useState(new Array(4).fill(0));
-    const [answPt2, setAnswPt2] = useState(new Array(5).fill(0));
+    const [answPt2, setAnswPt2] = useState(new Array(8).fill(0));
+    const [other, setOther] = useState("");
 
     /*  this two can be just one, after the first part is finished, 
         it is not used again  */
@@ -71,11 +72,14 @@ function QuestScreen(props) {
     function submitAnswers() {
         console.log("submitAnswers");
 
-        const url = "localhost:3030/analysis/save-quest-answers";
-        axios.post(url, { resTaps2: answPt2, resTaps1: answPt1, boleta: 2017630042, password: 123 }, {
-            headers: {
-                "Content-Type": "application/json"
-            },
+        const url = "http:localhost:3030/analysis/save-quest-answers";
+        axios.post(url,{
+                        resTaps2: answPt2,
+                        boleta: 2017630222,
+                        password: 123,
+                        other: other,
+                    }, {
+                        headers: {"Content-Type": "application/json"},
         })
             .then((result) => {
                 //const respMessage = JSON.stringify(result.data.message);
@@ -87,6 +91,8 @@ function QuestScreen(props) {
                 else {
                     console.log('error');
                 }
+            }).catch(error => {
+                console.log(error);
             });
 
     }//submitAnswers
@@ -129,10 +135,26 @@ function QuestScreen(props) {
     function handleSAnswers(qstIndex, answer) {
         //positive answer
         if (answer) {
-            setAnswPt2(prevValues => {
-                prevValues[qstIndex] += 1;
-                return prevValues;
-            });
+            let indexSecAnswers = qstIndex;
+            if(qstIndex == 2)
+            {
+                indexSecAnswers = 2 + Math.floor(subQstIndex / 3);
+            }
+            else if(qstIndex == 3)
+            {
+                indexSecAnswers = 5 + Math.floor(subQstIndex / 3);
+            }
+            
+            if(subQstIndex == 10)
+                setOther("otra");//answer
+            else if(subQstIndex != 9)
+            {
+                setAnswPt2(prevValues => {
+                    prevValues[indexSecAnswers] += 1;
+                    return prevValues;
+                });
+            }
+            
             nextSubIndex(qstIndex, 1);
         }
         //negative answer
