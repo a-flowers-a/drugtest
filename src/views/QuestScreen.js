@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { StyleSheet } from "react-native";
 import { ScrollView } from 'react-native-gesture-handler';
+import axios from 'axios';
+import FinishBtn from '../components/FinishBtn';
 import QuestionFPt from '../components/QuestionFPt';
 import QuestionSPt from '../components/QuestionSPt';
 import questionsII from '../res/questionsII';
-import axios from 'axios';
 
 function QuestScreen(props) {
 
@@ -32,23 +33,28 @@ function QuestScreen(props) {
     every re render is reinitialized to 0*/
     const [answPt1, setAnswPt1] = useState(new Array(4).fill(0));
     const [answPt2, setAnswPt2] = useState(new Array(8).fill(0));
-    const [other, setOther] = useState("");
+    const [other, setOther] = useState("");//check if it could fit in array answPt2
 
-    /*  this two can be just one, after the first part is finished, 
-        it is not used again  */
     const [fstQNum, setFstQNum] = useState(0);
     const [secQNum, setSecQNum] = useState(0);
     const [subQstIndex, setSubQIndex] = useState(0);
+    const [toDispQsts, setToDsplQst] = useState([]);
 
-    const [taps1, setTaps1] = useState(true);
-    let toDispQsts = [];
+    const [subsIndxToDspl, setSubsIndxToDspl] = useState([]);
+
+    const [display, setDisplay] = useState({
+        part1: true,
+        part2: false,
+        submit: false,
+        setTapsII: false
+    });
 
     /*  Receives: index of the question (1-4 questions),
             index of the tapped button (0-4) consume frequency
         Set the answer values for each question
     */
     function handleFAnswers(question, answer) {
-        console.log("q# " + question + " answ " + answer);
+        //console.log("q# " + question + " answ " + answer);
         setAnswPt1(prevValues => {
             prevValues[question] = answer;
             return prevValues;
@@ -56,22 +62,131 @@ function QuestScreen(props) {
         setFstQNum(prevQNumber => {
             if (prevQNumber < 3)
                 return prevQNumber += 1;
-            else {
-                setTaps1(false);
+            else
+            {
+                setDisplay(prevValue => {
+                    return {
+                        ...prevValue,
+                        part1: false
+                    }
+                });//setDisplay
                 return 3;
             }
         });
-        console.log(answPt1);
     }//handleFAnswers
 
-    if (!taps1)
-        setTapsIIQst();
+    function handleSAnswers(subsIndex, answer) {
+        //positive answer
+        if (answer) {
+            let indexSecAnswers = subsIndex;
+            if(subsIndex == 2)
+            {
+                indexSecAnswers = 2 + Math.floor(subQstIndex / 3);
+            }
+            else if(subsIndex == 3)
+            {
+                indexSecAnswers = 5 + Math.floor(subQstIndex / 3);
+            }
+            
+            if(subQstIndex == 10)
+                setOther("otra");//answer
+            else if(subQstIndex != 9)
+            {
+                setAnswPt2(prevValues => {
+                    prevValues[indexSecAnswers] += 1;
+                    return prevValues;
+                });
+            }
+            
+            nextSubIndex(1);
+        }
+        //negative answer
+        else {
+            let numNextQst = 1;
+            if (subQstIndex == 0 || subQstIndex == 3 || subQstIndex == 6 || subQstIndex == 9) {
+                //in case they are the alcohol questions (must be 4)
+                if (toDispQsts[secQNum].length == 4)
+                    numNextQst = 4;
+                else
+                    numNextQst = 3;
+            }
+            nextSubIndex(numNextQst);
+        }
 
-    console.log("answ2", answPt2);
+    }//handleSAnswers
+
+    function nextIndexQst() {
+        //last second part question
+        if (secQNum == (toDispQsts.length - 1))
+        {
+            setDisplay(prevValue => {
+                return {
+                    ...prevValue,
+                    part2: false,
+                    submit: true
+                }
+            });//setDisplay
+        }
+        else
+        {
+            setSecQNum(prevQstIn => prevQstIn += 1);
+            setSubQIndex(0);
+        }
+    }//nextIndexQst
+
+    function nextSubIndex(indexJump) {
+        const nextIndex = subQstIndex + indexJump;
+        console.log("in nextSubIn, current subindex:", subQstIndex);
+        console.log("nextSub would be ", nextIndex);
+        //last subquestion
+        if (nextIndex > (toDispQsts[secQNum].length - 1)) {
+            console.log("going to next qstIndex ");
+            nextIndexQst();
+        }
+        else {
+            setSubQIndex(nextIndex);
+        }
+    }//nextSubIndex
+
+    function setTapsIIQst() {
+        console.log("las answ1", answPt1);
+        let ansWithZero = 0;
+        answPt1.map((answer, index) => {
+            if (answer > 0)
+            {
+                console.log("entra una vez en answ>0");
+                setToDsplQst(prevQsts => {
+                    console.log("adding " + index +" qst in array");
+                    let newArray = prevQsts;
+                    newArray.push(questionsII[index]);
+                    return newArray;
+                    //return prevQsts.concat(questionsII[index]);
+                });
+                //toDispQsts.push(questionsII[index]);
+                setSubsIndxToDspl(prevIndexs => {
+                    let newArray = prevIndexs;
+                    newArray.push(index);
+                    return newArray;
+                });
+            }
+            else
+                ansWithZero += 1;
+        });
+        if(ansWithZero == answPt1.length)
+        {
+            console.log("todas answ pt1 con 0");
+            setDisplay(prevValues => {
+                return{
+                    ...prevValues,
+                    submit:true
+                };
+            });
+        }
+    }//setTapsIIQst
+
 
     function submitAnswers() {
-        console.log("submitAnswers");
-
+        console.log("answ2", answPt2);
         const url = "http:localhost:3030/analysis/save-quest-answers";
         axios.post(url,{
                         resTaps2: answPt2,
@@ -97,94 +212,52 @@ function QuestScreen(props) {
 
     }//submitAnswers
 
-    function setTapsIIQst() {
-        console.log("las answ1", answPt1);
-        answPt1.map((answer, index) => {
-            if (answer > 0)
-                toDispQsts.push(questionsII[index]);
+    if(!display.part1 && !display.part2 && !display.submit && !display.setTapsII)
+    {
+        console.log("tapsII funct triggered");
+        setDisplay(prevValues => {
+            return {
+                ...prevValues,
+                setTapsII: true,
+            }
         });
-        console.log(toDispQsts);
-    }//setTapsIIQst
+        setTapsIIQst();
+    }
 
-    function nextIndexQst(qstIndex) {
-        //last second pat question
-        if (qstIndex == (toDispQsts.length - 1)) {
-            console.log("test finished, display finish/send button");
-            submitAnswers();
-        }
-        else {
-            setSecQNum(prevQstIn => prevQstIn += 1);
-            setSubQIndex(0);
-        }
-    }//nextIndexQst
-
-    function nextSubIndex(qstIndex, indexJump) {
-        const nextIndex = subQstIndex + indexJump;
-        console.log("in nextSubIn, current subindex:", subQstIndex);
-        console.log("nextSub would be ", nextIndex);
-        //last subquestion
-        if (nextIndex > (toDispQsts[qstIndex].length - 1)) {
-            console.log("going to next qstIndex ");
-            nextIndexQst(qstIndex);
-        }
-        else {
-            setSubQIndex(nextIndex);
-        }
-    }//nextSubIndex
-
-    function handleSAnswers(qstIndex, answer) {
-        //positive answer
-        if (answer) {
-            let indexSecAnswers = qstIndex;
-            if(qstIndex == 2)
-            {
-                indexSecAnswers = 2 + Math.floor(subQstIndex / 3);
-            }
-            else if(qstIndex == 3)
-            {
-                indexSecAnswers = 5 + Math.floor(subQstIndex / 3);
-            }
-            
-            if(subQstIndex == 10)
-                setOther("otra");//answer
-            else if(subQstIndex != 9)
-            {
-                setAnswPt2(prevValues => {
-                    prevValues[indexSecAnswers] += 1;
-                    return prevValues;
-                });
-            }
-            
-            nextSubIndex(qstIndex, 1);
-        }
-        //negative answer
-        else {
-            let numNextQst = 1;
-            if (subQstIndex == 0 || subQstIndex == 3 || subQstIndex == 6 || subQstIndex == 9) {
-                //in case they are the alcohol questions (must be 4)
-                if (toDispQsts[qstIndex].length == 4)
-                    numNextQst = 4;
-                else
-                    numNextQst = 3;
-            }
-            nextSubIndex(qstIndex, numNextQst);
-        }
-
-    }//handleSAnswers
+    //console.log("to dspQst",toDispQsts);
+    console.log("SubsIndxToDspl",subsIndxToDspl);
 
     return (
         <ScrollView style={styles.container}>
-            {taps1 ?
+            {display.part1 &&
                 <QuestionFPt
                     onPressFunc={handleFAnswers}
                     questIndex={fstQNum}
                     question={fPtQuestions[fstQNum]}
                 />
-                :
+            }
+            {display.part2 &&
                 <QuestionSPt
                     onPressFunc={handleSAnswers}
-                    questIndex={secQNum}
+                    /*questIndex={secQNum}*/
+                    substanceIndex = {subsIndxToDspl[secQNum]}
                     question={toDispQsts[secQNum][subQstIndex]}
+                />
+            }
+
+            { (!display.part1 && !display.part2) &&
+                <FinishBtn 
+                    onPressFunc={display.submit ? submitAnswers : 
+                        () => {
+                            setDisplay(prevValue => {
+                                return {
+                                    ...prevValue,
+                                    part2: true
+                                }
+                            });//setDisplay
+                        }
+                    }
+                    btnText={display.submit ? "Finalizar Cuestionario" : "Terminar TAPS-I"}
                 />
             }
 

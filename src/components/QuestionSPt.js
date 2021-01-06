@@ -45,14 +45,14 @@ function QuestionSPt(props){
             
             <TouchableOpacity
                 style={styles.button}
-                onPress={() => props.onPressFunc(props.questIndex, true)}
+                onPress={() => props.onPressFunc(props.substanceIndex,true)}
             >
                 <Text style={styles.btnText}>Sí</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
                 style={styles.button}
-                onPress={() => props.onPressFunc(props.questIndex, false)}
+                onPress={() => props.onPressFunc(props.substanceIndex,false)}
             >
                 <Text style={styles.btnText}>No</Text>
             </TouchableOpacity>
