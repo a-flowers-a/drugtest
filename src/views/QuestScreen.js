@@ -38,7 +38,6 @@ function QuestScreen(props) {
     const [fstQNum, setFstQNum] = useState(0);
     const [secQNum, setSecQNum] = useState(0);
     const [subQstIndex, setSubQIndex] = useState(0);
-    //const [toDispQsts, setToDsplQst] = useState([]);
 
     const [subsIndxToDspl, setSubsIndxToDspl] = useState([]);
 
@@ -105,9 +104,8 @@ function QuestScreen(props) {
             let numNextQst = 1;
             if (subQstIndex == 0 || subQstIndex == 3 || subQstIndex == 6 || subQstIndex == 9)
             {
-                //if (toDispQsts[secQNum].length == 4)
                 const substanceIndex = subsIndxToDspl[secQNum];
-                //in case they are the alcohol questions (must be 4)
+                //in case they are the alcohol questions
                 if(substanceIndex == 1)
                     numNextQst = 4;
                 else
@@ -120,7 +118,6 @@ function QuestScreen(props) {
 
     function nextIndexQst() {
         //last second part question
-        //if (secQNum == (toDispQsts.length - 1))
         if(secQNum == (subsIndxToDspl.length - 1) )
         {
             setDisplay(prevValue => {
@@ -143,7 +140,6 @@ function QuestScreen(props) {
         console.log("in nextSubIn, current subindex:", subQstIndex);
         console.log("nextSub would be ", nextIndex);
         //last subquestion
-        //if (nextIndex > (toDispQsts[secQNum].length - 1))
         const substanceIndex = subsIndxToDspl[secQNum];
         if(nextIndex > (questionsII[substanceIndex].length - 1) )
         {
@@ -162,15 +158,7 @@ function QuestScreen(props) {
         answPt1.map((answer, index) => {
             if (answer > 0)
             {
-                console.log("entra una vez en answ>0");
-                /*setToDsplQst(prevQsts => {
-                    console.log("adding " + index +" qst in array");
-                    let newArray = prevQsts;
-                    newArray.push(questionsII[index]);
-                    return newArray;
-                    //return prevQsts.concat(questionsII[index]);
-                });*/
-                //toDispQsts.push(questionsII[index]);
+                //console.log("entra una vez en answ>0");
                 setSubsIndxToDspl(prevIndexs => {
                     let newArray = prevIndexs;
                     newArray.push(index);
@@ -205,9 +193,7 @@ function QuestScreen(props) {
                         headers: {"Content-Type": "application/json"},
         })
             .then((result) => {
-                //const respMessage = JSON.stringify(result.data.message);
                 const success = result.data.success;
-                //console.log(result.data);
                 if (success) {
                     console.log('success');
                 }
@@ -244,9 +230,7 @@ function QuestScreen(props) {
             {display.part2 &&
                 <QuestionSPt
                     onPressFunc={handleSAnswers}
-                    /*questIndex={secQNum}*/
                     substanceIndex = {subsIndxToDspl[secQNum]}
-                    //question={toDispQsts[secQNum][subQstIndex]}
                     question={questionsII[subsIndxToDspl[secQNum]][subQstIndex]}
                 />
             }
@@ -266,17 +250,6 @@ function QuestScreen(props) {
                     btnText={display.submit ? "Finalizar Cuestionario" : "Continuar a TAPS-II"}
                 />
             }
-
-            {/*<FlatList
-                data={fPtQuestions}
-                renderItem={({item, index}) =>
-                    <QuestionFPt 
-                        question={item}
-                        onPressFunc={handleFAnswers}
-                        questIndex={index}
-                    />
-                }
-            />*/}
         </ScrollView>
     );
 }//QuestScreen
