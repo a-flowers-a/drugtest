@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet } from "react-native";
 import { ScrollView } from 'react-native-gesture-handler';
 import axios from 'axios';
-import FinishBtn from '../components/FinishBtn';
+import ActionBtn from '../components/ActionBtn';
 import QuestionFPt from '../components/QuestionFPt';
 import QuestionSPt from '../components/QuestionSPt';
 import questionsII from '../res/questionsII';
@@ -236,7 +236,7 @@ function QuestScreen(props) {
             }
 
             { (!display.part1 && !display.part2) &&
-                <FinishBtn 
+                <ActionBtn 
                     onPressFunc={display.submit ? submitAnswers : 
                         () => {
                             setDisplay(prevValue => {

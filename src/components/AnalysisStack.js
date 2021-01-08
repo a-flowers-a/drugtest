@@ -1,5 +1,6 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
+import HomeScreen from '../views/HomeScreen';
 import QuestScreen from '../views/QuestScreen';
 
 const Stack = createStackNavigator();
@@ -17,9 +18,15 @@ const AnalysisStack = () =>{
             }}
         >
             <Stack.Screen 
+                name="Home" 
+                component={HomeScreen}
+            />
+            
+            <Stack.Screen 
                 name="Questionaire" 
                 component={QuestScreen}
             />
+
         </Stack.Navigator>
     );
 }//AnalysisStack
