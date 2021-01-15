@@ -23,6 +23,7 @@ function HomeScreen(props) {
                 btnText={"Realizar Cuestionario"}
                 onPressFunc={sendToQuestScreen}
             />
+            
         </ScrollView>
     );
 }//HomeScreen

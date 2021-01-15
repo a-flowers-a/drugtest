@@ -9,19 +9,19 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { Image, StyleSheet, Text, View, SafeAreaView, PermissionsAndroid, Button } from "react-native";
 import AnalysisStack from 'drugtest/src/components/AnalysisStack';
 import ShareMenu from 'react-native-share-menu';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 const Tabs = createBottomTabNavigator();
 
+/*----------------Get chat functionality------------------*/
 type SharedItem = {
   mimeType: string,
   data: string,
 };
 
-
-/*----------------------------------*/
 const App: () => React$Node = () => {
   /*This is to receive the file(chat) */
   const [sharedData, setSharedData] = useState('');
@@ -56,12 +56,61 @@ const App: () => React$Node = () => {
   var getSharedChat = () => {
     if (sharedMimeType) {
       console.log("There is a MimeType: " + sharedMimeType);
-      console.log(JSON.stringify(sharedData));//This retrieves the URI of the chat 
+      var chatURI = sharedData.toString();
+      console.log(chatURI);//This retrieves the URI of the chat
+
+
+      //for Android up to 6.0 version ask the user for permission
+      if (requestStoragePermission()) {
+        //Fetch chat by using its URI
+
+        RNFetchBlob.fs.readStream(chatURI, 'utf8')
+          .then((stream) => {
+            console.log("Abriendo version completa del chat");
+            let data = ''
+            stream.open()
+            stream.onData((chunk) => {
+              data += chunk
+            })
+            stream.onEnd(() => {
+              console.log(data)
+            })
+          })
+      }
+
+
     }
     else {
       console.log("there is nothing to share");
     }
   }
+
+  const requestStoragePermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.READ_EXTERNAL_STORAGE,
+        {
+          title: "Drugtest App External storage permission",
+          message:
+            "Drugtest App needs access to your local files " +
+            "so you can do all the tests.",
+          buttonNeutral: "Ask Me Later",
+          buttonNegative: "Cancel",
+          buttonPositive: "OK"
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log("You can use the camera");
+        return true;
+      } else {
+        console.log("Camera permission denied");
+        return false;
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+  /*-----------------------------End of get chat--------------- */
 
   getSharedChat();
 
@@ -91,8 +140,6 @@ const App: () => React$Node = () => {
           }}
         />
 
-
-
         {/*<Tabs.Screen
           component={nameOfTheStackComponent}
           name="Name which it will be used to be referenced"
@@ -105,8 +152,6 @@ const App: () => React$Node = () => {
             )
           }}
         />*/}
-
-
 
       </Tabs.Navigator>
     </NavigationContainer>
