@@ -1,5 +1,6 @@
-import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useState } from 'react';
+import { Text, View, TouchableOpacity, StyleSheet, Platform } from "react-native";
+import { TextInput } from 'react-native-gesture-handler';
 
 function QuestionSPt(props){
 
@@ -21,6 +22,21 @@ function QuestionSPt(props){
         container: {
             alignItems: "center",
         },
+        textInput: {
+            borderWidth: 1,
+            color: "#f5f4f4",
+            fontSize: 18,
+            height: 46,
+            marginBottom: 10,
+        },
+        textInputAndroid:{
+            borderWidth: 2,
+            color: "#fff",
+        },
+        textInputIOS:{
+            borderRadius: 8,
+            borderColor: "#fff",
+        },
         textContainer: {
             backgroundColor: "#3399FF", /*#3e64ff */
             borderRadius: 10,
@@ -36,26 +52,54 @@ function QuestionSPt(props){
         },
     });
 
-    
+    const {question, onPressFunc, substanceIndex, txtInput} = props;
+    const [textValue, onChangeText] = useState("");
+
     return (
         <View style={styles.container}>
             <View style={styles.textContainer}>
-                <Text style={styles.qText}>{props.question}</Text>
+                <Text style={styles.qText}>{question}</Text>
             </View>
             
-            <TouchableOpacity
+            {!txtInput && (
+                <TouchableOpacity
                 style={styles.button}
-                onPress={() => props.onPressFunc(props.substanceIndex,true)}
-            >
-                <Text style={styles.btnText}>Sí</Text>
-            </TouchableOpacity>
+                onPress={() => onPressFunc(substanceIndex,true)}
+                >
+                    <Text style={styles.btnText}>Sí</Text>
+                </TouchableOpacity>
+            )}
 
-            <TouchableOpacity
+            {!txtInput && (
+                <TouchableOpacity
                 style={styles.button}
-                onPress={() => props.onPressFunc(props.substanceIndex,false)}
-            >
-                <Text style={styles.btnText}>No</Text>
-            </TouchableOpacity>
+                onPress={() => onPressFunc(substanceIndex,false)}
+                >
+                    <Text style={styles.btnText}>No</Text>
+                </TouchableOpacity>
+            )}
+
+            {txtInput && (
+                <View>
+                    <TextInput
+                        style={[styles.textInput,
+                            Platform.OS == 'ios' ?
+                            styles.textInputIOS :
+                            styles.textInputAndroid
+                        ]}
+                        onChangeText={text => onChangeText(text)}
+                        value={textValue}
+                    />
+
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => onPressFunc(substanceIndex,textValue)}
+                        >
+                            <Text style={styles.btnText}>Siguiente</Text>
+                    </TouchableOpacity>
+                </View>
+            )}
+
         </View>
     );
 }//QuestionSPt

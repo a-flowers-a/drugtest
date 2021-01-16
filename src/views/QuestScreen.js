@@ -32,7 +32,7 @@ function QuestScreen(props) {
     /*if they do not have state, since it needs to be initialized with 0,
     every re render is reinitialized to 0*/
     const [answPt1, setAnswPt1] = useState(new Array(4).fill(0));
-    const [answPt2, setAnswPt2] = useState(new Array(8).fill(0));
+    const [answPt2, setAnswPt2] = useState(new Array(9).fill(0));
     const [other, setOther] = useState("");//check if it could fit in array answPt2
 
     const [fstQNum, setFstQNum] = useState(0);
@@ -88,7 +88,14 @@ function QuestScreen(props) {
             }
             
             if(subQstIndex == 10)
-                setOther("otra");//answer
+            {
+                //setOther(answer);//answer
+                setAnswPt2(prevValues => {
+                    prevValues[8] = answer;
+                    return prevValues;
+                });
+
+            }
             else if(subQstIndex != 9)
             {
                 setAnswPt2(prevValues => {
@@ -183,12 +190,13 @@ function QuestScreen(props) {
 
     function submitAnswers() {
         console.log("answ2", answPt2);
+        //console.log("other", other);
         const url = "http:localhost:3030/analysis/save-quest-answers";
         axios.post(url,{
                         resTaps2: answPt2,
                         boleta: 2017630222,
                         password: 123,
-                        other: other,
+                        //other: other,
                     }, {
                         headers: {"Content-Type": "application/json"},
         })
@@ -232,6 +240,7 @@ function QuestScreen(props) {
                     onPressFunc={handleSAnswers}
                     substanceIndex = {subsIndxToDspl[secQNum]}
                     question={questionsII[subsIndxToDspl[secQNum]][subQstIndex]}
+                    txtInput={(subsIndxToDspl[secQNum]==2 && subQstIndex==10) && true}
                 />
             }
 
