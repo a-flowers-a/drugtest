@@ -17,7 +17,11 @@
 		2DCD954D1E0B4F2C00145EB5 /* drugtestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* drugtestTests.m */; };
 		4A31DDD23F92FAC614633ACA /* libPods-drugtest-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844873A23BED49F2AFA31A03 /* libPods-drugtest-tvOSTests.a */; };
 		5205D1373D3D094B302E4A94 /* libPods-drugtest-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BB992A2DC90E0AD47859741 /* libPods-drugtest-tvOS.a */; };
+		6C96D7C2EF8B95688D533BBC /* libPods-shareextension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 258671FEB013490BD436910A /* libPods-shareextension.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		A9C7FA4B25B4AB5D004C0E5D /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9C7FA4925B4AB5D004C0E5D /* MainInterface.storyboard */; };
+		A9C7FA4F25B4AB5D004C0E5D /* shareextension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A9C7FA4525B4AB5D004C0E5D /* shareextension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A9C7FA6525B4AD80004C0E5D /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C7FA6425B4AD80004C0E5D /* ShareViewController.swift */; };
 		B1CE73D70A29225C1D00B8AD /* libPods-drugtest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 29095BB7362E6402491D5068 /* libPods-drugtest.a */; };
 		BCD48E99D02FFA35A0134BD7 /* libPods-drugtest-drugtestTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFDE8C61B30E402509BAA24 /* libPods-drugtest-drugtestTests.a */; };
 /* End PBXBuildFile section */
@@ -37,7 +41,28 @@
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "drugtest-tvOS";
 		};
+		A9C7FA4D25B4AB5D004C0E5D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A9C7FA4425B4AB5D004C0E5D;
+			remoteInfo = shareextension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A9C7FA5025B4AB5D004C0E5D /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A9C7FA4F25B4AB5D004C0E5D /* shareextension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
@@ -52,18 +77,28 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = drugtest/main.m; sourceTree = "<group>"; };
 		1DD8F341BE8A139D1A1C247D /* Pods-drugtest-drugtestTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-drugtest-drugtestTests.release.xcconfig"; path = "Target Support Files/Pods-drugtest-drugtestTests/Pods-drugtest-drugtestTests.release.xcconfig"; sourceTree = "<group>"; };
 		247E8D798D304AAFB582A478 /* Pods-drugtest-drugtestTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-drugtest-drugtestTests.debug.xcconfig"; path = "Target Support Files/Pods-drugtest-drugtestTests/Pods-drugtest-drugtestTests.debug.xcconfig"; sourceTree = "<group>"; };
+		258671FEB013490BD436910A /* libPods-shareextension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-shareextension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		29095BB7362E6402491D5068 /* libPods-drugtest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-drugtest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		299BE85B7BAAAD7A5DE09BA3 /* Pods-drugtest-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-drugtest-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-drugtest-tvOSTests/Pods-drugtest-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* drugtest-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "drugtest-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* drugtest-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "drugtest-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DFDE8C61B30E402509BAA24 /* libPods-drugtest-drugtestTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-drugtest-drugtestTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F028025A3AD885DF4C93E2A /* Pods-drugtest-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-drugtest-tvOS.release.xcconfig"; path = "Target Support Files/Pods-drugtest-tvOS/Pods-drugtest-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		60330E2E9A0F4514EAC6C619 /* Pods-shareextension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shareextension.release.xcconfig"; path = "Target Support Files/Pods-shareextension/Pods-shareextension.release.xcconfig"; sourceTree = "<group>"; };
 		659AB7C779AD6DFE42213A71 /* Pods-drugtest-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-drugtest-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-drugtest-tvOSTests/Pods-drugtest-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		75003696F141815C7301050F /* Pods-drugtest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-drugtest.debug.xcconfig"; path = "Target Support Files/Pods-drugtest/Pods-drugtest.debug.xcconfig"; sourceTree = "<group>"; };
 		7BB992A2DC90E0AD47859741 /* libPods-drugtest-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-drugtest-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E2BF7B44600504AD1CF4690 /* Pods-drugtest-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-drugtest-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-drugtest-tvOS/Pods-drugtest-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = drugtest/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		844873A23BED49F2AFA31A03 /* libPods-drugtest-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-drugtest-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9C7FA4525B4AB5D004C0E5D /* shareextension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = shareextension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9C7FA4A25B4AB5D004C0E5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		A9C7FA4C25B4AB5D004C0E5D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A9C7FA6325B4AD80004C0E5D /* shareextension-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "shareextension-Bridging-Header.h"; sourceTree = "<group>"; };
+		A9C7FA6425B4AD80004C0E5D /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ShareViewController.swift"; sourceTree = "<group>"; };
+		A9C7FA6B25B4AF4B004C0E5D /* shareextension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = shareextension.entitlements; sourceTree = "<group>"; };
+		A9C7FA6C25B4B316004C0E5D /* drugtest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = drugtest.entitlements; path = drugtest/drugtest.entitlements; sourceTree = "<group>"; };
+		AE4C00D41408488C99A6ABCF /* Pods-shareextension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shareextension.debug.xcconfig"; path = "Target Support Files/Pods-shareextension/Pods-shareextension.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F467F2126933102BA9B86A55 /* Pods-drugtest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-drugtest.release.xcconfig"; path = "Target Support Files/Pods-drugtest/Pods-drugtest.release.xcconfig"; sourceTree = "<group>"; };
@@ -102,6 +137,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A9C7FA4225B4AB5D004C0E5D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6C96D7C2EF8B95688D533BBC /* libPods-shareextension.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -125,6 +168,7 @@
 		13B07FAE1A68108700A75B9A /* drugtest */ = {
 			isa = PBXGroup;
 			children = (
+				A9C7FA6C25B4B316004C0E5D /* drugtest.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -145,6 +189,7 @@
 				3DFDE8C61B30E402509BAA24 /* libPods-drugtest-drugtestTests.a */,
 				7BB992A2DC90E0AD47859741 /* libPods-drugtest-tvOS.a */,
 				844873A23BED49F2AFA31A03 /* libPods-drugtest-tvOSTests.a */,
+				258671FEB013490BD436910A /* libPods-shareextension.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -160,8 +205,9 @@
 				3F028025A3AD885DF4C93E2A /* Pods-drugtest-tvOS.release.xcconfig */,
 				299BE85B7BAAAD7A5DE09BA3 /* Pods-drugtest-tvOSTests.debug.xcconfig */,
 				659AB7C779AD6DFE42213A71 /* Pods-drugtest-tvOSTests.release.xcconfig */,
+				AE4C00D41408488C99A6ABCF /* Pods-shareextension.debug.xcconfig */,
+				60330E2E9A0F4514EAC6C619 /* Pods-shareextension.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -178,6 +224,7 @@
 				13B07FAE1A68108700A75B9A /* drugtest */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* drugtestTests */,
+				A9C7FA4625B4AB5D004C0E5D /* shareextension */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				4D31220AAA38911FFE3D957F /* Pods */,
@@ -194,8 +241,21 @@
 				00E356EE1AD99517003FC87E /* drugtestTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* drugtest-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* drugtest-tvOSTests.xctest */,
+				A9C7FA4525B4AB5D004C0E5D /* shareextension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A9C7FA4625B4AB5D004C0E5D /* shareextension */ = {
+			isa = PBXGroup;
+			children = (
+				A9C7FA6B25B4AF4B004C0E5D /* shareextension.entitlements */,
+				A9C7FA6425B4AD80004C0E5D /* ShareViewController.swift */,
+				A9C7FA4925B4AB5D004C0E5D /* MainInterface.storyboard */,
+				A9C7FA4C25B4AB5D004C0E5D /* Info.plist */,
+				A9C7FA6325B4AD80004C0E5D /* shareextension-Bridging-Header.h */,
+			);
+			path = shareextension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,10 +292,12 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				2852671F123AB6A20A6790F2 /* [CP] Copy Pods Resources */,
+				A9C7FA5025B4AB5D004C0E5D /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A9C7FA4E25B4AB5D004C0E5D /* PBXTargetDependency */,
 			);
 			name = drugtest;
 			productName = drugtest;
@@ -281,12 +343,32 @@
 			productReference = 2D02E4901E0B4A5D006451C7 /* drugtest-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		A9C7FA4425B4AB5D004C0E5D /* shareextension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A9C7FA5325B4AB5D004C0E5D /* Build configuration list for PBXNativeTarget "shareextension" */;
+			buildPhases = (
+				A3089B13B0549B0108E84C7C /* [CP] Check Pods Manifest.lock */,
+				A9C7FA4125B4AB5D004C0E5D /* Sources */,
+				A9C7FA4225B4AB5D004C0E5D /* Frameworks */,
+				A9C7FA4325B4AB5D004C0E5D /* Resources */,
+				D14A5DF838E785C71DF0EFA9 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = shareextension;
+			productName = shareextension;
+			productReference = A9C7FA4525B4AB5D004C0E5D /* shareextension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1230;
 				LastUpgradeCheck = 1130;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -294,6 +376,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = 5L332JC738;
 						LastSwiftMigration = 1120;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -304,6 +387,12 @@
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
+					};
+					A9C7FA4425B4AB5D004C0E5D = {
+						CreatedOnToolsVersion = 12.3;
+						DevelopmentTeam = 5L332JC738;
+						LastSwiftMigration = 1230;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -324,6 +413,7 @@
 				00E356ED1AD99517003FC87E /* drugtestTests */,
 				2D02E47A1E0B4A5D006451C7 /* drugtest-tvOS */,
 				2D02E48F1E0B4A5D006451C7 /* drugtest-tvOSTests */,
+				A9C7FA4425B4AB5D004C0E5D /* shareextension */,
 			);
 		};
 /* End PBXProject section */
@@ -357,6 +447,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9C7FA4325B4AB5D004C0E5D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9C7FA4B25B4AB5D004C0E5D /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,6 +547,28 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		A3089B13B0549B0108E84C7C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-shareextension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		C923F21516088318D7F7C2FA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -469,6 +589,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D14A5DF838E785C71DF0EFA9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-shareextension/Pods-shareextension-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-shareextension/Pods-shareextension-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E7C6A80D9F24B0107A1E7D2A /* [CP] Check Pods Manifest.lock */ = {
@@ -590,6 +728,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A9C7FA4125B4AB5D004C0E5D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9C7FA6525B4AD80004C0E5D /* ShareViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -603,7 +749,23 @@
 			target = 2D02E47A1E0B4A5D006451C7 /* drugtest-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
+		A9C7FA4E25B4AB5D004C0E5D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A9C7FA4425B4AB5D004C0E5D /* shareextension */;
+			targetProxy = A9C7FA4D25B4AB5D004C0E5D /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A9C7FA4925B4AB5D004C0E5D /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9C7FA4A25B4AB5D004C0E5D /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
@@ -653,9 +815,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 75003696F141815C7301050F /* Pods-drugtest.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = drugtest/drugtest.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5L332JC738;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = drugtest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -676,8 +841,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F467F2126933102BA9B86A55 /* Pods-drugtest.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = drugtest/drugtest.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = drugtest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -916,6 +1083,71 @@
 			};
 			name = Release;
 		};
+		A9C7FA5125B4AB5D004C0E5D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AE4C00D41408488C99A6ABCF /* Pods-shareextension.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = shareextension/shareextension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 5L332JC738;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = shareextension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.drugtest.shareextension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "shareextension/shareextension-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A9C7FA5225B4AB5D004C0E5D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 60330E2E9A0F4514EAC6C619 /* Pods-shareextension.release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = shareextension/shareextension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 5L332JC738;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = shareextension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.drugtest.shareextension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "shareextension/shareextension-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -960,6 +1192,15 @@
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A9C7FA5325B4AB5D004C0E5D /* Build configuration list for PBXNativeTarget "shareextension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9C7FA5125B4AB5D004C0E5D /* Debug */,
+				A9C7FA5225B4AB5D004C0E5D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

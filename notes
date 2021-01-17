@@ -2,3 +2,21 @@ forms:
     https://www.akashmittal.com/react-native-forms-using-react-hook-form/
     https://www.educba.com/react-native-form/
     https://react-hook-form.com/get-started/#ReactNative
+
+react-native-share-menu:
+    ios instructions:
+        cd ios
+        pod install
+        open in xcode the folder ios inside the project folder
+        click on name of the project and will display settings on the center of the window
+        click bottom left '+'
+        select share extension on ios tab extension
+
+        When importing on AppDelegate didnt recognize the import or RNShareMenu,
+        so on stack overflow (https://stackoverflow.com/questions/40368211/rctbundleurlprovider-h-file-not-found-appdelegate-m/43007066#43007066)
+        say to untick parallelized build and I moved "drugtest" to the top
+
+react fecth blob:
+    ios instructions:
+        run on root dir: grep -rl "s.dependency 'React/Core'" node_modules/ | xargs sed -i '' 's=React/Core=React-Core=g'
+        then run pod install again in ios
