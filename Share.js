@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, Pressable, Image, StyleSheet} from 'react-native';
-import {ShareMenuReactView} from 'react-native-share-menu';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Pressable, Image, StyleSheet } from 'react-native';
+import { ShareMenuReactView } from 'react-native-share-menu';
 
-const Button = ({onPress, title, style}) => (
+const Button = ({ onPress, title, style }) => (
   <Pressable onPress={onPress}>
-    <Text style={[{fontSize: 16, margin: 16}, style]}>{title}</Text>
+    <Text style={[{ fontSize: 16, margin: 16 }, style]}>{title}</Text>
   </Pressable>
 )
 
@@ -14,7 +14,7 @@ const Share = () => {
   const [sending, setSending] = useState(false);
 
   useEffect(() => {
-    ShareMenuReactView.data().then(({mimeType, data}) => {
+    ShareMenuReactView.data().then(({ mimeType, data }) => {
       setSharedData(data);
       setSharedMimeType(mimeType);
     });
@@ -44,13 +44,7 @@ const Share = () => {
         />
       </View>
       {sharedMimeType === 'text/plain' && <Text>{sharedData}</Text>}
-      {sharedMimeType.startsWith('image/') && (
-        <Image
-          style={styles.image}
-          resizeMode="contain"
-          source={{uri: sharedData}}
-        />
-      )}
+
       <View style={styles.buttonGroup}>
         <Button
           title="Dismiss with Error"
@@ -68,7 +62,7 @@ const Share = () => {
         <Button
           title="Continue In App With Extra Data"
           onPress={() => {
-            ShareMenuReactView.continueInApp({hello: 'from the other side'});
+            ShareMenuReactView.continueInApp({ hello: 'from the other side' });
           }}
         />
       </View>
