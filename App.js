@@ -11,6 +11,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image } from 'react-native';
 import AnalysisStack from 'drugtest/src/components/AnalysisStack';
+import AdminStack from 'drugtest/src/components/AdminStack';
 
 const Tabs = createBottomTabNavigator();
 
@@ -28,6 +29,19 @@ const App = () => {
         <Tabs.Screen
           component={AnalysisStack}
           name="Analysis"
+          options={{
+            tabBarIcon: ({size, color}) => (
+              <Image
+                source={require('drugtest/src/assets/bank.png')}
+                style={{ tintColor: color, width: size, height: size}}
+              />
+            )
+          }}
+        />
+
+        <Tabs.Screen
+          component={AdminStack}
+          name="Admin"
           options={{
             tabBarIcon: ({size, color}) => (
               <Image

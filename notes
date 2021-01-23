@@ -2,3 +2,14 @@ forms:
     https://www.akashmittal.com/react-native-forms-using-react-hook-form/
     https://www.educba.com/react-native-form/
     https://react-hook-form.com/get-started/#ReactNative
+
+react-native-charts-wrapper:
+    ios:
+    add pod 'RNCharts', :path => '../node_modules/react-native-charts-wrapper' to ios/Podfile
+    cd ios && pod install
+    open the file ios on xcode
+    create a empty swift file, the xcode will prompt a message 'Would you like to configure an Objective-C bridging header?' to Create Bridging Header, accept it.
+
+https://blog.logrocket.com/the-top-8-react-native-chart-libraries-for-2021/
+This one has examples:
+    react-native-svg
