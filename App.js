@@ -9,10 +9,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image, StyleSheet, Text, View, SafeAreaView, PermissionsAndroid, Button } from "react-native";
+import { Image } from "react-native";
 import AnalysisStack from 'drugtest/src/components/AnalysisStack';
 import ShareMenu from 'react-native-share-menu';
-import RNFetchBlob from 'react-native-fetch-blob';
+import { saveChatReceived } from "./src/Chats";
 
 const Tabs = createBottomTabNavigator();
 
@@ -57,62 +57,16 @@ const App: () => React$Node = () => {
     if (sharedMimeType) {
       console.log("There is a MimeType: " + sharedMimeType);
       var chatURI = sharedData.toString();
-      console.log(chatURI);//This retrieves the URI of the chat
-
-
-      //for Android up to 6.0 version ask the user for permission
-      if (requestStoragePermission()) {
-        //Fetch chat by using its URI
-
-        RNFetchBlob.fs.readStream(chatURI, 'utf8')
-          .then((stream) => {
-            console.log("Abriendo version completa del chat");
-            let data = ''
-            stream.open()
-            stream.onData((chunk) => {
-              data += chunk
-            })
-            stream.onEnd(() => {
-              console.log(data)
-            })
-          })
-      }
-
-
+      saveChatReceived(chatURI);
     }
     else {
       console.log("there is nothing to share");
     }
   }
 
-  const requestStoragePermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.READ_EXTERNAL_STORAGE,
-        {
-          title: "Drugtest App External storage permission",
-          message:
-            "Drugtest App needs access to your local files " +
-            "so you can do all the tests.",
-          buttonNeutral: "Ask Me Later",
-          buttonNegative: "Cancel",
-          buttonPositive: "OK"
-        }
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log("You can use the camera");
-        return true;
-      } else {
-        console.log("Camera permission denied");
-        return false;
-      }
-    } catch (err) {
-      console.warn(err);
-    }
-  };
   /*-----------------------------End of get chat--------------- */
 
-  getSharedChat();
+  getSharedChat(); //Check if the user sent a chat and catch it
 
   return (
 
