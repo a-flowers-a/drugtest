@@ -2,7 +2,7 @@
 /*
     -Fetching file on phone's filesystem
     -Cut chat to only messages from last month
-    -Storage shorter version of the chat into a new file 
+    -Storage shorter version of the chat into a json 
     -Send the chat to the backend
  */
 
