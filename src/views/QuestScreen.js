@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet } from "react-native";
 import { ScrollView } from 'react-native-gesture-handler';
-import axios from 'axios';
+
 import ActionBtn from '../components/ActionBtn';
+import {postRequest} from '../utils/HttpRequest';
 import QuestionFPt from '../components/QuestionFPt';
 import QuestionSPt from '../components/QuestionSPt';
 import questionsII from '../res/questionsII';
@@ -188,29 +189,28 @@ function QuestScreen(props) {
     }//setTapsIIQst
 
 
-    function submitAnswers() {
+    async function submitAnswers() {
         console.log("answ2", answPt2);
         //console.log("other", other);
         const url = "http:localhost:3030/analysis/save-quest-answers";
-        axios.post(url,{
-                        resTaps2: answPt2,
-                        boleta: 2017630222,
-                        password: 123,
-                        //other: other,
-                    }, {
-                        headers: {"Content-Type": "application/json"},
+        const data = {
+            resTaps2: answPt2,
+            boleta: 2017630222,
+            password: 123,
+        };
+        postRequest(url,data)
+        .then(result => {
+            console.log("result de postReq", result);
+            if (result.success) {
+                props.navigation.navigate('Home');
+            }
+            else {
+                console.log('error');
+            }
         })
-            .then((result) => {
-                const success = result.data.success;
-                if (success) {
-                    console.log('success');
-                }
-                else {
-                    console.log('error');
-                }
-            }).catch(error => {
-                console.log(error);
-            });
+        .catch(err => {
+            console.log(err);
+        });
 
     }//submitAnswers
 

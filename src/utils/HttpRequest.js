@@ -1,15 +1,17 @@
 import axios from 'axios';
 
 export const postRequest = async (url, data) => {
-    await axios.post(url, data, {
+    const response = await axios.post(url, data, {
         headers: {"Content-Type": "application/json"},
     })
     .then((result) => {
+        console.log("data que se recibe en http", result.data);
         return result.data;
     }).catch(error => {
         console.log(error);
-        return false;
+        return error;
     });
+    return response;
 }//postRequest
 
 export const getRequest = async (url) => {
