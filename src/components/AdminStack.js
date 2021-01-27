@@ -1,6 +1,6 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import Charts from '../views/Charts';
+import StatsScreen from '../views/StatsScreen';
 
 const Stack = createStackNavigator();
 
@@ -17,8 +17,8 @@ const AdminStack = () =>{
             }}
         >
             <Stack.Screen 
-                name="Charts" 
-                component={Charts}
+                name="Stats" 
+                component={StatsScreen}
             />
 
         </Stack.Navigator>

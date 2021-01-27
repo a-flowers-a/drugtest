@@ -15,13 +15,14 @@ export const postRequest = async (url, data) => {
 }//postRequest
 
 export const getRequest = async (url) => {
-    await axios.get(url, {
+    const response = await axios.get(url, {
         headers: {"Content-Type": "application/json"},
     })
     .then((result) => {
         return result.data;
     }).catch(error => {
         console.log(error);
-        return false;
+        return error;
     });
+    return response;
 }//getRequest
