@@ -15,23 +15,23 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function StatsScreen(props){
+export default function StatsScreen(props) {
 
-    function submitData(){
+    function submitData() {
         const url = "http:localhost:3030/admin/get-all-quest-res";
         getRequest(url)
-        .then(result => {
-            if(result.success)
-                props.navigation.navigate('Home');
-            else
-                console.log(result.message);
-        })
-        .catch(err =>{
-            console.log(err);
-        });
+            .then(result => {
+                if (result.success)
+                    props.navigation.navigate('Home');
+                else
+                    console.log(result.message);
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }//submitData
 
-    return(
+    return (
         <View style={styles.container}>
             <Text style={styles.text}>Here is going to be the selection of the data</Text>
 
