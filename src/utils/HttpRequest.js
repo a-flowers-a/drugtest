@@ -21,7 +21,7 @@ export const getRequest = async (url) => {
     .then((result) => {
         return result.data;
     }).catch(error => {
-        console.log(error);
+        console.log("in getRequest",error);
         return error;
     });
     return response;

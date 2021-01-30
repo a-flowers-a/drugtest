@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 export default function StatsScreen(props){
 
     function submitData(){
-        const url = "http:localhost:3030/admin/get-all-quest-res";
+        const url = "http:10.0.2.2:3030/admin/get-all-quest-res";
         getRequest(url)
         .then(result => {
             if(result.success)
@@ -27,6 +27,7 @@ export default function StatsScreen(props){
                 console.log(result.message);
         })
         .catch(err =>{
+            console.log("error aquí");
             console.log(err);
         });
     }//submitData
