@@ -5,7 +5,7 @@
     -Storage shorter version of the chat into a json 
     -Send the chat to the backend
  */
-
+/*
 import RNFetchBlob from 'react-native-fetch-blob';
 import { PermissionsAndroid } from "react-native";
 import { Platform } from 'react-native';
@@ -86,7 +86,7 @@ const filterbyDate = (message) => {
         return stream.close()
         })
         
-}*/
+}
 
 
 const requestStoragePermission = async () => {
@@ -116,3 +116,4 @@ const requestStoragePermission = async () => {
 };
 
 export { saveChatReceived };
+*/
