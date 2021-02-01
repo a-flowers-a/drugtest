@@ -19,7 +19,12 @@
 		3C37DE5FD98942BDE853CDF5 /* libPods-drugtest-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A0A93A8BC9730D20857664E /* libPods-drugtest-tvOSTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		9263414D5D7E94F229842F25 /* libPods-drugtest-drugtestTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58358222E78BCDAC9F61C269 /* libPods-drugtest-drugtestTests.a */; };
+		A9430B6F25C7612A007CF02E /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9430B6D25C7612A007CF02E /* MainInterface.storyboard */; };
+		A9430B7325C7612A007CF02E /* mi-share-extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A9430B6925C7612A007CF02E /* mi-share-extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A9430B8925C76205007CF02E /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9430B8825C76205007CF02E /* ShareViewController.swift */; };
+		A979817925C798CB00CB4BC1 /* ReactShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A979817825C798CB00CB4BC1 /* ReactShareViewController.swift */; };
 		C30F09B66DA4C8BAC5879A2A /* libPods-drugtest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E3E4CDC46349AC09C3F9692 /* libPods-drugtest.a */; };
+		CE8D09C907640A7C7E64530F /* libPods-mi-share-extension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0777F47E565EB0E16AB154BD /* libPods-mi-share-extension.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +42,28 @@
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "drugtest-tvOS";
 		};
+		A9430B7125C7612A007CF02E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A9430B6825C7612A007CF02E;
+			remoteInfo = "mi-share-extension";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A9430B7425C7612A007CF02E /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A9430B7325C7612A007CF02E /* mi-share-extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
@@ -45,6 +71,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* drugtestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = drugtestTests.m; sourceTree = "<group>"; };
 		04ABF8CD1B0976392DF2ED73 /* Pods-drugtest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-drugtest.release.xcconfig"; path = "Target Support Files/Pods-drugtest/Pods-drugtest.release.xcconfig"; sourceTree = "<group>"; };
+		0777F47E565EB0E16AB154BD /* libPods-mi-share-extension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mi-share-extension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* drugtest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = drugtest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = drugtest/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = drugtest/AppDelegate.m; sourceTree = "<group>"; };
@@ -58,11 +85,21 @@
 		2D02E47B1E0B4A5D006451C7 /* drugtest-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "drugtest-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* drugtest-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "drugtest-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E3E4CDC46349AC09C3F9692 /* libPods-drugtest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-drugtest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5064BC8BACF45A90F2E1D015 /* Pods-mi-share-extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mi-share-extension.release.xcconfig"; path = "Target Support Files/Pods-mi-share-extension/Pods-mi-share-extension.release.xcconfig"; sourceTree = "<group>"; };
 		58358222E78BCDAC9F61C269 /* libPods-drugtest-drugtestTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-drugtest-drugtestTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7101D39BEF3796B75BE2486A /* Pods-drugtest-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-drugtest-tvOS.release.xcconfig"; path = "Target Support Files/Pods-drugtest-tvOS/Pods-drugtest-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = drugtest/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8DC2E6248A2A05FA894BD914 /* Pods-drugtest-drugtestTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-drugtest-drugtestTests.release.xcconfig"; path = "Target Support Files/Pods-drugtest-drugtestTests/Pods-drugtest-drugtestTests.release.xcconfig"; sourceTree = "<group>"; };
 		9A4C1B53BF4F517BBD8E31C2 /* Pods-drugtest-drugtestTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-drugtest-drugtestTests.debug.xcconfig"; path = "Target Support Files/Pods-drugtest-drugtestTests/Pods-drugtest-drugtestTests.debug.xcconfig"; sourceTree = "<group>"; };
+		9EA1503ABFB05CEEFE6E1976 /* Pods-mi-share-extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mi-share-extension.debug.xcconfig"; path = "Target Support Files/Pods-mi-share-extension/Pods-mi-share-extension.debug.xcconfig"; sourceTree = "<group>"; };
+		A9430B6925C7612A007CF02E /* mi-share-extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "mi-share-extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9430B6E25C7612A007CF02E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		A9430B7025C7612A007CF02E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A9430B8725C76204007CF02E /* mi-share-extension-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mi-share-extension-Bridging-Header.h"; sourceTree = "<group>"; };
+		A9430B8825C76205007CF02E /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ShareViewController.swift"; sourceTree = "<group>"; };
+		A979804825C7682B00CB4BC1 /* drugtest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = drugtest.entitlements; path = drugtest/drugtest.entitlements; sourceTree = "<group>"; };
+		A979804925C768CE00CB4BC1 /* mi-share-extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "mi-share-extension.entitlements"; sourceTree = "<group>"; };
+		A979817825C798CB00CB4BC1 /* ReactShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReactShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ReactShareViewController.swift"; sourceTree = "<group>"; };
 		AFABF7437D3D737A09EF033F /* Pods-drugtest-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-drugtest-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-drugtest-tvOS/Pods-drugtest-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		C40B02DC75C0C560BE272C3E /* libPods-drugtest-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-drugtest-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -102,6 +139,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A9430B6625C7612A007CF02E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE8D09C907640A7C7E64530F /* libPods-mi-share-extension.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -125,6 +170,7 @@
 		13B07FAE1A68108700A75B9A /* drugtest */ = {
 			isa = PBXGroup;
 			children = (
+				A979804825C7682B00CB4BC1 /* drugtest.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -145,6 +191,7 @@
 				58358222E78BCDAC9F61C269 /* libPods-drugtest-drugtestTests.a */,
 				C40B02DC75C0C560BE272C3E /* libPods-drugtest-tvOS.a */,
 				2A0A93A8BC9730D20857664E /* libPods-drugtest-tvOSTests.a */,
+				0777F47E565EB0E16AB154BD /* libPods-mi-share-extension.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -162,6 +209,7 @@
 				13B07FAE1A68108700A75B9A /* drugtest */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* drugtestTests */,
+				A9430B6A25C7612A007CF02E /* mi-share-extension */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				8B8ACF75BA0CF62A836A128B /* Pods */,
@@ -178,6 +226,7 @@
 				00E356EE1AD99517003FC87E /* drugtestTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* drugtest-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* drugtest-tvOSTests.xctest */,
+				A9430B6925C7612A007CF02E /* mi-share-extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -193,9 +242,23 @@
 				7101D39BEF3796B75BE2486A /* Pods-drugtest-tvOS.release.xcconfig */,
 				251B542A3BAC8738E0AE203D /* Pods-drugtest-tvOSTests.debug.xcconfig */,
 				299F49BD522BD8238F3C16FF /* Pods-drugtest-tvOSTests.release.xcconfig */,
+				9EA1503ABFB05CEEFE6E1976 /* Pods-mi-share-extension.debug.xcconfig */,
+				5064BC8BACF45A90F2E1D015 /* Pods-mi-share-extension.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		A9430B6A25C7612A007CF02E /* mi-share-extension */ = {
+			isa = PBXGroup;
+			children = (
+				A979817825C798CB00CB4BC1 /* ReactShareViewController.swift */,
+				A979804925C768CE00CB4BC1 /* mi-share-extension.entitlements */,
+				A9430B8825C76205007CF02E /* ShareViewController.swift */,
+				A9430B6D25C7612A007CF02E /* MainInterface.storyboard */,
+				A9430B7025C7612A007CF02E /* Info.plist */,
+				A9430B8725C76204007CF02E /* mi-share-extension-Bridging-Header.h */,
+			);
+			path = "mi-share-extension";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,10 +295,12 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				4971C121F10529F24BDE5F02 /* [CP] Copy Pods Resources */,
+				A9430B7425C7612A007CF02E /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A9430B7225C7612A007CF02E /* PBXTargetDependency */,
 			);
 			name = drugtest;
 			productName = drugtest;
@@ -281,12 +346,32 @@
 			productReference = 2D02E4901E0B4A5D006451C7 /* drugtest-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		A9430B6825C7612A007CF02E /* mi-share-extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A9430B7725C7612A007CF02E /* Build configuration list for PBXNativeTarget "mi-share-extension" */;
+			buildPhases = (
+				277905B68F888A5E3087EE92 /* [CP] Check Pods Manifest.lock */,
+				A9430B6525C7612A007CF02E /* Sources */,
+				A9430B6625C7612A007CF02E /* Frameworks */,
+				A9430B6725C7612A007CF02E /* Resources */,
+				FB78296A5FA644A4E64FA0C3 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "mi-share-extension";
+			productName = "mi-share-extension";
+			productReference = A9430B6925C7612A007CF02E /* mi-share-extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1230;
 				LastUpgradeCheck = 1130;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -304,6 +389,12 @@
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
+					};
+					A9430B6825C7612A007CF02E = {
+						CreatedOnToolsVersion = 12.3;
+						DevelopmentTeam = 5L332JC738;
+						LastSwiftMigration = 1230;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -324,6 +415,7 @@
 				00E356ED1AD99517003FC87E /* drugtestTests */,
 				2D02E47A1E0B4A5D006451C7 /* drugtest-tvOS */,
 				2D02E48F1E0B4A5D006451C7 /* drugtest-tvOSTests */,
+				A9430B6825C7612A007CF02E /* mi-share-extension */,
 			);
 		};
 /* End PBXProject section */
@@ -360,6 +452,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A9430B6725C7612A007CF02E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9430B6F25C7612A007CF02E /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -376,6 +476,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		277905B68F888A5E3087EE92 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-mi-share-extension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -515,6 +637,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		FB78296A5FA644A4E64FA0C3 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mi-share-extension/Pods-mi-share-extension-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mi-share-extension/Pods-mi-share-extension-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -590,6 +730,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A9430B6525C7612A007CF02E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A979817925C798CB00CB4BC1 /* ReactShareViewController.swift in Sources */,
+				A9430B8925C76205007CF02E /* ShareViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -603,7 +752,23 @@
 			target = 2D02E47A1E0B4A5D006451C7 /* drugtest-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
+		A9430B7225C7612A007CF02E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A9430B6825C7612A007CF02E /* mi-share-extension */;
+			targetProxy = A9430B7125C7612A007CF02E /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A9430B6D25C7612A007CF02E /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9430B6E25C7612A007CF02E /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
@@ -653,8 +818,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 24ED77E83FC2619D35FD9823 /* Pods-drugtest.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = drugtest/drugtest.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = drugtest/Info.plist;
@@ -676,8 +843,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 04ABF8CD1B0976392DF2ED73 /* Pods-drugtest.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = drugtest/drugtest.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = drugtest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -806,6 +975,7 @@
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -866,6 +1036,7 @@
 		83CBBA211A601CBA00E9B192 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -916,6 +1087,73 @@
 			};
 			name = Release;
 		};
+		A9430B7525C7612A007CF02E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9EA1503ABFB05CEEFE6E1976 /* Pods-mi-share-extension.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(EMBEDDED_CONTENT_CONTAINS_SWIFT)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "mi-share-extension/mi-share-extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 5L332JC738;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "mi-share-extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.drugtest.mi-share-extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "mi-share-extension/mi-share-extension-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A9430B7625C7612A007CF02E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5064BC8BACF45A90F2E1D015 /* Pods-mi-share-extension.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(EMBEDDED_CONTENT_CONTAINS_SWIFT)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "mi-share-extension/mi-share-extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 5L332JC738;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "mi-share-extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.drugtest.mi-share-extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "mi-share-extension/mi-share-extension-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -960,6 +1198,15 @@
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A9430B7725C7612A007CF02E /* Build configuration list for PBXNativeTarget "mi-share-extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9430B7525C7612A007CF02E /* Debug */,
+				A9430B7625C7612A007CF02E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
