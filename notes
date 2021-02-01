@@ -13,3 +13,56 @@ react-native-charts-wrapper:
 https://blog.logrocket.com/the-top-8-react-native-chart-libraries-for-2021/
 This one has examples:
     react-native-svg
+
+    ALGO DE SHARE-MENU
+después de:
+    On the pop-up, select node_modules/react-native-share-menu/ios/ShareViewController.swift. Make sure Copy items if needed is NOT selected and that the selected target is your newly created Share Extension
+    al darle add hay que aceptar lo del bridging
+    Se le da en xcode product->clean build folder
+
+esto va e ios ->drugtest-> Info.plist abajo de CFBundleSignature:
+<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>ShareMenuModule</string>
+			</array>
+		</dict>
+	</array>
+
+en el ios->mi-shareExtension Info.plist abajo de CFBundleVersion:
+<key>HostAppBundleIdentifier</key>
+	<string>org.reactjs.native.example.drugtest</string>
+	<key>HostAppURLScheme</key>
+	<string>ShareMenuModule://</string>
+	<key>NSExtension</key>
+	<dict>
+		<key>NSExtensionAttributes</key>
+		<dict>
+			<key>NSExtensionActivationRule</key>
+			<dict>
+				<key>NSExtensionActivationSupportsFileWithMaxCount</key>
+				<integer>1</integer>
+				<key>NSExtensionActivationSupportsMovieWithMaxCount</key>
+				<integer>1</integer>
+				<key>NSExtensionActivationSupportsImageWithMaxCount</key>
+				<integer>1</integer>
+				<key>NSExtensionActivationSupportsText</key>
+				<true/>
+				<key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
+				<integer>1</integer>
+			</dict>
+		</dict>
+		<key>NSExtensionMainStoryboard</key>
+		<string>MainInterface</string>
+		<key>NSExtensionPointIdentifier</key>
+		<string>com.apple.share-services</string>
+	</dict>
+
+ios->drugtest->AppDelegate.m:
+#import <RNShareMenu/ShareMenuManager.h>
+
+después del AppDelegate otra vez de di clean folder en xcode
