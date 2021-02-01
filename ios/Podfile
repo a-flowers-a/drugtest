@@ -32,6 +32,7 @@ target 'mi-share-extension' do
   use_react_native!
 
   pod 'RNShareMenu', :path => '../node_modules/react-native-share-menu'
+  pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
   # Manually link packages here to keep your extension bundle size minimal
 end
 

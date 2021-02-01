@@ -1,7 +1,4 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
  * @format
  * @flow strict-local
  */
@@ -13,7 +10,7 @@ import { Image } from "react-native";
 import AnalysisStack from 'drugtest/src/components/AnalysisStack';
 import AdminStack from 'drugtest/src/components/AdminStack';
 import ShareMenu from 'react-native-share-menu';
-//import { saveChatReceived } from "./src/Chats";
+import { saveChatReceived } from "./src/Chats";
 
 const Tabs = createBottomTabNavigator();
 
@@ -58,7 +55,7 @@ const App: () => React$Node = () => {
     if (sharedMimeType) {
       console.log("There is a MimeType: " + sharedMimeType);
       var chatURI = sharedData.toString();
-      //saveChatReceived(chatURI);
+      saveChatReceived(chatURI);
     }
     else {
       console.log("there is nothing to share");
