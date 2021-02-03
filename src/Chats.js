@@ -1,24 +1,26 @@
-//On this document we will handle chat processing
+//On this document we will do chat processing
 /*
     -Fetching file on phone's filesystem
     -Cut chat to only messages from last month
-    -Storage shorter version of the chat into a json 
+    -Storage shorter version of the chat into a json array
     -Send the chat to the backend
  */
 
-//import RNFetchBlob from 'react-native-fetch-blob';
+
 import RNFetchBlob from 'rn-fetch-blob';
 import { PermissionsAndroid } from 'react-native';
 import { Platform } from 'react-native';
+import { postRequest } from './utils/HttpRequest'
+
 
 function saveChatReceived(chatURI) {
     if (Platform.OS === 'ios') {
-        let chatString = fetchChatIOS(chatURI);
+        fetchChatIOS(chatURI);
     } else if (Platform.OS === 'android') {
         //for Android up to 6.0 version ask the user for permission to access the local storage
         if (requestStoragePermission()) {
             //Fetch chat by using its URI
-            let chatString = fetchChatAndroid(chatURI);
+            fetchChatAndroid(chatURI);
         }
     }
 }
@@ -28,7 +30,6 @@ const fetchChatAndroid = (chatURI) => {
     RNFetchBlob.fs
         .readStream(chatURI, 'utf8')
         .then((stream) => {
-            console.log(stream);
 
             let data = '';
             stream.open();
@@ -38,10 +39,7 @@ const fetchChatAndroid = (chatURI) => {
             });
             stream.onEnd(() => {
                 console.log('Reading chat...');
-                console.log(data);
                 cutChat(data);
-                return data;
-                //new Blob([data], { type: 'text/plain;charset=utf-8' });
             });
         })
         .catch((err) => {
@@ -55,9 +53,7 @@ const fetchChatIOS = (chatURI) => {
     let arr = chatURI.split('/');
     const dirs = RNFetchBlob.fs.dirs;
     let filePath = `${dirs.DocumentDir}/${arr[arr.length - 1]}`;
-    //filePath = `${dirs.DocumentDir}`;    
     decodedFilePath = decodeURI(filePath)
-    console.log(decodedFilePath);
     //---------------------------------------
 
     RNFetchBlob.fs.exists(decodedFilePath)
@@ -74,14 +70,19 @@ const fetchChatIOS = (chatURI) => {
 
 }//fetchChatIOS
 
-const cutChat = (chatContent) => {
-    var messagesArray = chatContent.split('\n'); //Turn string into array
+const cutChat = async (chatContent) => {
+    try {
+        var messagesArray = chatContent.split('\n'); //Turn string into array
 
-    messagesArray.reverse(); //Put array backwards to get last messages first
+        messagesArray.reverse(); //Put array backwards to get last messages first
 
-    var validDateMessages = messagesArray.filter(filterbyDate);
-    console.log(validDateMessages);
-    return messagesArray;
+        var validDateMessages = await messagesArray.filter(filterbyDate);
+        //console.log(validDateMessages);
+        await sendChatToBackend(validDateMessages);
+
+    } catch (error) {
+
+    }
 }; //cutChat
 
 var today = new Date(); //THIS MIGHT NOT GO HERE!!
@@ -98,8 +99,8 @@ const filterbyDate = (message) => {
             let ObjectMessageDate = new Date('20' + mdy[2], mdy[0] - 1, mdy[1]);
             var timeElapsedMs = today.getTime() - ObjectMessageDate.getTime(); // time in ms from today to this message
             var daysElapsed = Math.round(timeElapsedMs / (1000 * 60 * 60 * 24)); //Get the days elapsed
-            //console.log(daysElapsed);
-            if (daysElapsed > 30) {
+            if (daysElapsed < 30) {
+                //console.log(daysElapsed);
                 return true;
             }
         }
@@ -108,16 +109,33 @@ const filterbyDate = (message) => {
     }
 };
 
-//Turn string into txt file
-const chatToTXT = (chat) => {
-    RNFetchBlob.fs
-        .writeStream('/storage/emulated/0/Download', 'utf8')
-        .then((stream) => {
-            stream.write('foo');
-            console.log('chat saved');
-            return stream.close();
+
+const sendChatToBackend = async (validDateMessages) => {
+
+    console.log(validDateMessages);
+    const url = "http:192.168.100.107:3030/chat/save-chat";
+    const data = {
+        chat: validDateMessages,
+        boleta: 2017630222,
+        password: 123,
+    };
+
+    postRequest(url, data)
+        .then(result => {
+            console.log("result de postReq", result);
+            if (result.success) {
+                //handle successs
+            }
+            else {
+                console.error('error');
+            }
+        })
+        .catch(err => {
+            console.error(err);
         });
-};
+
+
+}//sendChatToBackend
 
 const requestStoragePermission = async () => {
     try {

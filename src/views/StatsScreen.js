@@ -17,19 +17,22 @@ const styles = StyleSheet.create({
 
 export default function StatsScreen(props) {
 
-    function submitData(){
-        const url = "http:10.0.2.2:3030/admin/get-all-quest-res";
+    function submitData() {
+        //const url = "http:localhost:3030/admin/get-all-quest-res";
+        const url = "http:192.168.100.107:3030/admin/get-all-quest-res";
+
         getRequest(url)
-        .then(result => {
-            if(result.success)
-                props.navigation.navigate('Home');
-            else
-                console.log(result.message);
-        })
-        .catch(err =>{
-            console.log("error aquí");
-            console.log(err);
-        });
+
+            .then(result => {
+                if (result.success)
+                    props.navigation.navigate('Home');
+                else
+                    console.log(result.message);
+            })
+            .catch(err => {
+                console.log("error aquí");
+                console.log(err);
+            });
     }//submitData
 
     return (

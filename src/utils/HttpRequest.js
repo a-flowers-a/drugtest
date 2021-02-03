@@ -2,27 +2,27 @@ import axios from 'axios';
 
 export const postRequest = async (url, data) => {
     const response = await axios.post(url, data, {
-        headers: {"Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json" },
     })
-    .then((result) => {
-        console.log("data que se recibe en http", result.data);
-        return result.data;
-    }).catch(error => {
-        console.log(error);
-        return error;
-    });
+        .then((result) => {
+            console.log("data que se recibe en http", result.data);
+            return result.data;
+        }).catch(error => {
+            console.error(error);
+            return error;
+        });
     return response;
 }//postRequest
 
 export const getRequest = async (url) => {
     const response = await axios.get(url, {
-        headers: {"Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json" },
     })
-    .then((result) => {
-        return result.data;
-    }).catch(error => {
-        console.log("in getRequest",error);
-        return error;
-    });
+        .then((result) => {
+            return result.data;
+        }).catch(error => {
+            console.error("in getRequest", error);
+            return error;
+        });
     return response;
 }//getRequest
