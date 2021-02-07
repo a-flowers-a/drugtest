@@ -1,0 +1,38 @@
+| Simbología:                 |
+| * pendiente                 |
+| B Hecho por Brisa           |
+| A Alejandro                 |
+| D Los dos juntos            |
+------------------------------
+App:
+A creación de proyecto e instalación de dependencias básicas necesarias para la app
+A creación de stacks para navegación entre vistas de la app
+A creación de vista (estilo simple) para realizar cuestionario
+A creación de componentnes (estilos simple) para el cuestionario (pregunta, botón respuesta, botones de terminar partes, text input)
+A creación de arrays donde se encuentran las preguntas
+A definición del algoritmo de mostrar y resolver el cuestionario (2 o tres iteraciones)
+A creación de archivo con métodos para hacer httpRequest para ser reusable
+A enviar resultados del cuestionario al servidor
+A creación de vista y stack de administrador (simple) para las estadísticas
+A enviar petición para estadísticas
+B instalación de dependencia para el share-menu del teléfono, y sus ajuste para android y ios
+D Settings para que funcione el share menu en ios (estuvo bien perro)
+B creaciòn de un archivo único que alamacene los mètodos que manipulan los chats de whats
+B instalacion de fetch blob para buscar el chat en el sistema de archivos del celular y para crear un txt que alamacene la version corta del chat 
+B Creacion del método que solicita permisos de lectura y escritura para el sistema de archivos de android
+B Algoritmo para recortar el chat a solo los mensajes del ùltimo mes v1 (errónea)
+B Método para enviar el chat al server en forma de array
+
+Server:
+A Creación de aplicación con node
+A Instalación de dependencias "pg sequelize express nodemailer""
+A Creación de base de datos en aws, ajustarla para que nos pudiéramos conectar
+A Definición de rutas para separar los controladores
+A Ajustes con sequelize para la conexión a la bd
+A Creación de modelo (usuario) y métodos en el controller (estudiante) para el login, incluido recuperar contraseña
+D Creación de modelo resultado cuestionario
+A Métodos para recibir las peticiones para guardar resultados cuestionario
+A Instalación de biblioteca par ala generación de csv file (fast-csv json2csv)
+A Creación de métodos en (admin) controller para recibir petición de estadísticas, generar consulta (simple) y archivo csv y enviar por correo
+B Creación del controller Chat que recibe un chat en forma de array
+B Creación de cuenta de correo desde donde se enviarán los emails de drugtest
