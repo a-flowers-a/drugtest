@@ -6,12 +6,10 @@
     -Send the chat to the backend
  */
 
-
 import RNFetchBlob from 'rn-fetch-blob';
 import { PermissionsAndroid } from 'react-native';
 import { Platform } from 'react-native';
 import { postRequest } from './utils/HttpRequest'
-
 
 function saveChatReceived(chatURI) {
     if (Platform.OS === 'ios') {
@@ -39,7 +37,8 @@ const fetchChatAndroid = (chatURI) => {
             });
             stream.onEnd(() => {
                 console.log('Reading chat...');
-                cutChat(data);
+                //cutChat(data);
+                chatToTXT();
             });
         })
         .catch((err) => {
@@ -77,8 +76,9 @@ const cutChat = async (chatContent) => {
         messagesArray.reverse(); //Put array backwards to get last messages first
 
         var validDateMessages = await messagesArray.filter(filterbyDate);
+
         //console.log(validDateMessages);
-        await sendChatToBackend(validDateMessages);
+        //await sendChatToBackend(validDateMessages);
 
     } catch (error) {
 
@@ -109,6 +109,22 @@ const filterbyDate = (message) => {
     }
 };
 
+const chatToTXT = (messagesArray) => {
+    ///storage/emulated/0/Download
+
+
+    const dirs = RNFetchBlob.fs.dirs;
+    const NEW_FILE_PATH = dirs.DownloadDir + '/test.txt';
+    RNFetchBlob.fs.createFile(NEW_FILE_PATH, 'foo', 'utf8');
+
+    /*RNFetchBlob.fs.writeStream("storage/emulated/0/Download/chat.txt", 'utf8')
+        .then((stream) => {
+            stream.write('foo')
+            return stream.close()
+        }).catch((err) => {
+            console.error(err);
+        });*/
+}
 
 const sendChatToBackend = async (validDateMessages) => {
 
@@ -139,19 +155,34 @@ const sendChatToBackend = async (validDateMessages) => {
 
 const requestStoragePermission = async () => {
     try {
-        const granted = await PermissionsAndroid.request(
+
+        //PERMISSIONS.READ_EXTERNAL_STORAGE
+        const granted1 = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
             {
-                title: 'Drugtest App External storage permission',
+                title: "Drugtest storage Permission",
                 message:
-                    'Drugtest App needs access to your local files ' +
-                    'so you can do all the tests.',
-                buttonNeutral: 'Ask Me Later',
-                buttonNegative: 'Cancel',
-                buttonPositive: 'OK',
-            },
+                    "Drugtest read external storage Permission",
+                buttonNeutral: "Ask Me Later",
+                buttonNegative: "Cancel",
+                buttonPositive: "OK"
+            }
         );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+
+        //PERMISSIONS.WRITE_EXTERNAL_STORAGE
+        const granted2 = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+            {
+                title: "Drugtest storage Permission",
+                message:
+                    "Drugtest write external storage Permission",
+                buttonNeutral: "Ask Me Later",
+                buttonNegative: "Cancel",
+                buttonPositive: "OK"
+            }
+        );
+
+        if (granted1 && granted2 === PermissionsAndroid.RESULTS.GRANTED) {
             console.log('You can open the mobile storage');
             return true;
         } else {

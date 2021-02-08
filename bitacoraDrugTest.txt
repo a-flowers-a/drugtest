@@ -36,3 +36,4 @@ A Instalación de biblioteca par ala generación de csv file (fast-csv json2csv)
 A Creación de métodos en (admin) controller para recibir petición de estadísticas, generar consulta (simple) y archivo csv y enviar por correo
 B Creación del controller Chat que recibe un chat en forma de array
 B Creación de cuenta de correo desde donde se enviarán los emails de drugtest
+D Primera normalización de las frases del modelo 
