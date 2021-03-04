@@ -9,6 +9,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image } from "react-native";
 import AnalysisStack from 'drugtest/src/components/AnalysisStack';
 import AdminStack from 'drugtest/src/components/AdminStack';
+import OptionsStack from 'drugtest/src/components/OptionsStack';
 import ShareMenu from 'react-native-share-menu';
 import { saveChatReceived } from "./src/Chats";
 
@@ -95,6 +96,19 @@ const App: () => React$Node = () => {
         <Tabs.Screen
           component={AdminStack}
           name="Admin"
+          options={{
+            tabBarIcon: ({size, color}) => (
+              <Image
+                source={require('drugtest/src/assets/bank.png')}
+                style={{ tintColor: color, width: size, height: size}}
+              />
+            )
+          }}
+        />
+
+        <Tabs.Screen
+          component={OptionsStack}
+          name="Options"
           options={{
             tabBarIcon: ({size, color}) => (
               <Image
