@@ -24,6 +24,8 @@ B Algoritmo para recortar el chat a solo los mensajes del ùltimo mes v1 (errón
 B Método para enviar el chat al server en forma de array
 A Stack y vista principal de menú de opciones
 A Vista y texto de ¿Qué hacemos con tus chats?
+A Tabla de resultado análisis de chat
+A vista de Resultado completa primera versión
 
 Server:
 A Creación de aplicación con node
