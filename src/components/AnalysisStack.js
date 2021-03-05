@@ -2,6 +2,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from '../views/HomeScreen';
 import QuestScreen from '../views/QuestScreen';
+import ResultScreen from '../views/ResultScreen';
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,10 @@ const AnalysisStack = () =>{
             <Stack.Screen 
                 name="Questionaire" 
                 component={QuestScreen}
+            />
+            <Stack.Screen 
+                name="Result" 
+                component={ResultScreen}
             />
 
         </Stack.Navigator>
