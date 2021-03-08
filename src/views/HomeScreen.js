@@ -15,13 +15,21 @@ function HomeScreen(props) {
     function sendToQuestScreen() {
         //must be the name that's in Stack.Screen
         props.navigation.navigate('Questionaire');
-    }//handlePress
+    }//sendToQuestScreen
+    function sendToResScreen() {
+        //must be the name that's in Stack.Screen
+        props.navigation.navigate('Result');
+    }//sendToResScreen
 
     return (
         <ScrollView style={styles.container}>
             <ActionBtn
                 btnText={"Realizar Cuestionario"}
                 onPressFunc={sendToQuestScreen}
+            />
+            <ActionBtn
+                btnText={"Mostrar Resultado"}
+                onPressFunc={sendToResScreen}
             />
             
         </ScrollView>

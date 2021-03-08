@@ -1,12 +1,11 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import HomeScreen from '../views/HomeScreen';
-import QuestScreen from '../views/QuestScreen';
-import ResultScreen from '../views/ResultScreen';
+import OptionsScreen from '../views/OptionsScreen';
+import WhatWeDo from '../views/WhatWeDo';
 
 const Stack = createStackNavigator();
 
-const AnalysisStack = () =>{
+const OptionsStack = () =>{
     return (
         <Stack.Navigator
             screenOptions={{
@@ -19,21 +18,16 @@ const AnalysisStack = () =>{
             }}
         >
             <Stack.Screen 
-                name="Home" 
-                component={HomeScreen}
-            />
-            
-            <Stack.Screen 
-                name="Questionaire" 
-                component={QuestScreen}
+                name="Options" 
+                component={OptionsScreen}
             />
             <Stack.Screen 
-                name="Result" 
-                component={ResultScreen}
+                name="WhatWeDo" 
+                component={WhatWeDo}
             />
 
         </Stack.Navigator>
     );
-}//AnalysisStack
+}//OptionsStack
 
-export default AnalysisStack;
+export default OptionsStack;
