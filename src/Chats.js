@@ -115,7 +115,8 @@ const chatToTXT = (messagesArray) => {
 
     const dirs = RNFetchBlob.fs.dirs;
     const NEW_FILE_PATH = dirs.DownloadDir + '/test.txt';
-    RNFetchBlob.fs.createFile(NEW_FILE_PATH, 'foo', 'utf8');
+    //RNFetchBlob.fs.createFile(NEW_FILE_PATH, 'foo', 'utf8');
+    PruebaSendTxt(NEW_FILE_PATH);
 
     /*RNFetchBlob.fs.writeStream("storage/emulated/0/Download/chat.txt", 'utf8')
         .then((stream) => {
@@ -124,6 +125,24 @@ const chatToTXT = (messagesArray) => {
         }).catch((err) => {
             console.error(err);
         });*/
+}
+
+
+const PruebaSendTxt = (path) => {
+    filename = 'test.txt';
+    const file = {
+        uri: path,             // e.g. 'file:///path/to/file/image123.jpg'
+        name: filename,            // e.g. 'image123.jpg',
+        type: 'text/plain'             // e.g. 'image/jpg'
+    }
+
+    var body = new FormData();
+    body.append('file', file);
+    body.append('title', 'A beautiful photo!');
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', "http:192.168.100.107:3030/chat/save-chat");
+    xhr.send(body);
 }
 
 const sendChatToBackend = async (validDateMessages) => {
