@@ -1,7 +1,8 @@
 forms:
     https://www.akashmittal.com/react-native-forms-using-react-hook-form/
     https://www.educba.com/react-native-form/
-    https://react-hook-form.com/get-started/#ReactNative
+    ** https://react-hook-form.com/get-started/#ReactNative
+	** why react-hook-form: https://dev.to/elaziziyoussouf/forms-in-react-native-the-right-way-4d46
 
 react-native-charts-wrapper:
     ios:
