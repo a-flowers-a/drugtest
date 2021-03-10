@@ -3,6 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from '../views/HomeScreen';
 import QuestScreen from '../views/QuestScreen';
 import ResultScreen from '../views/ResultScreen';
+import Login from '../views/Login';
 
 const Stack = createStackNavigator();
 
@@ -30,6 +31,10 @@ const AnalysisStack = () =>{
             <Stack.Screen 
                 name="Result" 
                 component={ResultScreen}
+            />
+            <Stack.Screen 
+                name="Login" 
+                component={Login}
             />
 
         </Stack.Navigator>

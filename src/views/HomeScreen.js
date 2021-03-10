@@ -20,6 +20,9 @@ function HomeScreen(props) {
         //must be the name that's in Stack.Screen
         props.navigation.navigate('Result');
     }//sendToResScreen
+    function sendToLogin(){
+        props.navigation.navigate('Login');
+    }
 
     return (
         <ScrollView style={styles.container}>
@@ -30,6 +33,10 @@ function HomeScreen(props) {
             <ActionBtn
                 btnText={"Mostrar Resultado"}
                 onPressFunc={sendToResScreen}
+            />
+            <ActionBtn
+                btnText={"Login"}
+                onPressFunc={sendToLogin}
             />
             
         </ScrollView>
