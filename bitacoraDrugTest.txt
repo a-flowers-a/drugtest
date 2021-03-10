@@ -26,6 +26,7 @@ A Stack y vista principal de menú de opciones
 A Vista y texto de ¿Qué hacemos con tus chats?
 A Tabla de resultado análisis de chat
 A vista de Resultado completa primera versión
+A vista Login
 
 Server:
 A Creación de aplicación con node
