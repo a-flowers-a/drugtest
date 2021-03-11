@@ -4,23 +4,44 @@ import { useForm, Controller } from "react-hook-form";
 import { ScrollView } from 'react-native-gesture-handler';
 import ActionBtn from '../components/ActionBtn';
 import TopAlert from '../components/TopAlert';
+import { postRequest } from '../utils/HttpRequest';
+import RadioBtn from '../components/RadioBtn';
 
 function Login(){
 
     const { control:ctrlSignIn, handleSubmit:handleSignIn, errors:errorSI } = useForm();
     const { control:ctrlSignUp, handleSubmit:handleSignUp, errors:errorSU } = useForm();
     const [display, setDisplay] = useState(false);
+    const [sex, setSex] = useState(true);
+    
+    function handleRadios(name){
+        if(name === "Hombre")
+            setSex(true);
+        else
+            setSex(false);
+    }//handleRadios
 
     const onSubmit = data => {
         console.log(data);
+        console.log("sex ", sex);
+        let option = "log-in";
         if(data.email)
         {
-            console.log("it is a sign up");
+            option = "sign-up";
         }
-        else
-        {
-            console.log("it is a sign in");
-        }
+
+        const url = "http:192.168.100.107:3030/student/"+option;
+        postRequest(url, data)
+        .then(result => {
+            if (result.success)
+                props.navigation.navigate('Home');
+            else
+                console.log(result.message);
+        })
+        .catch(err => {
+            console.log("error aquí");
+            console.log(err);
+        });
     };
 
     const displayRecover = () => {
@@ -36,6 +57,11 @@ function Login(){
         container: {
             backgroundColor: "#120078",/*120078 */
             flex: 1,
+        },
+        errorText: {
+            fontSize: 14,
+            marginTop: 5,
+            marginHorizontal: 25,
         },
         hr: {
             borderBottomColor: "#f5f4f4",
@@ -86,9 +112,9 @@ function Login(){
                     )}
                     name="boleta"
                     rules={{ required: true }}
-                    defaultValue="2017630041"
+                    defaultValue=""
                 />
-                {errorSI.boleta && <Text style={styles.text}>This is required</Text>}
+                {errorSI.boleta && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
             </View>
             <View>
                 <Text style={styles.text}>Contraseña</Text>
@@ -107,7 +133,7 @@ function Login(){
                     rules={{ required: true }}
                     defaultValue=""
                 />
-                {errorSI.password && <Text style={styles.text}>This is required</Text>}
+                {errorSI.password && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
             </View>
             <ActionBtn
                 btnText={"Iniciar Sesión"}
@@ -135,9 +161,9 @@ function Login(){
                     )}
                     name="name"
                     rules={{ required: true }}
-                    defaultValue="Luci"
+                    defaultValue=""
                 />
-                {errorSU.name && <Text style={styles.text}>This is required</Text>}
+                {errorSU.name && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
             </View>
             
             <View>
@@ -156,9 +182,9 @@ function Login(){
                     )}
                     name="boleta"
                     rules={{ required: true }}
-                    defaultValue="2017630111"
+                    defaultValue=""
                 />
-                {errorSU.boleta && <Text style={styles.text}>This is required</Text>}
+                {errorSU.boleta && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
             </View>
 
             <View>
@@ -176,9 +202,22 @@ function Login(){
                     )}
                     name="email"
                     rules={{ required: true }}
-                    defaultValue="example@example.com"
+                    defaultValue=""
                 />
-                {errorSU.email && <Text style={styles.text}>This is required</Text>}
+                {errorSU.email && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
+            </View>
+            
+            <View>
+                <RadioBtn 
+                    name="Hombre"
+                    selected={sex}
+                    onPressFunc={handleRadios}
+                />
+                <RadioBtn 
+                    name="Mujer"
+                    selected={!sex}
+                    onPressFunc={handleRadios}
+                />
             </View>
 
             <View>
@@ -198,7 +237,7 @@ function Login(){
                     rules={{ required: true }}
                     defaultValue=""
                 />
-                {errorSU.password && <Text style={styles.text}>This is required</Text>}
+                {errorSU.password && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
             </View>
             <ActionBtn
                 btnText={"Crear Cuenta"}

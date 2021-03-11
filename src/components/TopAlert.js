@@ -6,7 +6,6 @@ import ActionBtn from '../components/ActionBtn';
 function TopAlert(props){
     const {onAcceptFunc, onCancelFunc, text, input} = props;
     const { control, handleSubmit, errors } = useForm();
-    //const [display, setDisplay ] = useState(true);
 
     const styles = StyleSheet.create({
         acceptBtn:{

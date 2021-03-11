@@ -30,6 +30,9 @@ A vista Login
 A acomodar lógica de ambos formularios (log in y sign up)
 A Componente on top con poco estilo
 A desplegar y cerrar on top para recuperar contraseña
+A OnTopAlert component con estilos finalizados, recibe props funciones e input por si se desean poner
+A Recibir estilos en componente ActionBtn para personalizar el botón
+A componente radioBtn
 
 Server:
 A Creación de aplicación con node
