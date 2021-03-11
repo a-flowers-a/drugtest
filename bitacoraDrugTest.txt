@@ -27,6 +27,9 @@ A Vista y texto de ¿Qué hacemos con tus chats?
 A Tabla de resultado análisis de chat
 A vista de Resultado completa primera versión
 A vista Login
+A acomodar lógica de ambos formularios (log in y sign up)
+A Componente on top con poco estilo
+A desplegar y cerrar on top para recuperar contraseña
 
 Server:
 A Creación de aplicación con node

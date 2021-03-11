@@ -1,18 +1,46 @@
-import React from 'react';
-import { Text, View, TextInput, Button, Alert, StyleSheet } from "react-native";
+import React, { useState } from 'react';
+import { Text, View, TextInput, Pressable, StyleSheet } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { ScrollView } from 'react-native-gesture-handler';
 import ActionBtn from '../components/ActionBtn';
+import TopAlert from '../components/TopAlert';
 
 function Login(){
 
-    const { control, handleSubmit, errors } = useForm();
-    const onSubmit = data => console.log(data);
+    const { control:ctrlSignIn, handleSubmit:handleSignIn, errors:errorSI } = useForm();
+    const { control:ctrlSignUp, handleSubmit:handleSignUp, errors:errorSU } = useForm();
+    const [display, setDisplay] = useState(false);
+
+    const onSubmit = data => {
+        console.log(data);
+        if(data.email)
+        {
+            console.log("it is a sign up");
+        }
+        else
+        {
+            console.log("it is a sign in");
+        }
+    };
+
+    const displayRecover = () => {
+        setDisplay(prevValue => !prevValue);
+    }//displayRecover
+
+    function recoverPassword(){
+        console.log("se recuperará passw");
+    }//recoverPassword
     
     const styles = StyleSheet.create({
         container: {
             backgroundColor: "#120078",/*120078 */
             flex: 1,
+        },
+        hr: {
+            borderBottomColor: "#f5f4f4",
+            borderBottomWidth: 1,
+            marginHorizontal: 20,
+            marginVertical: 5,
         },
         input: {
             //box-sizing: border-box,
@@ -27,7 +55,12 @@ function Login(){
             padding: 10,
             //width: 300,
         },
-        text:{
+        pressText: {
+            color: "#dddddd",
+            fontSize: 16,
+            marginLeft: 30
+        },
+        text: {
             color: "#f5f4f4",
             fontSize: 20,
             textAlign: "left",
@@ -39,7 +72,7 @@ function Login(){
             <View>
                 <Text style={styles.text}>Boleta</Text>
                 <Controller
-                    control={control}
+                    control={ctrlSignIn}
                     render={({ onChange, onBlur, value }) => (
                         <TextInput
                             onBlur={onBlur}
@@ -51,13 +84,15 @@ function Login(){
                         />
                     )}
                     name="boleta"
+                    rules={{ required: true }}
                     defaultValue="2017630041"
                 />
+                {errorSI.boleta && <Text style={styles.text}>This is required</Text>}
             </View>
             <View>
                 <Text style={styles.text}>Contraseña</Text>
                 <Controller
-                    control={control}
+                    control={ctrlSignIn}
                     render={({ onChange, onBlur, value }) => (
                         <TextInput
                             onBlur={onBlur}
@@ -68,17 +103,27 @@ function Login(){
                         />
                     )}
                     name="password"
+                    rules={{ required: true }}
                     defaultValue=""
                 />
+                {errorSI.password && <Text style={styles.text}>This is required</Text>}
             </View>
             <ActionBtn
                 btnText={"Iniciar Sesión"}
-                onPressFunc={handleSubmit(onSubmit)}
+                onPressFunc={handleSignIn(onSubmit)}
             />
+
+            <Pressable
+                onPress={displayRecover}
+            >
+                <Text style={[styles.text, styles.pressText]}>Olvidé mi contraseña</Text>
+            </Pressable>
+            <View style={styles.hr} />
+
             <View>
                 <Text style={styles.text}>Nombre</Text>
                 <Controller
-                    control={control}
+                    control={ctrlSignUp}
                     render={({ onChange, onBlur, value }) => (
                         <TextInput
                             style={styles.input}
@@ -91,13 +136,13 @@ function Login(){
                     rules={{ required: true }}
                     defaultValue="Luci"
                 />
-                {errors.firstName && <Text style={styles.text}>This is required</Text>}
+                {errorSU.name && <Text style={styles.text}>This is required</Text>}
             </View>
             
             <View>
                 <Text style={styles.text}>Boleta</Text>
                 <Controller
-                    control={control}
+                    control={ctrlSignUp}
                     render={({ onChange, onBlur, value }) => (
                         <TextInput
                             onBlur={onBlur}
@@ -109,14 +154,16 @@ function Login(){
                         />
                     )}
                     name="boleta"
+                    rules={{ required: true }}
                     defaultValue="2017630111"
                 />
+                {errorSU.boleta && <Text style={styles.text}>This is required</Text>}
             </View>
 
             <View>
                 <Text style={styles.text}>E-mail</Text>
                 <Controller
-                    control={control}
+                    control={ctrlSignUp}
                     render={({ onChange, onBlur, value }) => (
                         <TextInput
                             autoCapitalize = "none"
@@ -127,14 +174,16 @@ function Login(){
                         />
                     )}
                     name="email"
+                    rules={{ required: true }}
                     defaultValue="example@example.com"
                 />
+                {errorSU.email && <Text style={styles.text}>This is required</Text>}
             </View>
 
             <View>
                 <Text style={styles.text}>Contraseña</Text>
                 <Controller
-                    control={control}
+                    control={ctrlSignUp}
                     render={({ onChange, onBlur, value }) => (
                         <TextInput
                             onBlur={onBlur}
@@ -145,13 +194,21 @@ function Login(){
                         />
                     )}
                     name="password"
+                    rules={{ required: true }}
                     defaultValue=""
                 />
+                {errorSU.password && <Text style={styles.text}>This is required</Text>}
             </View>
             <ActionBtn
                 btnText={"Crear Cuenta"}
-                onPressFunc={handleSubmit(onSubmit)}
+                onPressFunc={handleSignUp(onSubmit)}
             />
+
+            {(display && <TopAlert 
+                onAcceptFunc={recoverPassword}
+                onCancelFunc={displayRecover}
+            />)}
+
         </ScrollView>
     );
 }//Login
