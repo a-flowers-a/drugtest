@@ -2,6 +2,8 @@ import React from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 
 function FinishBtn(props){
+    
+    const {extraStyles, onPressFunc, btnText} = props;
 
     const styles = StyleSheet.create({
         btnText: {
@@ -26,10 +28,10 @@ function FinishBtn(props){
     return (
         <View style={styles.container}>
             <TouchableOpacity
-                style={styles.button}
-                onPress={() => props.onPressFunc()}
+                style={[styles.button, extraStyles]}
+                onPress={() => onPressFunc()}
             >
-                <Text style={styles.btnText}>{props.btnText}</Text>
+                <Text style={styles.btnText}>{btnText}</Text>
             </TouchableOpacity>
         </View>
     );

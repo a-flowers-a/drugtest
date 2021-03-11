@@ -27,8 +27,9 @@ function Login(){
         setDisplay(prevValue => !prevValue);
     }//displayRecover
 
-    function recoverPassword(){
-        console.log("se recuperará passw");
+    function recoverPassword(data){
+        console.log("se recuperará passw con");
+        console.log(data);
     }//recoverPassword
     
     const styles = StyleSheet.create({
@@ -207,6 +208,8 @@ function Login(){
             {(display && <TopAlert 
                 onAcceptFunc={recoverPassword}
                 onCancelFunc={displayRecover}
+                text={"Ingresa la boleta con la que te registraste:"}
+                input={true}
             />)}
 
         </ScrollView>
