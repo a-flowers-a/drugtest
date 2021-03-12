@@ -23,13 +23,21 @@ function RadioBtn(props){
             backgroundColor: "black"//#98CFB6
           },
           radioButtonText: {
+            color: "#f5f4f4",
+            margin: 10,
             fontSize: 16,
-            marginLeft: 16
-          }
+            marginHorizontal: 10
+          },
+          row:{
+              flexDirection: "row",
+              alignItems: "center"
+              //justifyContent: "center",
+              //margin: 20,
+          },
     });
 
     return(
-        <View>
+        <View style={styles.row}>
             <TouchableOpacity onPress={() =>{onPressFunc(name);}} style={styles.radioButton}>
                 {selected && <View style={styles.radioButtonIcon} />}
             </TouchableOpacity>

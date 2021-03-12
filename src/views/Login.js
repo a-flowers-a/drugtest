@@ -6,8 +6,9 @@ import ActionBtn from '../components/ActionBtn';
 import TopAlert from '../components/TopAlert';
 import { postRequest } from '../utils/HttpRequest';
 import RadioBtn from '../components/RadioBtn';
+import {SuccessAlert} from '../components/CustomAlerts';
 
-function Login(){
+function Login(props){
 
     const { control:ctrlSignIn, handleSubmit:handleSignIn, errors:errorSI } = useForm();
     const { control:ctrlSignUp, handleSubmit:handleSignUp, errors:errorSU } = useForm();
@@ -22,27 +23,28 @@ function Login(){
     }//handleRadios
 
     const onSubmit = data => {
-        console.log(data);
-        console.log("sex ", sex);
+        const finalData = {...data, sex};
+        console.log(finalData);
         let option = "log-in";
         if(data.email)
-        {
             option = "sign-up";
-        }
 
-        const url = "http:192.168.100.107:3030/student/"+option;
+        const url = "http:localhost:3030/student/"+option;
         postRequest(url, data)
         .then(result => {
             if (result.success)
-                props.navigation.navigate('Home');
+            {
+                SuccessAlert();
+                //props.navigation.navigate('Home');
+            }
             else
                 console.log(result.message);
         })
         .catch(err => {
-            console.log("error aquí");
+            console.log("error at postRequest");
             console.log(err);
         });
-    };
+    };//onSubmit
 
     const displayRecover = () => {
         setDisplay(prevValue => !prevValue);
@@ -86,6 +88,11 @@ function Login(){
             color: "#dddddd",
             fontSize: 16,
             marginLeft: 30
+        },
+        row:{
+            flexDirection: "row",
+            justifyContent: "center",
+            marginTop: 5,
         },
         text: {
             color: "#f5f4f4",
@@ -207,7 +214,7 @@ function Login(){
                 {errorSU.email && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
             </View>
             
-            <View>
+            <View style={styles.row}>
                 <RadioBtn 
                     name="Hombre"
                     selected={sex}
