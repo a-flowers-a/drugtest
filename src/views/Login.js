@@ -6,7 +6,7 @@ import ActionBtn from '../components/ActionBtn';
 import TopAlert from '../components/TopAlert';
 import { postRequest } from '../utils/HttpRequest';
 import RadioBtn from '../components/RadioBtn';
-import {SuccessAlert} from '../components/CustomAlerts';
+import {OkAlert} from '../components/CustomAlerts';
 
 function Login(props){
 
@@ -34,11 +34,24 @@ function Login(props){
         .then(result => {
             if (result.success)
             {
-                SuccessAlert();
-                //props.navigation.navigate('Home');
+                let aTitle = "Registro exitoso";
+                if(option === "sign-up")
+                {
+                    aTtitle = !result.new && "Boleta ya registrada";
+                }
+                else
+                {
+                    aTtitle = "Bienvenido";
+                }
+                OkAlert({title: aTitle, message: result.message||result.name},
+                    () => {props.navigation.navigate('Home');}
+                );
             }
             else
+            {
+                OkAlert({title:"Error", message:"No se pudo realizar el registro, inténtalo más tarde."});
                 console.log(result.message);
+            }
         })
         .catch(err => {
             console.log("error at postRequest");
