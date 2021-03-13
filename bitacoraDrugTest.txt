@@ -35,6 +35,8 @@ A Recibir estilos en componente ActionBtn para personalizar el botón
 A componente radioBtn
 A Componente CustomAlert
 A Login con alert de respuesta del servr
+A Contact Item con estilos
+A Contacts view
 
 Server:
 A Creación de aplicación con node

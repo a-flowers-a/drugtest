@@ -12,31 +12,31 @@ function HomeScreen(props) {
         },
     });
 
-    function sendToQuestScreen() {
-        //must be the name that's in Stack.Screen
-        props.navigation.navigate('Questionaire');
-    }//sendToQuestScreen
-    function sendToResScreen() {
-        //must be the name that's in Stack.Screen
-        props.navigation.navigate('Result');
-    }//sendToResScreen
-    function sendToLogin(){
-        props.navigation.navigate('Login');
-    }
+    function navigateTo(screenOption){
+        props.navigation.navigate(screenOption);
+    }//navigateTo
 
     return (
         <ScrollView style={styles.container}>
             <ActionBtn
                 btnText={"Realizar Cuestionario"}
-                onPressFunc={sendToQuestScreen}
+                onPressFunc={() => navigateTo('Questionaire')}
             />
             <ActionBtn
                 btnText={"Mostrar Resultado"}
-                onPressFunc={sendToResScreen}
+                onPressFunc={() => navigateTo('Result')}
             />
             <ActionBtn
                 btnText={"Login"}
-                onPressFunc={sendToLogin}
+                onPressFunc={() => navigateTo('Login')}
+            />
+            <ActionBtn
+                btnText={"Ver Contactos de apoyo"}
+                onPressFunc={() => navigateTo('Contacts')}
+            />
+            <ActionBtn
+                btnText={"Ver resultados anteriores"}
+                onPressFunc={() => navigateTo('PrevResults')}
             />
             
         </ScrollView>
