@@ -37,6 +37,8 @@ A Componente CustomAlert
 A Login con alert de respuesta del servr
 A Contact Item con estilos
 A Contacts view
+A Componente PrevResultItem 
+A PrevResults view
 
 Server:
 A Creación de aplicación con node
