@@ -5,56 +5,37 @@ import { ScrollView } from 'react-native-gesture-handler';
 import ActionBtn from '../components/ActionBtn';
 import TopAlert from '../components/TopAlert';
 import { postRequest } from '../utils/HttpRequest';
-import RadioBtn from '../components/RadioBtn';
 import {OkAlert} from '../components/CustomAlerts';
 
 function Login(props){
 
-    const { control:ctrlSignIn, handleSubmit:handleSignIn, errors:errorSI } = useForm();
-    const { control:ctrlSignUp, handleSubmit:handleSignUp, errors:errorSU } = useForm();
+    const { control, handleSubmit, errors } = useForm();
     const [display, setDisplay] = useState(false);
-    const [sex, setSex] = useState(true);
     
-    function handleRadios(name){
-        if(name === "Hombre")
-            setSex(true);
-        else
-            setSex(false);
-    }//handleRadios
-
     const onSubmit = data => {
-        const finalData = {...data, sex};
-        console.log(finalData);
-        let option = "log-in";
-        if(data.email)
-            option = "sign-up";
-
-        const url = "http:localhost:3030/student/"+option;
+        const url = "http:localhost:3030/student/log-in";
         postRequest(url, data)
         .then(result => {
             if (result.success)
             {
-                let aTitle = "Registro exitoso";
-                if(option === "sign-up")
-                {
-                    aTtitle = !result.new && "Boleta ya registrada";
-                }
-                else
-                {
-                    aTtitle = "Bienvenido";
-                }
-                OkAlert({title: aTitle, message: result.message||result.name},
+                OkAlert({title: "Bienvenido", message: result.message||result.name},
                     () => {props.navigation.navigate('Home');}
                 );
             }
             else
             {
-                OkAlert({title:"Error", message:"No se pudo realizar el registro, inténtalo más tarde."});
-                console.log(result.message);
+                let aMessage = "No se puede iniciar sesión en este momento.";
+                if(result.wrongPass)
+                    aMessage = "Datos incorrectos";
+                else if(result.notFound)
+                    aMessage = "Usuario no registrado";
+
+                OkAlert({title:"Error", message: aMessage },
+                        () => {});
             }
         })
         .catch(err => {
-            console.log("error at postRequest");
+            OkAlert({title:"Error", message:"No se pudo conectar con el servidor"});
             console.log(err);
         });
     };//onSubmit
@@ -119,7 +100,7 @@ function Login(props){
             <View>
                 <Text style={styles.text}>Boleta</Text>
                 <Controller
-                    control={ctrlSignIn}
+                    control={control}
                     render={({ onChange, onBlur, value }) => (
                         <TextInput
                             onBlur={onBlur}
@@ -134,12 +115,12 @@ function Login(props){
                     rules={{ required: true }}
                     defaultValue=""
                 />
-                {errorSI.boleta && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
+                {errors.boleta && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
             </View>
             <View>
                 <Text style={styles.text}>Contraseña</Text>
                 <Controller
-                    control={ctrlSignIn}
+                    control={control}
                     render={({ onChange, onBlur, value }) => (
                         <TextInput
                             onBlur={onBlur}
@@ -153,11 +134,11 @@ function Login(props){
                     rules={{ required: true }}
                     defaultValue=""
                 />
-                {errorSI.password && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
+                {errors.password && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
             </View>
             <ActionBtn
                 btnText={"Iniciar Sesión"}
-                onPressFunc={handleSignIn(onSubmit)}
+                onPressFunc={handleSubmit(onSubmit)}
             />
 
             <Pressable
@@ -167,103 +148,12 @@ function Login(props){
             </Pressable>
             <View style={styles.hr} />
 
-            <View>
-                <Text style={styles.text}>Nombre</Text>
-                <Controller
-                    control={ctrlSignUp}
-                    render={({ onChange, onBlur, value }) => (
-                        <TextInput
-                            style={styles.input}
-                            onBlur={onBlur}
-                            onChangeText={value => onChange(value)}
-                            value={value}
-                        />
-                    )}
-                    name="name"
-                    rules={{ required: true }}
-                    defaultValue=""
-                />
-                {errorSU.name && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
-            </View>
-            
-            <View>
-                <Text style={styles.text}>Boleta</Text>
-                <Controller
-                    control={ctrlSignUp}
-                    render={({ onChange, onBlur, value }) => (
-                        <TextInput
-                            onBlur={onBlur}
-                            keyboardType='numeric'
-                            maxLength={10}
-                            style={styles.input}
-                            onChangeText={value => onChange(value)}
-                            value={value}
-                        />
-                    )}
-                    name="boleta"
-                    rules={{ required: true }}
-                    defaultValue=""
-                />
-                {errorSU.boleta && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
-            </View>
-
-            <View>
-                <Text style={styles.text}>E-mail</Text>
-                <Controller
-                    control={ctrlSignUp}
-                    render={({ onChange, onBlur, value }) => (
-                        <TextInput
-                            autoCapitalize = "none"
-                            onBlur={onBlur}
-                            style={styles.input}
-                            onChangeText={value => onChange(value)}
-                            value={value}
-                        />
-                    )}
-                    name="email"
-                    rules={{ required: true }}
-                    defaultValue=""
-                />
-                {errorSU.email && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
-            </View>
-            
-            <View style={styles.row}>
-                <RadioBtn 
-                    name="Hombre"
-                    selected={sex}
-                    onPressFunc={handleRadios}
-                />
-                <RadioBtn 
-                    name="Mujer"
-                    selected={!sex}
-                    onPressFunc={handleRadios}
-                />
-            </View>
-
-            <View>
-                <Text style={styles.text}>Contraseña</Text>
-                <Controller
-                    control={ctrlSignUp}
-                    render={({ onChange, onBlur, value }) => (
-                        <TextInput
-                            onBlur={onBlur}
-                            style={styles.input}
-                            onChangeText={value => onChange(value)}
-                            secureTextEntry={true}
-                            value={value}
-                        />
-                    )}
-                    name="password"
-                    rules={{ required: true }}
-                    defaultValue=""
-                />
-                {errorSU.password && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
-            </View>
             <ActionBtn
                 btnText={"Crear Cuenta"}
-                onPressFunc={handleSignUp(onSubmit)}
+                onPressFunc={() => {props.navigation.navigate('Datos Cuenta');}}
             />
 
+            
             {(display && <TopAlert 
                 onAcceptFunc={recoverPassword}
                 onCancelFunc={displayRecover}

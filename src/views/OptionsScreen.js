@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import ActionBtn from '../components/ActionBtn';
+import { OkCancelAlert } from '../components/CustomAlerts';
 
 
 function HomeScreen(props) {
@@ -18,21 +19,9 @@ function HomeScreen(props) {
         },
     });
 
-    function sendToSignOut() {
-        //must be the name that's in Stack.Screen
-        //props.navigation.navigate('Questionaire');
-    }//handlePress
-
-    function sendModifyToScreen() {
-        //must be the name that's in Stack.Screen
-        //props.navigation.navigate('Questionaire');
-    }//handlePress
-
-
-    function sendWhatWeDo() {
-        //must be the name that's in Stack.Screen
-        props.navigation.navigate('WhatWeDo');
-    }//sendWhatWeDo
+    function navigateTo(screenOption){
+        props.navigation.navigate(screenOption);
+    }//navigateTo
 
     return (
         <ScrollView style={styles.container}>
@@ -42,15 +31,20 @@ function HomeScreen(props) {
 
             <ActionBtn
                 btnText={"Cerrar Sesión"}
-                onPressFunc={sendToSignOut}
+                onPressFunc={() => {
+                    OkCancelAlert({title: "Log Out", message: "¿Quieres cerrar sesión?"},
+                        () => {props.navigation.navigate('Home');},
+                        () => {}
+                    );
+                }}
             />
             <ActionBtn
                 btnText={"Modificar datos de la cuenta"}
-                onPressFunc={sendModifyToScreen}
+                onPressFunc={() => {navigateTo('Datos Cuenta');}}
             />
             <ActionBtn
                 btnText={"¿Qué hacemos con tus chats?"}
-                onPressFunc={sendWhatWeDo}
+                onPressFunc={() => {navigateTo('WhatWeDo');}}
             />
             
         </ScrollView>

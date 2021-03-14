@@ -17,4 +17,23 @@ export const OkAlert = (data, onOk) => {
             { cancelable: false }
           )
     );
-}//postRequest
+}//OkAlert
+
+export const OkCancelAlert = (data, onOk, onCancel) => {
+  console.log(onCancel);
+  return(
+      Alert.alert(
+          data.title,
+          data.message,
+          [
+            {
+              text: "Cancel",
+              onPress: () => onCancel(),
+              style: "cancel"
+            },
+            { text: "OK", onPress: () => onOk() }
+          ],
+          { cancelable: false }
+        )
+  );
+}//OkCancelAlert

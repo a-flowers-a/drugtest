@@ -6,6 +6,7 @@ import ResultScreen from '../views/ResultScreen';
 import Login from '../views/Login';
 import ContactsScreen from '../views/ContactsScreen';
 import PrevResultsScreen from '../views/PrevResultsScreen';
+import AccountForm from '../views/AccountForm';
 
 const Stack = createStackNavigator();
 
@@ -37,6 +38,10 @@ const AnalysisStack = () =>{
             <Stack.Screen 
                 name="Login" 
                 component={Login}
+            />
+            <Stack.Screen 
+                name="Datos Cuenta" 
+                component={AccountForm}
             />
             <Stack.Screen 
                 name="Contacts" 

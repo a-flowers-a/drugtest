@@ -39,6 +39,8 @@ A Contact Item con estilos
 A Contacts view
 A Componente PrevResultItem 
 A PrevResults view
+A Nuevo CustomAlert (con cancel)
+A Separar Login y SignUp views
 
 Server:
 A Creación de aplicación con node
