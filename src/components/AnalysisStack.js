@@ -14,7 +14,7 @@ const AnalysisStack = () =>{
         <Stack.Navigator
             screenOptions={{
                 headerStyle:{
-                    backgroundColor: "#20252c",
+                    backgroundColor: "#120078",
                     //ios:
                     shadowOpacity: 0
                 },
