@@ -9,7 +9,7 @@ function TopAlert(props){
 
     const styles = StyleSheet.create({
         acceptBtn:{
-            backgroundColor: "#afa939", //91b029 79d70f cdc733
+            backgroundColor: "#79d70f", //afa939 91b029 79d70f cdc733
             borderWidth: 0,
             borderRadius: 8,
             marginHorizontal: 10,

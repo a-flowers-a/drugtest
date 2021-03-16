@@ -76,8 +76,8 @@ const App: () => React$Node = () => {
       <Tabs.Navigator
         tabBarOptions={{
           //tintColor: "#fefefe",
-          activeTintColor: '#fefefe', //#1db954
-          inactiveTintColor: '#9A9F99',
+          activeTintColor: '#1db954', //fefefe #1db954
+          inactiveTintColor: '#fefefe', //fefefe 9A9F99
           style: {
             backgroundColor: "#120078"
           },
@@ -108,7 +108,7 @@ const App: () => React$Node = () => {
           options={{
             tabBarIcon: ({color}) => (
               <FontAwesomeIcon
-                  icon={ faFilter /*faFeather*/ }
+                  icon={ faFeather /*faFilter faFeather*/ }
                   style={{color: color}}
                   size={30}
               />
