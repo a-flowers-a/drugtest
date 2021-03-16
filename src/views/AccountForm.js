@@ -56,6 +56,7 @@ function AccountForm(props){
         },
     });
     const [sex, setSex] = useState(true);
+    const [shift, setShift] = useState(true);
     const { control, handleSubmit, errors } = useForm();
 
     const onSubmit = data => {
@@ -97,6 +98,13 @@ function AccountForm(props){
         else
             setSex(false);
     }//handleRadios
+
+    function handleShift(name){
+        if(name === "Matutino")
+            setShift(true);
+        else
+            setShift(false);
+    }//handleShift
 
 
     return(
@@ -172,6 +180,43 @@ function AccountForm(props){
                     selected={!sex}
                     onPressFunc={handleRadios}
                 />
+            </View>
+
+            <View>
+                <Text style={styles.text}>Semestre</Text>
+                <Controller
+                    control={control}
+                    render={({ onChange, onBlur, value }) => (
+                        <TextInput
+                            onBlur={onBlur}
+                            keyboardType='numeric'
+                            maxLength={1}
+                            style={styles.input}
+                            onChangeText={value => onChange(value)}
+                            value={value}
+                        />
+                    )}
+                    name="semester"
+                    rules={{ required: true }}
+                    defaultValue=""
+                />
+                {errors.semester && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
+            </View>
+
+            <View>
+                <Text style={styles.text}>Turno</Text>
+                <View style={styles.row}>
+                    <RadioBtn 
+                        name="Matutino"
+                        selected={shift}
+                        onPressFunc={handleShift}
+                    />
+                    <RadioBtn 
+                        name="Vespertino"
+                        selected={!shift}
+                        onPressFunc={handleShift}
+                    />
+                </View>
             </View>
 
             <View>
