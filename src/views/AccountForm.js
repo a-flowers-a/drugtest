@@ -60,7 +60,7 @@ function AccountForm(props){
     const { control, handleSubmit, errors } = useForm();
 
     const onSubmit = data => {
-        const finalData = {...data, sex};
+        const finalData = {...data, sex, shift};
         console.log(finalData);
         const url = "http:localhost:3030/student/sign-up";
         postRequest(url, finalData)

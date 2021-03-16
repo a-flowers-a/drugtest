@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, Pressable, StyleSheet } from "react-native";
+import { Text, View, TextInput, StyleSheet } from "react-native";
 import { useForm, Controller } from "react-hook-form";
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import ActionBtn from '../components/ActionBtn';
-import TopAlert from '../components/TopAlert';
+import CustomModal from '../components/CustomModal';
 import { postRequest } from '../utils/HttpRequest';
 import {OkAlert} from '../components/CustomAlerts';
 
@@ -51,7 +51,7 @@ function Login(props){
     
     const styles = StyleSheet.create({
         container: {
-            backgroundColor: "#120078",/*120078 */
+            backgroundColor: "#120078",/*120078 120078 */
             flex: 1,
         },
         errorText: {
@@ -141,11 +141,11 @@ function Login(props){
                 onPressFunc={handleSubmit(onSubmit)}
             />
 
-            <Pressable
+            <TouchableOpacity
                 onPress={displayRecover}
             >
                 <Text style={[styles.text, styles.pressText]}>Olvidé mi contraseña</Text>
-            </Pressable>
+            </TouchableOpacity>
             <View style={styles.hr} />
 
             <ActionBtn
@@ -153,14 +153,14 @@ function Login(props){
                 onPressFunc={() => {props.navigation.navigate('Datos Cuenta');}}
             />
 
-            
-            {(display && <TopAlert 
+        {display &&
+            <CustomModal 
                 onAcceptFunc={recoverPassword}
                 onCancelFunc={displayRecover}
                 text={"Ingresa la boleta con la que te registraste:"}
                 input={true}
-            />)}
-
+            />
+        }
         </ScrollView>
     );
 }//Login
