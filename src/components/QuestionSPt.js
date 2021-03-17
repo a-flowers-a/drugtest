@@ -1,24 +1,11 @@
 import React, { useState } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, Platform } from "react-native";
+import { Text, View, StyleSheet, Platform } from "react-native";
 import { TextInput } from 'react-native-gesture-handler';
+import ActionBtn from '../components/ActionBtn';
 
 function QuestionSPt(props){
 
     const styles = StyleSheet.create({
-        btnText: {
-            color: "#f5f4f4",
-            fontSize: 18,
-        },
-        button: {
-            alignItems: "center",
-            borderColor: "blue",
-            borderStyle: "solid",
-            borderWidth: 1,
-            height: 50,
-            marginVertical: 10,
-            padding: 10,
-            width: 300
-        },
         container: {
             alignItems: "center",
         },
@@ -62,21 +49,17 @@ function QuestionSPt(props){
             </View>
             
             {!txtInput && (
-                <TouchableOpacity
-                style={styles.button}
-                onPress={() => onPressFunc(substanceIndex,true)}
-                >
-                    <Text style={styles.btnText}>Sí</Text>
-                </TouchableOpacity>
+                <ActionBtn 
+                    btnText={"Sí"}
+                    onPressFunc={() => onPressFunc(substanceIndex,true)}
+                />
             )}
 
             {!txtInput && (
-                <TouchableOpacity
-                style={styles.button}
-                onPress={() => onPressFunc(substanceIndex,false)}
-                >
-                    <Text style={styles.btnText}>No</Text>
-                </TouchableOpacity>
+                <ActionBtn 
+                    btnText={"No"}
+                    onPressFunc={() => onPressFunc(substanceIndex,false)}
+                />
             )}
 
             {txtInput && (
@@ -90,13 +73,10 @@ function QuestionSPt(props){
                         onChangeText={text => onChangeText(text)}
                         value={textValue}
                     />
-
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => onPressFunc(substanceIndex,textValue)}
-                        >
-                            <Text style={styles.btnText}>Siguiente</Text>
-                    </TouchableOpacity>
+                    <ActionBtn 
+                        btnText={"Siguiente"}
+                        onPressFunc={() => onPressFunc(substanceIndex,textValue)}
+                    />
                 </View>
             )}
 
