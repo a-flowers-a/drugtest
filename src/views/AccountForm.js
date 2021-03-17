@@ -6,7 +6,7 @@ import RadioBtn from '../components/RadioBtn';
 import ActionBtn from '../components/ActionBtn';
 import { postRequest } from '../utils/HttpRequest';
 import {OkAlert} from '../components/CustomAlerts';
-
+import {store} from '../utils/storage';
 
 function AccountForm(props){
     const {create} = props.route.params;
@@ -65,13 +65,12 @@ function AccountForm(props){
         console.log(finalData);
         const url = "http:localhost:3030/student/sign-up";
         postRequest(url, finalData)
-        .then(result => {
+        .then(async result => {
             if (result.success)
-            {                    
-                /*let aTitle = ;
-                if(!result.new)
-                    aTitle = ;*/
-                
+            {        
+                const stored = await store("user",result.name);
+                if(!stored)
+                    OkAlert({title: "Error", message: "No se pudo guardar sesión, tendrás que iniciar nuevamente al cerrar la aplicación"});            
                 OkAlert(
                     {
                         title: result.new ? "Registro exitoso" : "Boleta ya registrada", 

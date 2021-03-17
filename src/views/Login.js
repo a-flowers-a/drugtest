@@ -21,11 +21,8 @@ function Login(props){
             {
                 const stored = await store("user",result.name);
                 if(!stored)
-                {
-                    OkAlert({title: "Error", message: "No se pudo guardar sesión, tendrás que iniciar nuevamente al cerrar la aplicación"},
-                        () => {}
-                    );
-                }
+                    OkAlert({title: "Error", message: "No se pudo guardar sesión, tendrás que iniciar nuevamente al cerrar la aplicación"});
+                
                 OkAlert({title: "Bienvenido", message: result.name},
                     () => {props.navigation.navigate('Home');}
                 );
@@ -39,8 +36,7 @@ function Login(props){
                 else if(result.notFound)
                     aMessage = "Usuario no registrado";
 
-                OkAlert({title:"Error", message: aMessage },
-                        () => {});
+                OkAlert({title:"Error", message: aMessage });
             }
         })
         .catch(err => {

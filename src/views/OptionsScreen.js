@@ -76,11 +76,8 @@ function HomeScreen(props) {
                             if(removed)
                                 props.navigation.navigate('Home');
                             else
-                                OkAlert({title: "Error", message: "No se ha podido cerrar sesión, inténtalo nuevamente"},
-                                    () => {}
-                                );
-                        },
-                        () => {}
+                                OkAlert({title: "Error", message: "No se ha podido cerrar sesión, inténtalo nuevamente"});
+                        }
                     );
                 }}
                 style={[styles.row, styles.optionContainer]}

@@ -1,6 +1,7 @@
 import { Alert } from "react-native";
 
 export const OkAlert = (data, onOk) => {
+  const okFunc = onOk || (() =>{});
     return(
         Alert.alert(
             data.title,
@@ -11,7 +12,7 @@ export const OkAlert = (data, onOk) => {
                 onPress: () => console.log("Cancel Pressed"),
                 style: "cancel"
               },*/
-              { text: "OK", onPress: () => onOk() }
+              { text: "OK", onPress: () => okFunc() }//onOK()
             ],
             { cancelable: false }
           )
@@ -19,7 +20,8 @@ export const OkAlert = (data, onOk) => {
 }//OkAlert
 
 export const OkCancelAlert = (data, onOk, onCancel) => {
-  console.log(onCancel);
+  const okFunc = onOk || (() =>{});
+  const cancelFunc = onCancel || (() =>{});
   return(
       Alert.alert(
           data.title,
@@ -27,10 +29,10 @@ export const OkCancelAlert = (data, onOk, onCancel) => {
           [
             {
               text: "Cancel",
-              onPress: () => onCancel(),
+              onPress: () => cancelFunc(),
               style: "cancel"
             },
-            { text: "OK", onPress: () => onOk() }
+            { text: "OK", onPress: () => okFunc() }
           ],
           { cancelable: false }
         )
