@@ -6,24 +6,33 @@ import ActionBtn from '../components/ActionBtn';
 import CustomModal from '../components/CustomModal';
 import { postRequest } from '../utils/HttpRequest';
 import {OkAlert} from '../components/CustomAlerts';
+import {store} from '../utils/storage';
 
 function Login(props){
 
     const { control, handleSubmit, errors } = useForm();
     const [display, setDisplay] = useState(false);
-    
-    const onSubmit = data => {
+
+    const onSubmit = async data => {
         const url = "http:localhost:3030/student/log-in";
         postRequest(url, data)
-        .then(result => {
+        .then(async result => {
             if (result.success)
             {
-                OkAlert({title: "Bienvenido", message: result.message||result.name},
+                const stored = await store("user",result.name);
+                if(!stored)
+                {
+                    OkAlert({title: "Error", message: "No se pudo guardar sesión, tendrás que iniciar nuevamente al cerrar la aplicación"},
+                        () => {}
+                    );
+                }
+                OkAlert({title: "Bienvenido", message: result.name},
                     () => {props.navigation.navigate('Home');}
                 );
             }
             else
             {
+                succesful = false;
                 let aMessage = "No se puede iniciar sesión en este momento.";
                 if(result.wrongPass)
                     aMessage = "Datos incorrectos";
@@ -150,7 +159,7 @@ function Login(props){
 
             <ActionBtn
                 btnText={"Crear Cuenta"}
-                onPressFunc={() => {props.navigation.navigate('Datos Cuenta');}}
+                onPressFunc={() => {props.navigation.navigate('Datos Cuenta',{create:true});}}
             />
 
         {display &&

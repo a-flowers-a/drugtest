@@ -43,6 +43,8 @@ A Nuevo CustomAlert (con cancel)
 A Separar Login y SignUp views
 A Añadir campos de turno y semstre para cuenta
 A darle estilos a view opciones y cambiar botones por opacity
+A Storage dentro de la app
+A sesión en storage
 
 Server:
 A Creación de aplicación con node

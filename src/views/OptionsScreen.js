@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import { OkCancelAlert } from '../components/CustomAlerts';
+import { OkAlert, OkCancelAlert } from '../components/CustomAlerts';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCloud, faComment, faCommentDots, faEraser, faMinus, faMinusCircle, faMinusSquare, faPen, faPencilAlt, faPenFancy, faPowerOff, faQuestion, faTrash, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { remove } from '../utils/storage';
+import {get} from '../utils/storage';
 
 
 function HomeScreen(props) {
@@ -39,11 +41,23 @@ function HomeScreen(props) {
             marginBottom: 30,
         },
     });
+    const [userName, setUserName] = useState("Nombre Alumno");
 
-    function navigateTo(screenOption){
-        props.navigation.navigate(screenOption);
+    function navigateTo(screenOption, paramts){
+        props.navigation.navigate(screenOption, paramts);
     }//navigateTo
 
+    async function getName(){
+        const name = await get("user");
+        if(name === null)
+            console.log(name);
+        else
+            setUserName(name);
+    }//
+
+    useEffect(() =>{
+        getName();
+    }, []);
     return (
         <ScrollView style={styles.container}>
             <View style={[styles.row, styles.titleContainer]}>
@@ -52,12 +66,20 @@ function HomeScreen(props) {
                     style={styles.icon}
                     size={40}
                 />
-                <Text style={[styles.text, styles.title]}>Nombre Alumno</Text>
+                <Text style={[styles.text, styles.title]}>{userName}</Text>
             </View>
             <TouchableOpacity
                 onPress={() => {
                     OkCancelAlert({title: "Log Out", message: "¿Quieres cerrar sesión?"},
-                        () => {props.navigation.navigate('Home');},
+                        async () => {
+                            const removed = await remove("user");
+                            if(removed)
+                                props.navigation.navigate('Home');
+                            else
+                                OkAlert({title: "Error", message: "No se ha podido cerrar sesión, inténtalo nuevamente"},
+                                    () => {}
+                                );
+                        },
                         () => {}
                     );
                 }}
@@ -71,7 +93,7 @@ function HomeScreen(props) {
                 <Text style={[styles.text]}>Cerrar Sesión</Text>
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={() => {navigateTo('Datos Cuenta');}}
+                onPress={() => {navigateTo('Datos Cuenta', {create:false});}}
                 style={[styles.row, styles.optionContainer]}
             >
                 <FontAwesomeIcon

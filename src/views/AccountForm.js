@@ -9,6 +9,8 @@ import {OkAlert} from '../components/CustomAlerts';
 
 
 function AccountForm(props){
+    const {create} = props.route.params;
+    
     const styles = StyleSheet.create({
         container: {
             backgroundColor: "#120078",/*120078 */
@@ -46,7 +48,6 @@ function AccountForm(props){
         row:{
             flexDirection: "row",
             justifyContent: "center",
-            marginTop: 5,
         },
         text: {
             color: "#f5f4f4",
@@ -168,18 +169,20 @@ function AccountForm(props){
                 />
                 {errors.email && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
             </View>
-            
-            <View style={styles.row}>
-                <RadioBtn 
-                    name="Hombre"
-                    selected={sex}
-                    onPressFunc={handleRadios}
-                />
-                <RadioBtn 
-                    name="Mujer"
-                    selected={!sex}
-                    onPressFunc={handleRadios}
-                />
+            <View>
+                <Text style={styles.text}>Sexo</Text>
+                <View style={styles.row}>
+                    <RadioBtn 
+                        name="Hombre"
+                        selected={sex}
+                        onPressFunc={handleRadios}
+                    />
+                    <RadioBtn 
+                        name="Mujer"
+                        selected={!sex}
+                        onPressFunc={handleRadios}
+                    />
+                </View>
             </View>
 
             <View>
@@ -239,7 +242,7 @@ function AccountForm(props){
                 {errors.password && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
             </View>
             <ActionBtn
-                btnText={"Crear Cuenta"}
+                btnText={create ? "Crear cuenta" : "Actualizar datos"}
                 onPressFunc={handleSubmit(onSubmit)}
             />
 
