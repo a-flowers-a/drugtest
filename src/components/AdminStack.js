@@ -17,7 +17,7 @@ const AdminStack = () =>{
             }}
         >
             <Stack.Screen 
-                name="Stats" 
+                name="Estadísticas" 
                 component={StatsScreen}
             />
 

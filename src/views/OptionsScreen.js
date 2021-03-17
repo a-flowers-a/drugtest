@@ -74,7 +74,7 @@ function HomeScreen(props) {
                         async () => {
                             const removed = await remove("user");
                             if(removed)
-                                props.navigation.navigate('Home');
+                                props.navigation.navigate('Inicio');
                             else
                                 OkAlert({title: "Error", message: "No se ha podido cerrar sesión, inténtalo nuevamente"});
                         }
@@ -112,7 +112,7 @@ function HomeScreen(props) {
                 <Text style={[styles.text]}>Eliminar Cuenta</Text>
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={() => {navigateTo('WhatWeDo');}}
+                onPress={() => {navigateTo('Qué hacemos');}}
                 style={[styles.row, styles.optionContainer]}
             >
                 <FontAwesomeIcon
