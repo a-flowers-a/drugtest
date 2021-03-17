@@ -12,13 +12,23 @@ function FinishBtn(props){
         },
         button: {
             alignItems: "center",
-            borderColor: "blue",
+            backgroundColor: "#0d0cb5", //0028ff 0d0cb5 0900c3 3e64ff 342ead 0779e4 sombra 
+            borderColor: "#0d0cb5",
+            borderRadius: 10,
             borderStyle: "solid",
             borderWidth: 1,
             height: 50,
             marginVertical: 10,
             padding: 10,
-            width: 300
+            width: 300,
+            shadowColor: "#b0deff",//5edfff 010a43 000
+            shadowOffset: {
+                width: 0,
+                height: 2,
+            },
+            shadowOpacity: 0.23,
+            shadowRadius: 2.62,
+            elevation: 4,
         },
         container: {
             alignItems: "center",

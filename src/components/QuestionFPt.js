@@ -1,23 +1,10 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
+import ActionBtn from '../components/ActionBtn';
 
 function QuestionFPt(props){
 
     const styles = StyleSheet.create({
-        btnText: {
-            color: "#f5f4f4",
-            fontSize: 18,
-        },
-        button: {
-            alignItems: "center",
-            borderColor: "blue",
-            borderStyle: "solid",
-            borderWidth: 1,
-            height: 50,
-            marginVertical: 10,
-            padding: 10,
-            width: 300
-        },
         container: {
             alignItems: "center",
         },
@@ -43,40 +30,26 @@ function QuestionFPt(props){
                 <Text style={styles.qText}>{props.question}</Text>
             </View>
             
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => props.onPressFunc(props.questIndex, 4)}
-            >
-                <Text style={styles.btnText}>Diario o casi diario</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => props.onPressFunc(props.questIndex, 3)}
-            >
-                <Text style={styles.btnText}>Semanal</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => props.onPressFunc(props.questIndex, 2)}
-            >
-                <Text style={styles.btnText}>Mensual</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => props.onPressFunc(props.questIndex, 1)}
-            >
-                <Text style={styles.btnText}>Menos que mensual</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => props.onPressFunc(props.questIndex, 0)}
-            >
-                <Text style={styles.btnText}>Nunca</Text>
-            </TouchableOpacity>
+            <ActionBtn 
+                btnText={"Diario o casi diario"}
+                onPressFunc={() => props.onPressFunc(props.questIndex, 4)}
+            />
+            <ActionBtn 
+                btnText={"Semanal"}
+                onPressFunc={() => props.onPressFunc(props.questIndex, 3)}
+            />
+            <ActionBtn 
+                btnText={"Mensual"}
+                onPressFunc={() => props.onPressFunc(props.questIndex, 2)}
+            />
+            <ActionBtn 
+                btnText={"Menos que mensual"}
+                onPressFunc={() => props.onPressFunc(props.questIndex, 1)}
+            />
+            <ActionBtn 
+                btnText={"Nunca"}
+                onPressFunc={() => props.onPressFunc(props.questIndex, 0)}
+            />
         </View>
     );
 }//QuestionFPt
