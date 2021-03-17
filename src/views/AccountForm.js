@@ -7,6 +7,7 @@ import ActionBtn from '../components/ActionBtn';
 import { postRequest } from '../utils/HttpRequest';
 import {OkAlert} from '../components/CustomAlerts';
 import {store} from '../utils/storage';
+import Loading from '../components/Loading';
 
 function AccountForm(props){
     const {create} = props.route.params;
@@ -59,16 +60,19 @@ function AccountForm(props){
     const [sex, setSex] = useState(true);
     const [shift, setShift] = useState(true);
     const { control, handleSubmit, errors } = useForm();
+    const [loading, setLoading] = useState(false);
 
     const onSubmit = data => {
+        setLoading(true);
         const finalData = {...data, sex, shift};
         console.log(finalData);
         const url = "http:localhost:3030/student/sign-up";
         postRequest(url, finalData)
         .then(async result => {
+            setLoading(false);
             if (result.success)
             {        
-                const stored = await store("user",result.name);
+                const stored = await store("user",result.data.name);
                 if(!stored)
                     OkAlert({title: "Error", message: "No se pudo guardar sesión, tendrás que iniciar nuevamente al cerrar la aplicación"});            
                 OkAlert(
@@ -109,6 +113,7 @@ function AccountForm(props){
 
     return(
         <ScrollView style={styles.container}>
+            {loading && <Loading/>}
             <View>
                 <Text style={styles.text}>Nombre</Text>
                 <Controller

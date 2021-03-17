@@ -7,6 +7,7 @@ import {postRequest} from '../utils/HttpRequest';
 import QuestionFPt from '../components/QuestionFPt';
 import QuestionSPt from '../components/QuestionSPt';
 import questionsII from '../res/questionsII';
+import Loading from '../components/Loading';
 
 function QuestScreen(props) {
 
@@ -48,6 +49,8 @@ function QuestScreen(props) {
         submit: false,
         setTapsII: false
     });
+
+    const [loading, setLoading] = useState(false);
 
     /*  Receives: index of the question (1-4 questions),
             index of the tapped button (0-4) consume frequency
@@ -190,6 +193,7 @@ function QuestScreen(props) {
 
 
     async function submitAnswers() {
+        setLoading(true);
         console.log("answ2", answPt2);
         //console.log("other", other);
         const url = "http:localhost:3030/analysis/save-quest-answers";
@@ -200,6 +204,7 @@ function QuestScreen(props) {
         };
         postRequest(url,data)
         .then(result => {
+            setLoading(false);
             console.log("result de postReq", result);
             if (result.success) {
                 props.navigation.navigate('Home');
@@ -228,6 +233,7 @@ function QuestScreen(props) {
 
     return (
         <ScrollView style={styles.container}>
+            {loading && <Loading />}
             {display.part1 &&
                 <QuestionFPt
                     onPressFunc={handleFAnswers}

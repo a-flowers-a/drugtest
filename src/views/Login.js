@@ -7,16 +7,20 @@ import CustomModal from '../components/CustomModal';
 import { postRequest } from '../utils/HttpRequest';
 import {OkAlert} from '../components/CustomAlerts';
 import {store} from '../utils/storage';
+import Loading from '../components/Loading';
 
 function Login(props){
 
     const { control, handleSubmit, errors } = useForm();
     const [display, setDisplay] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const onSubmit = async data => {
+        setLoading(true);
         const url = "http:localhost:3030/student/log-in";
         postRequest(url, data)
         .then(async result => {
+            setLoading(false);
             if (result.success)
             {
                 const stored = await store("user",result.name);
@@ -102,6 +106,7 @@ function Login(props){
     });
     return(
         <ScrollView style={styles.container}>
+            {loading && <Loading />}
             <View>
                 <Text style={styles.text}>Boleta</Text>
                 <Controller

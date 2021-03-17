@@ -45,6 +45,7 @@ A Añadir campos de turno y semstre para cuenta
 A darle estilos a view opciones y cambiar botones por opacity
 A Storage dentro de la app
 A sesión en storage
+A componente Loading e inserción en login, signup, sendQuestionaire y sendStats
 
 Server:
 A Creación de aplicación con node
