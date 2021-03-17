@@ -7,7 +7,7 @@ import * as Progress from 'react-native-progress';
 import ActionBtn from '../components/ActionBtn';
 import TableChat from '../components/TableChat';
 
-function ResultScreen() {
+function ResultScreen(props) {
     const styles = StyleSheet.create({
         container: {
             backgroundColor: "#120078",/*120078 */
@@ -37,10 +37,9 @@ function ResultScreen() {
         },
     });
 
-    function sendToContacts() {
-        //must be the name that's in Stack.Screen
-        //props.navigation.navigate('Questionaire');
-    }//sendToContacts
+    function navigateTo(screenOption){
+        props.navigation.navigate(screenOption);
+    }//navigateTo
 
     return (
         <ScrollView
@@ -89,8 +88,8 @@ function ResultScreen() {
             </View>
 
             <ActionBtn
-                btnText={"Ver contactos de apoyo"}
-                onPressFunc={sendToContacts}
+                btnText={"Ver Contactos de apoyo"}
+                onPressFunc={() => navigateTo('Contacts')}
             />
                    
         </ScrollView>

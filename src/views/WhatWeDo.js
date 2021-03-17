@@ -12,7 +12,7 @@ function HomeScreen() {
         text:{
             color: "#f5f4f4",
             fontSize: 20,
-            textAlign: "left",
+            textAlign: "justify" ,
             padding: 20,
         },
     });
