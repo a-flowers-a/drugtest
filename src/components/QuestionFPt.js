@@ -23,7 +23,9 @@ function QuestionFPt(props){
         },
     });
 
-    
+    //run to save the values
+    const {toSave} = props;
+    toSave();
     return (
         <View style={styles.container}>
             <View style={styles.textContainer}>

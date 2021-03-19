@@ -222,25 +222,23 @@ function QuestScreen(props) {
     async function getStorageVals(){
         console.log( await getAllKeys());
         console.log();
-        const dspJSON = await get("display");
-        if(dspJSON!==null)
-        {
-            console.log("en display", JSON.parse(dspJSON));
-            setDisplay(JSON.parse(dspJSON));
-        }
         const fqNJSON = await get("fstQNum");
         if(fqNJSON!==null)
         {
             console.log("en fstQNum", JSON.parse(fqNJSON));
             setFstQNum(JSON.parse(fqNJSON));
         }
-        else
-            console.log("no se encontro fstQNum");
         const ans1JSON = await get("answPt1");
         if(ans1JSON!==null)
         {
             console.log("en answPt1", JSON.parse(ans1JSON));
             setAnswPt1(JSON.parse(ans1JSON));
+        }
+        const subsQstInNJSON = await get("subQstIndex");
+        if(subsQstInNJSON!==null)
+        {
+            console.log("en subQstIndex", JSON.parse(subsQstInNJSON));
+            setSecQNum(JSON.parse(subsQstInNJSON));
         }
         const sqNJSON = await get("secQNum");
         if(sqNJSON!==null)
@@ -248,32 +246,50 @@ function QuestScreen(props) {
             console.log("en secQNum", JSON.parse(sqNJSON));
             setSecQNum(JSON.parse(sqNJSON));
         }
+        const subsIxToDispJSON = await get("subsIndxToDspl");
+        if(subsIxToDispJSON!==null)
+        {
+            console.log("en subsIndxToDspl", JSON.parse(subsIxToDispJSON));
+            setSubsIndxToDspl(JSON.parse(subsIxToDispJSON));
+        }
         const ans2JSON = await get("answPt2");
         if(ans2JSON!==null)
         {
             console.log("en answPt2", JSON.parse(ans2JSON));
             setAnswPt2(JSON.parse(ans2JSON));
         }
+        const dspJSON = await get("display");
+        if(dspJSON!==null)
+        {
+            console.log("en display", JSON.parse(dspJSON));
+            setDisplay(JSON.parse(dspJSON));
+        }
+        
     }//getStorageVals
 
     async function saver(){
         if(!display.submit && fstQNum!==0)
         {
-            const stDisp = await store("display",JSON.stringify(display));
-            if(!stDisp)
-                console.log("cant store display");
             const stFqN = await store("fstQNum",fstQNum.toString());
             if(!stFqN)
                 console.log("cant store fstQNum");
             const stAns1 = await store("answPt1",JSON.stringify(answPt1));
             if(!stAns1)
                 console.log("cant store answPt1");
+            console.log("el secQNum a guardar", secQNum);
             const stSqN = await store("secQNum",secQNum.toString());
             if(!stSqN)
                 console.log("cant store secQNum");
             const stAns2 = await store("answPt2",JSON.stringify(answPt2));
             if(!stAns2)
                 console.log("cant store answPt2");
+            const stSubQstIndex = await store("subQstIndex",JSON.stringify(subQstIndex));
+            if(!stSubQstIndex)
+                console.log("cant store subQstIndex");
+            console.log("all saved");
+            const stSubInToDspl = await store("subsIndxToDspl",JSON.stringify(subsIndxToDspl));
+            if(!stSubInToDspl)
+                console.log("cant store subsIndxToDspl");
             console.log("all saved");
         }
     }//saver
@@ -289,8 +305,6 @@ function QuestScreen(props) {
         });
         setTapsIIQst();
     }
-    //save display, answers and questionNumber
-    saver();
 
     async function deleteAll(){
         await remove("display");
@@ -298,6 +312,8 @@ function QuestScreen(props) {
         await remove("answPt1");
         await remove("secQNum");
         await remove("answPt2");
+        await remove("subsIndxToDspl");
+        await remove("subQstIndex");
     }
     useEffect(()=>{
         console.log("useEffect called");
@@ -312,6 +328,8 @@ function QuestScreen(props) {
             {display.part1 &&
                 <QuestionFPt
                     onPressFunc={handleFAnswers}
+                    /*save display, answers and questionNumber */
+                    toSave={saver}
                     questIndex={fstQNum}
                     question={fPtQuestions[fstQNum]}
                 />
@@ -319,6 +337,8 @@ function QuestScreen(props) {
             {display.part2 &&
                 <QuestionSPt
                     onPressFunc={handleSAnswers}
+                    /*save display, answers and questionNumber */
+                    toSave={saver}
                     substanceIndex = {subsIndxToDspl[secQNum]}
                     question={questionsII[subsIndxToDspl[secQNum]][subQstIndex]}
                     txtInput={(subsIndxToDspl[secQNum]==2 && subQstIndex==10) && true}

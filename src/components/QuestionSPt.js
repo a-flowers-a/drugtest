@@ -39,8 +39,10 @@ function QuestionSPt(props){
         },
     });
 
-    const {question, onPressFunc, substanceIndex, txtInput} = props;
+    const {question, onPressFunc, substanceIndex, txtInput, toSave} = props;
     const [textValue, onChangeText] = useState("");
+    //run to save the values
+    toSave();
 
     return (
         <View style={styles.container}>
