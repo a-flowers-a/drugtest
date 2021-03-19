@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet } from "react-native";
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -8,6 +8,7 @@ import QuestionFPt from '../components/QuestionFPt';
 import QuestionSPt from '../components/QuestionSPt';
 import questionsII from '../res/questionsII';
 import Loading from '../components/Loading';
+import { get, getAllKeys, remove, store } from '../utils/storage';
 
 function QuestScreen(props) {
 
@@ -35,8 +36,7 @@ function QuestScreen(props) {
     every re render is reinitialized to 0*/
     const [answPt1, setAnswPt1] = useState(new Array(4).fill(0));
     const [answPt2, setAnswPt2] = useState(new Array(9).fill(0));
-    const [other, setOther] = useState("");//check if it could fit in array answPt2
-
+    
     const [fstQNum, setFstQNum] = useState(0);
     const [secQNum, setSecQNum] = useState(0);
     const [subQstIndex, setSubQIndex] = useState(0);
@@ -219,6 +219,65 @@ function QuestScreen(props) {
 
     }//submitAnswers
 
+    async function getStorageVals(){
+        console.log( await getAllKeys());
+        console.log();
+        const dspJSON = await get("display");
+        if(dspJSON!==null)
+        {
+            console.log("en display", JSON.parse(dspJSON));
+            setDisplay(JSON.parse(dspJSON));
+        }
+        const fqNJSON = await get("fstQNum");
+        if(fqNJSON!==null)
+        {
+            console.log("en fstQNum", JSON.parse(fqNJSON));
+            setFstQNum(JSON.parse(fqNJSON));
+        }
+        else
+            console.log("no se encontro fstQNum");
+        const ans1JSON = await get("answPt1");
+        if(ans1JSON!==null)
+        {
+            console.log("en answPt1", JSON.parse(ans1JSON));
+            setAnswPt1(JSON.parse(ans1JSON));
+        }
+        const sqNJSON = await get("secQNum");
+        if(sqNJSON!==null)
+        {
+            console.log("en secQNum", JSON.parse(sqNJSON));
+            setSecQNum(JSON.parse(sqNJSON));
+        }
+        const ans2JSON = await get("answPt2");
+        if(ans2JSON!==null)
+        {
+            console.log("en answPt2", JSON.parse(ans2JSON));
+            setAnswPt2(JSON.parse(ans2JSON));
+        }
+    }//getStorageVals
+
+    async function saver(){
+        if(!display.submit && fstQNum!==0)
+        {
+            const stDisp = await store("display",JSON.stringify(display));
+            if(!stDisp)
+                console.log("cant store display");
+            const stFqN = await store("fstQNum",fstQNum.toString());
+            if(!stFqN)
+                console.log("cant store fstQNum");
+            const stAns1 = await store("answPt1",JSON.stringify(answPt1));
+            if(!stAns1)
+                console.log("cant store answPt1");
+            const stSqN = await store("secQNum",secQNum.toString());
+            if(!stSqN)
+                console.log("cant store secQNum");
+            const stAns2 = await store("answPt2",JSON.stringify(answPt2));
+            if(!stAns2)
+                console.log("cant store answPt2");
+            console.log("all saved");
+        }
+    }//saver
+
     if(!display.part1 && !display.part2 && !display.submit && !display.setTapsII)
     {
         console.log("tapsII funct triggered");
@@ -230,6 +289,22 @@ function QuestScreen(props) {
         });
         setTapsIIQst();
     }
+    //save display, answers and questionNumber
+    saver();
+
+    async function deleteAll(){
+        await remove("display");
+        await remove("fstQNum");
+        await remove("answPt1");
+        await remove("secQNum");
+        await remove("answPt2");
+    }
+    useEffect(()=>{
+        console.log("useEffect called");
+        //Get all the stored values
+        //deleteAll();
+        getStorageVals();
+    },[]);
 
     return (
         <ScrollView style={styles.container}>
