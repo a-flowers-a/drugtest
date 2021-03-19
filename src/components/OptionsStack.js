@@ -18,11 +18,11 @@ const OptionsStack = () =>{
             }}
         >
             <Stack.Screen 
-                name="Opciones" 
+                name="Options" 
                 component={OptionsScreen}
             />
             <Stack.Screen 
-                name="Qué hacemos" 
+                name="WhatWeDo" 
                 component={WhatWeDo}
             />
 

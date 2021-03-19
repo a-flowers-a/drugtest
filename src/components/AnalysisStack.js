@@ -23,16 +23,16 @@ const AnalysisStack = () =>{
             }}
         >
             <Stack.Screen 
-                name="Inicio" 
+                name="Home" 
                 component={HomeScreen}
             />
             
             <Stack.Screen 
-                name="Cuestionario" 
+                name="Questionaire" 
                 component={QuestScreen}
             />
             <Stack.Screen 
-                name="Resultado" 
+                name="Result" 
                 component={ResultScreen}
             />
             <Stack.Screen 
@@ -44,11 +44,11 @@ const AnalysisStack = () =>{
                 component={AccountForm}
             />
             <Stack.Screen 
-                name="Contactos" 
+                name="Contacts" 
                 component={ContactsScreen}
             />
             <Stack.Screen 
-                name="Resultados Anteriores" 
+                name="PrevResults" 
                 component={PrevResultsScreen}
             />
 

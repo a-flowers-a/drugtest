@@ -26,11 +26,11 @@ function HomeScreen(props) {
         <ScrollView style={styles.container}>
             <ActionBtn
                 btnText={"Realizar Cuestionario"}
-                onPressFunc={() => navigateTo('Cuestionario')}
+                onPressFunc={() => navigateTo('Questionaire')}
             />
             <ActionBtn
                 btnText={"Mostrar Resultado"}
-                onPressFunc={() => navigateTo('Resultado')}
+                onPressFunc={() => navigateTo('Result')}
             />
             <ActionBtn
                 btnText={"Login"}
@@ -38,11 +38,11 @@ function HomeScreen(props) {
             />
             <ActionBtn
                 btnText={"Ver Contactos de apoyo"}
-                onPressFunc={() => navigateTo('Contactos')}
+                onPressFunc={() => navigateTo('Contacts')}
             />
             <ActionBtn
                 btnText={"Ver resultados anteriores"}
-                onPressFunc={() => navigateTo('Resultados Anteriores')}
+                onPressFunc={() => navigateTo('PrevResults')}
             />
             
         </ScrollView>
