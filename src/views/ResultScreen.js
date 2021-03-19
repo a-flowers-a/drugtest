@@ -89,7 +89,7 @@ function ResultScreen(props) {
 
             <ActionBtn
                 btnText={"Ver Contactos de apoyo"}
-                onPressFunc={() => navigateTo('Contacts')}
+                onPressFunc={() => navigateTo('Contactos')}
             />
                    
         </ScrollView>
