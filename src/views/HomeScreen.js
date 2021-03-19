@@ -18,8 +18,9 @@ function HomeScreen(props) {
 
     async function test(){
         const name = await get("user");
-        console.log("el name",name);
+        console.log(name);
     }//
+
     test();
 
     return (

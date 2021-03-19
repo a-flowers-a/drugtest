@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet } from "react-native";
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -8,10 +8,6 @@ import QuestionFPt from '../components/QuestionFPt';
 import QuestionSPt from '../components/QuestionSPt';
 import questionsII from '../res/questionsII';
 import Loading from '../components/Loading';
-import { get, store, remove} from '../utils/storage';
-
-THE PROBLEM IS WHEN THE FQNUMBER IS TRYING TO ADD ONE, IT IS KIND OF UNDEFINED BY
-THAT MOMENT
 
 function QuestScreen(props) {
 
@@ -35,12 +31,12 @@ function QuestScreen(props) {
         "4. En los últimos 12 meses, ¿con qué frecuencia ha utilizado cualquier medicamento recetado sólo para la sensación, más de lo prescrito o que no se prescribieron para usted? Los medicamentos recetados que se pueden utilizar a su manera incluyen: Analgésicos opiáceos (por ejemplo, OxyContin, Vicodin, Percocet, Metadona). Medicamentos para la ansiedad o el sueño (por ejemplo, Xanax, Ativan, Klonopin) Medicamentos para el Trastorno de Déficit de Atención e Hiperactividad (por ejemplo, Adderall o Ritalin)."
     ];
 
-
     /*if they do not have state, since it needs to be initialized with 0,
     every re render is reinitialized to 0*/
     const [answPt1, setAnswPt1] = useState(new Array(4).fill(0));
     const [answPt2, setAnswPt2] = useState(new Array(9).fill(0));
-    
+    const [other, setOther] = useState("");//check if it could fit in array answPt2
+
     const [fstQNum, setFstQNum] = useState(0);
     const [secQNum, setSecQNum] = useState(0);
     const [subQstIndex, setSubQIndex] = useState(0);
@@ -55,26 +51,20 @@ function QuestScreen(props) {
     });
 
     const [loading, setLoading] = useState(false);
-    console.log("fstQNum", fstQNum);
+
     /*  Receives: index of the question (1-4 questions),
             index of the tapped button (0-4) consume frequency
         Set the answer values for each question
-        Save the array and the number in storage everytime it is called
     */
     function handleFAnswers(question, answer) {
-        setAnswPt1(async prevValues => {
+        //console.log("q# " + question + " answ " + answer);
+        setAnswPt1(prevValues => {
             prevValues[question] = answer;
-            const aGuardar = JSON.stringify({answ:prevValues});
-            console.log("los valores a guardar", aGuardar);
-            const stored = await store("fpAnswers",aGuardar);
-            if(!stored)
-                console.log("couldnt save array of answ1");
             return prevValues;
         });
-        setFstQNum(async prevQNumber => {
-            let number = 0;
+        setFstQNum(prevQNumber => {
             if (prevQNumber < 3)
-                number = prevQNumber += 1;
+                return prevQNumber += 1;
             else
             {
                 setDisplay(prevValue => {
@@ -83,19 +73,11 @@ function QuestScreen(props) {
                         part1: false
                     }
                 });//setDisplay
-                number = 3;
+                return 3;
             }
-            const stored = await store("fqNumber",number.toString());
-            if(!stored)
-                console.log("couldnt save number of fq");
-            console.log("nextFQ", number);
-            return number;
         });
     }//handleFAnswers
 
-    /* 
-        Save it in storage, everytime it is called
-    */
     function handleSAnswers(subsIndex, answer) {
         //positive answer
         if (answer) {
@@ -111,21 +93,17 @@ function QuestScreen(props) {
             
             if(subQstIndex == 10)
             {
-                setAnswPt2(async prevValues => {
+                //setOther(answer);//answer
+                setAnswPt2(prevValues => {
                     prevValues[8] = answer;
-                    const stored = await store("spAnswers",JSON.stringify({answ:prevValues}));
-                    if(!stored)
-                        console.log("couldnt save array of answ2");
                     return prevValues;
                 });
+
             }
             else if(subQstIndex != 9)
             {
-                setAnswPt2(async prevValues => {
+                setAnswPt2(prevValues => {
                     prevValues[indexSecAnswers] += 1;
-                    const stored = await store("spAnswers",JSON.stringify({answ:prevValues}));
-                    if(!stored)
-                        console.log("couldnt save array of answ2");
                     return prevValues;
                 });
             }
@@ -163,13 +141,7 @@ function QuestScreen(props) {
         }
         else
         {
-            setSecQNum(async prevQstIn => {
-                const nNum = prevQstIn += 1;
-                const stored = await store("sqNumber", nNum.toString());
-                if(!stored)
-                    console.log("couldnt save num of sq");
-                return nNum;
-            });
+            setSecQNum(prevQstIn => prevQstIn += 1);
             setSubQIndex(0);
         }
     }//nextIndexQst
@@ -219,7 +191,7 @@ function QuestScreen(props) {
         }
     }//setTapsIIQst
 
-    /*remove all the questionnaire stuff storage */
+
     async function submitAnswers() {
         setLoading(true);
         console.log("answ2", answPt2);
@@ -231,17 +203,10 @@ function QuestScreen(props) {
             password: 123,
         };
         postRequest(url,data)
-        .then(async result => {
+        .then(result => {
             setLoading(false);
             console.log("result de postReq", result);
-            if (result.success)
-            {
-                const remFpAnsw = await remove("fpAnswers");
-                const remSpAnsw = await remove("spAnswers");
-                const remFqNum = await remove("fqNumber");
-                const remSqNum = await remove("sqNumber");
-                if(!remFpAnsw || !remSpAnsw || !remFqNum || !remSqNum)
-                    console.log("one wasnt removed");
+            if (result.success) {
                 props.navigation.navigate('Home');
             }
             else {
@@ -266,61 +231,9 @@ function QuestScreen(props) {
         setTapsIIQst();
     }
 
-    /*
-        Get from storage the values of the question that is next to be shown (askeed)
-        Aswell as the answers
-        If the values dont exist, the initial value in useState(),
-        will be 0 for the number of the question and the empty arrays for the answer
-    */
-    async function qstsFromStorage(){
-        const fpAnsw = await get("fpAnswers"); 
-        const spAnsw = await get("spAnswers"); 
-        const fQNum = await get("fqNumber"); 
-        const sQNum = await get("sqNumber");
-        if(fpAnsw !== null)
-        {
-            const answers = JSON.parse(fpAnsw)
-            setAnswPt1(answers.answ);
-            console.log("fpAnswers found", answers);
-        }
-        if(spAnsw !== null)
-        {
-            const answers = JSON.parse(spAnsw)
-            setAnswPt1(answers.answ);
-            console.log("spAnswers found", answers);
-        }
-        if(fQNum !== null)
-        {
-            setFstQNum(parseInt(fQNum));
-            console.log("fQNum found", fQNum);
-        }
-        if(sQNum !== null)
-        {
-            setSecQNum(parseInt(sQNum));
-            console.log("sQNum found", sQNum);
-        }
-        setLoading(false);
-    }//qstsFromStorage
-
-    async function testRemove(){
-        const remFpAnsw = await remove("fpAnswers");
-        const remSpAnsw = await remove("spAnswers");
-        const remFqNum = await remove("fqNumber");
-        const remSqNum = await remove("sqNumber");
-        if(!remFpAnsw || !remSpAnsw || !remFqNum || !remSqNum)
-            console.log("one wasnt removed");
-        else
-            console.log("all removed");
-    }//
-    useEffect(()=>{
-        //setLoading(true);
-        //testRemove();
-        qstsFromStorage();
-    },[]);
-
     return (
         <ScrollView style={styles.container}>
-            {/*loading && <Loading />*/}
+            {loading && <Loading />}
             {display.part1 &&
                 <QuestionFPt
                     onPressFunc={handleFAnswers}
