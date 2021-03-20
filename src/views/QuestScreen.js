@@ -8,6 +8,7 @@ import QuestionFPt from '../components/QuestionFPt';
 import QuestionSPt from '../components/QuestionSPt';
 import questionsII from '../res/questionsII';
 import Loading from '../components/Loading';
+import { store } from '../utils/storage';
 
 function QuestScreen(props) {
 
@@ -18,24 +19,10 @@ function QuestScreen(props) {
         },
     });
 
-    const sex = false;
-    let numDrinks = 5;
-
-    if (!sex)
-        numDrinks = 4;
-
-    const fPtQuestions = [
-        "1. En los últimos 12 meses, ¿con qué frecuencia ha usado algún producto de tabaco (por ejemplo, cigarrillos, cigarrillos electrónicos, cigarros puros, pipas o tabaco sin humo)?",
-        `2. En los últimos 12 meses, ¿con qué frecuencia ha tomado ${numDrinks} o más bebidas que contienen alcohol en un día? Una bebida estándar es aproximadamente 1 vaso pequeño de vino (5 oz), 1 cerveza (12 oz), o 1 solo trago de licor`,
-        "3. En los últimos 12 meses, ¿con qué frecuencia ha consumido drogas como marihuana, cocaína o crack, heroína, metanfetamina (metanfetamina de cristal), alucinógenos, éxtasis/MDMA?",
-        "4. En los últimos 12 meses, ¿con qué frecuencia ha utilizado cualquier medicamento recetado sólo para la sensación, más de lo prescrito o que no se prescribieron para usted? Los medicamentos recetados que se pueden utilizar a su manera incluyen: Analgésicos opiáceos (por ejemplo, OxyContin, Vicodin, Percocet, Metadona). Medicamentos para la ansiedad o el sueño (por ejemplo, Xanax, Ativan, Klonopin) Medicamentos para el Trastorno de Déficit de Atención e Hiperactividad (por ejemplo, Adderall o Ritalin)."
-    ];
-
     /*if they do not have state, since it needs to be initialized with 0,
     every re render is reinitialized to 0*/
     const [answPt1, setAnswPt1] = useState(new Array(4).fill(0));
     const [answPt2, setAnswPt2] = useState(new Array(9).fill(0));
-    const [other, setOther] = useState("");//check if it could fit in array answPt2
 
     const [fstQNum, setFstQNum] = useState(0);
     const [secQNum, setSecQNum] = useState(0);
@@ -52,14 +39,19 @@ function QuestScreen(props) {
 
     const [loading, setLoading] = useState(false);
 
-    /*  Receives: index of the question (1-4 questions),
-            index of the tapped button (0-4) consume frequency
-        Set the answer values for each question
+    /*  
+        Set the answer value for the current question (fstQNum)
+        Receives: The answer value of the question (0-4)
     */
-    function handleFAnswers(question, answer) {
-        //console.log("q# " + question + " answ " + answer);
+    async function handleFAnswers(answer) {
+        const stAns1 = await store("answPt1", JSON.stringify(answPt1));
+        if(!stAns1)
+            console.log("coulnt save stAns1");
+        else
+            console.log("answPt1 stored");
+            
         setAnswPt1(prevValues => {
-            prevValues[question] = answer;
+            prevValues[fstQNum] = answer;
             return prevValues;
         });
         setFstQNum(prevQNumber => {
@@ -78,15 +70,15 @@ function QuestScreen(props) {
         });
     }//handleFAnswers
 
-    function handleSAnswers(subsIndex, answer) {
+    function handleSAnswers(answer) {
         //positive answer
         if (answer) {
-            let indexSecAnswers = subsIndex;
-            if(subsIndex == 2)
+            let indexSecAnswers = subsIndxToDspl[secQNum];//subsIndex;
+            if(subsIndxToDspl[secQNum] == 2)
             {
                 indexSecAnswers = 2 + Math.floor(subQstIndex / 3);
             }
-            else if(subsIndex == 3)
+            else if(subsIndxToDspl[secQNum] == 3)
             {
                 indexSecAnswers = 5 + Math.floor(subQstIndex / 3);
             }
@@ -237,14 +229,13 @@ function QuestScreen(props) {
             {display.part1 &&
                 <QuestionFPt
                     onPressFunc={handleFAnswers}
-                    questIndex={fstQNum}
-                    question={fPtQuestions[fstQNum]}
+                    qstIndex={fstQNum}
                 />
             }
             {display.part2 &&
                 <QuestionSPt
                     onPressFunc={handleSAnswers}
-                    substanceIndex = {subsIndxToDspl[secQNum]}
+                    /*substanceIndex={subsIndxToDspl[secQNum]}*/
                     question={questionsII[subsIndxToDspl[secQNum]][subQstIndex]}
                     txtInput={(subsIndxToDspl[secQNum]==2 && subQstIndex==10) && true}
                 />

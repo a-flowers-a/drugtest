@@ -39,7 +39,7 @@ function QuestionSPt(props){
         },
     });
 
-    const {question, onPressFunc, substanceIndex, txtInput} = props;
+    const {question, onPressFunc, txtInput} = props;
     const [textValue, onChangeText] = useState("");
 
     return (
@@ -51,14 +51,14 @@ function QuestionSPt(props){
             {!txtInput && (
                 <ActionBtn 
                     btnText={"Sí"}
-                    onPressFunc={() => onPressFunc(substanceIndex,true)}
+                    onPressFunc={() => onPressFunc(true)}
                 />
             )}
 
             {!txtInput && (
                 <ActionBtn 
                     btnText={"No"}
-                    onPressFunc={() => onPressFunc(substanceIndex,false)}
+                    onPressFunc={() => onPressFunc(false)}
                 />
             )}
 
@@ -75,7 +75,7 @@ function QuestionSPt(props){
                     />
                     <ActionBtn 
                         btnText={"Siguiente"}
-                        onPressFunc={() => onPressFunc(substanceIndex,textValue)}
+                        onPressFunc={() => onPressFunc(textValue)}
                     />
                 </View>
             )}
