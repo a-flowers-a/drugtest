@@ -15,6 +15,7 @@ export const get = async (key) =>{
         return await AsyncStorage.getItem(key);
     } catch (err) {
         console.log("storage get err", err);
+        return null;
         //throw Error(err);
     }
 }//get
@@ -24,6 +25,7 @@ export const multiGet = async (keys) =>{
         return await AsyncStorage.multiGet(keys);
     } catch (error) {
         console.log("storage multiGet err", err);
+        return null;
         //throw Error(err);
     }
 }//multiGet
@@ -33,6 +35,7 @@ export const getAllKeys = async () =>{
         return await AsyncStorage.getAllKeys();
     } catch (err) {
         console.log("storage AllKeys err", err);
+        return null;
         //throw Error(err);
     }
 }//getAllKeys
@@ -46,3 +49,13 @@ export const remove = async (key) =>{
         return false;
     }
 }//remove
+
+export const removeMany = async (keys) => {
+    try {
+      await AsyncStorage.multiRemove(keys);
+      return true;
+    } catch(err) {
+        console.log("storage removeMany err", err);
+        return false;
+    }
+}//removeMany

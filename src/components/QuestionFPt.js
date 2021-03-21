@@ -37,20 +37,26 @@ function QuestionFPt(props){
         "4. En los últimos 12 meses, ¿con qué frecuencia ha utilizado cualquier medicamento recetado sólo para la sensación, más de lo prescrito o que no se prescribieron para usted? Los medicamentos recetados que se pueden utilizar a su manera incluyen: Analgésicos opiáceos (por ejemplo, OxyContin, Vicodin, Percocet, Metadona). Medicamentos para la ansiedad o el sueño (por ejemplo, Xanax, Ativan, Klonopin) Medicamentos para el Trastorno de Déficit de Atención e Hiperactividad (por ejemplo, Adderall o Ritalin)."
     ];
 
-    const {onPressFunc, qstIndex} = props;
+    const {onPressFunc, fstQNum, display} = props;
 
     async function saveQstIndex(){
-        stQstIn = await store("qstIndex", qstIndex.toString());
-        if(stQstIn==null)
-            console.log("could not storage fPart qstIndex");
+        const stfstQNum = await store("fstQNum", fstQNum.toString());
+        const stDisplay = await store("display", JSON.stringify(display));
+
+        if(stfstQNum==null)
+            console.log("could not storage fPart fstQNum");
         else
-            console.log("stored fPart qstIndex", qstIndex);
+            console.log("stored fPart fstQNum", fstQNum);
+        if(stDisplay==null)
+            console.log("could not storage FPart stDisplay");
+        else
+            console.log("stored FPart display", display);
     }//saveQstIndex
 
     return (
         <View style={styles.container}>
             <View style={styles.textContainer}>
-                <Text style={styles.qText}>{fPtQuestions[qstIndex]}</Text>
+                <Text style={styles.qText}>{fPtQuestions[fstQNum]}</Text>
             </View>
             
             <ActionBtn 

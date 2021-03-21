@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet } from "react-native";
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -8,7 +8,7 @@ import QuestionFPt from '../components/QuestionFPt';
 import QuestionSPt from '../components/QuestionSPt';
 import questionsII from '../res/questionsII';
 import Loading from '../components/Loading';
-import { store } from '../utils/storage';
+import { getAllKeys, multiGet, removeMany, store } from '../utils/storage';
 
 function QuestScreen(props) {
 
@@ -70,7 +70,12 @@ function QuestScreen(props) {
         });
     }//handleFAnswers
 
-    function handleSAnswers(answer) {
+    async function handleSAnswers(answer) {
+        const stAns2 = await store("answPt2", JSON.stringify(answPt2));
+        if(!stAns2)
+            console.log("coulnt save answPt2");
+        else
+            console.log("answPt2 stored");
         //positive answer
         if (answer) {
             let indexSecAnswers = subsIndxToDspl[secQNum];//subsIndex;
@@ -199,6 +204,7 @@ function QuestScreen(props) {
             setLoading(false);
             console.log("result de postReq", result);
             if (result.success) {
+                deleteStorage();
                 props.navigation.navigate('Home');
             }
             else {
@@ -223,20 +229,55 @@ function QuestScreen(props) {
         setTapsIIQst();
     }
 
+    async function getStorage(){
+        //const keys = await getAllKeys();
+        const values = await multiGet(["display", "subQstIndex", "fstQNum", "answPt1", "answPt2", "secQNum", "subsIndxToDspl"]);
+        if(values !==null)
+        {
+            //console.log(values);
+            const [display, subQstIndex, fstQNum, answPt1, answPt2, secQNum, subsIndxToDspl] = values;
+            subsIndxToDspl[1] && setSubsIndxToDspl(JSON.parse(subsIndxToDspl[1]));
+            subQstIndex[1] && setSubQIndex(parseInt(subQstIndex[1]));
+            secQNum[1] && setSecQNum(parseInt(secQNum[1]));
+            fstQNum[1] && setFstQNum(parseInt(fstQNum[1]));
+            answPt1[1] && setAnswPt1(JSON.parse(answPt1[1]));
+            answPt2[1] && setAnswPt2(JSON.parse(answPt2[1]));
+            display[1] && setDisplay(JSON.parse(display[1]));
+        }
+    }//getStorage
+
+    async function deleteStorage(){
+        const deleted = await removeMany(["display", "subQstIndex", "fstQNum", "answPt1", "answPt2", "secQNum", "subsIndxToDspl"]);
+        if(!deleted)
+            console.log("couldnt delete quest Storage");
+        else
+            console.log("quest Storage deleted");
+    }//deleteStorage
+
+    useEffect(()=>{
+        //setLoading(true);
+        getStorage();
+        //deleteStorage();
+        //setLoading(false);
+    },[]);
+
     return (
         <ScrollView style={styles.container}>
             {loading && <Loading />}
             {display.part1 &&
                 <QuestionFPt
                     onPressFunc={handleFAnswers}
-                    qstIndex={fstQNum}
+                    fstQNum={fstQNum}
+                    display={display}
                 />
             }
             {display.part2 &&
                 <QuestionSPt
                     onPressFunc={handleSAnswers}
-                    /*substanceIndex={subsIndxToDspl[secQNum]}*/
-                    question={questionsII[subsIndxToDspl[secQNum]][subQstIndex]}
+                    secQNum={secQNum}
+                    subQstIndex={subQstIndex}
+                    subsIndxToDspl={subsIndxToDspl}
+                    display={display}
                     txtInput={(subsIndxToDspl[secQNum]==2 && subQstIndex==10) && true}
                 />
             }
