@@ -205,7 +205,7 @@ function QuestScreen(props) {
             console.log("result de postReq", result);
             if (result.success) {
                 deleteStorage();
-                props.navigation.navigate('Home');
+                props.navigation.navigate('Inicio');
             }
             else {
                 console.log('error');
