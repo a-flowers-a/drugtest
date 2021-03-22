@@ -5,11 +5,11 @@ import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import ActionBtn from '../components/ActionBtn';
 import CustomModal from '../components/CustomModal';
 import { postRequest } from '../utils/HttpRequest';
-import {OkAlert} from '../components/CustomAlerts';
-import {store} from '../utils/storage';
+import { OkAlert } from '../components/CustomAlerts';
+import { store } from '../utils/storage';
 import Loading from '../components/Loading';
 
-function Login(props){
+function Login(props) {
 
     const { control, handleSubmit, errors } = useForm();
     const [display, setDisplay] = useState(false);
@@ -19,45 +19,63 @@ function Login(props){
         setLoading(true);
         const url = "http:localhost:3030/student/log-in";
         postRequest(url, data)
-        .then(async result => {
-            setLoading(false);
-            if (result.success)
-            {
-                const stored = await store("user",result.name);
-                if(!stored)
-                    OkAlert({title: "Error", message: "No se pudo guardar sesión, tendrás que iniciar nuevamente al cerrar la aplicación"});
-                
-                OkAlert({title: "Bienvenido", message: result.name},
-                    () => {props.navigation.navigate('Home');}
-                );
-            }
-            else
-            {
-                succesful = false;
-                let aMessage = "No se puede iniciar sesión en este momento.";
-                if(result.wrongPass)
-                    aMessage = "Datos incorrectos";
-                else if(result.notFound)
-                    aMessage = "Usuario no registrado";
+            .then(async result => {
+                setLoading(false);
+                if (result.success) {
+                    const stored = await store("user", result.name);
+                    if (!stored)
+                        OkAlert({ title: "Error", message: "No se pudo guardar sesión, tendrás que iniciar nuevamente al cerrar la aplicación" });
 
-                OkAlert({title:"Error", message: aMessage });
-            }
-        })
-        .catch(err => {
-            OkAlert({title:"Error", message:"No se pudo conectar con el servidor"});
-            console.log(err);
-        });
+                    OkAlert({ title: "Bienvenido", message: result.name },
+                        () => { props.navigation.navigate('Inicio'); }
+                    );
+                }
+                else {
+                    succesful = false;
+                    let aMessage = "No se puede iniciar sesión en este momento.";
+                    if (result.wrongPass)
+                        aMessage = "Datos incorrectos";
+                    else if (result.notFound)
+                        aMessage = "Usuario no registrado";
+
+                    OkAlert({ title: "Error", message: aMessage });
+                }
+            })
+            .catch(err => {
+                OkAlert({ title: "Error", message: "No se pudo conectar con el servidor" });
+                console.log(err);
+            });
     };//onSubmit
 
     const displayRecover = () => {
         setDisplay(prevValue => !prevValue);
     }//displayRecover
 
-    function recoverPassword(data){
-        console.log("se recuperará passw con");
-        console.log(data);
+    async function recoverPassword(data) {
+        setLoading(true);
+        const url = "http:192.168.1.89:3030/student/reset-pass"
+        postRequest(url, data)
+            .then(response => {
+                setLoading(false);
+                displayRecover();
+                if (response.success) {
+                    OkAlert({ title: "Éxito", message: "Se envió un correo con las instrucciones para acceder" });
+                } else {
+                    console.log("está en el success false" + response);
+                    let mess = "No se pudo recuperar contraseña";
+                    if (response.boletaNotFound)
+                        mess = "No se encontró la boleta ingresada";
+                    if (response.mailNotSent)
+                        mess = "No se pudo enviar el correo";
+                    OkAlert({ title: "Error", message: mess });
+                }
+            })
+            .catch(err => {
+                console.log("está en el catch");
+                OkAlert({ title: "Error", message: "No se pudo conectar con el servidor" })
+            })
     }//recoverPassword
-    
+
     const styles = StyleSheet.create({
         container: {
             backgroundColor: "#120078",/*120078 120078 */
@@ -92,7 +110,7 @@ function Login(props){
             fontSize: 16,
             marginLeft: 30
         },
-        row:{
+        row: {
             flexDirection: "row",
             justifyContent: "center",
             marginTop: 5,
@@ -104,7 +122,7 @@ function Login(props){
             margin: 10,
         },
     });
-    return(
+    return (
         <ScrollView style={styles.container}>
             {loading && <Loading />}
             <View>
@@ -160,17 +178,17 @@ function Login(props){
 
             <ActionBtn
                 btnText={"Crear Cuenta"}
-                onPressFunc={() => {props.navigation.navigate('Datos Cuenta',{create:true});}}
+                onPressFunc={() => { props.navigation.navigate('Datos Cuenta', { create: true }); }}
             />
 
-        {display &&
-            <CustomModal 
-                onAcceptFunc={recoverPassword}
-                onCancelFunc={displayRecover}
-                text={"Ingresa la boleta con la que te registraste:"}
-                input={true}
-            />
-        }
+            {display &&
+                <CustomModal
+                    onAcceptFunc={recoverPassword}
+                    onCancelFunc={displayRecover}
+                    text={"Ingresa la boleta con la que te registraste:"}
+                    input={true}
+                />
+            }
         </ScrollView>
     );
 }//Login

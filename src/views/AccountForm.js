@@ -5,13 +5,13 @@ import { useForm, Controller } from "react-hook-form";
 import RadioBtn from '../components/RadioBtn';
 import ActionBtn from '../components/ActionBtn';
 import { postRequest } from '../utils/HttpRequest';
-import {OkAlert} from '../components/CustomAlerts';
-import {store} from '../utils/storage';
+import { OkAlert } from '../components/CustomAlerts';
+import { store } from '../utils/storage';
 import Loading from '../components/Loading';
 
-function AccountForm(props){
-    const {create} = props.route.params;
-    
+function AccountForm(props) {
+    const { create } = props.route.params;
+
     const styles = StyleSheet.create({
         container: {
             backgroundColor: "#120078",/*120078 */
@@ -46,7 +46,7 @@ function AccountForm(props){
             fontSize: 16,
             marginLeft: 30
         },
-        row:{
+        row: {
             flexDirection: "row",
             justifyContent: "center",
         },
@@ -64,56 +64,54 @@ function AccountForm(props){
 
     const onSubmit = data => {
         setLoading(true);
-        const finalData = {...data, sex, shift};
+        const finalData = { ...data, sex, shift };
         console.log(finalData);
-        const url = "http:localhost:3030/student/sign-up";
+        const url = "http:192.168.1.89:3030/student/sign-up";
         postRequest(url, finalData)
-        .then(async result => {
-            setLoading(false);
-            if (result.success)
-            {        
-                const stored = await store("user",result.data.name);
-                if(!stored)
-                    OkAlert({title: "Error", message: "No se pudo guardar sesión, tendrás que iniciar nuevamente al cerrar la aplicación"});            
-                OkAlert(
-                    {
-                        title: result.new ? "Registro exitoso" : "Boleta ya registrada", 
-                        message: result.message
-                    },
-                    () => {props.navigation.navigate('Home');}
-                );
-            }
-            else
-            {
-                OkAlert({title:"Error", message:"No se pudo realizar el registro, inténtalo más tarde."});
-                console.log(result.message);
-            }
-        })
-        .catch(err => {
-            OkAlert({title:"Error", message:"No se pudo conectar con el servidor."});
-            console.log("error at postRequest");
-            console.log(err);
-        });
+            .then(async result => {
+                setLoading(false);
+                if (result.success) {
+                    const stored = await store("user", result.data.name);
+                    if (!stored)
+                        OkAlert({ title: "Error", message: "No se pudo guardar sesión, tendrás que iniciar nuevamente al cerrar la aplicación" });
+                    OkAlert(
+                        {
+                            title: result.new ? "Registro exitoso" : "Boleta ya registrada",
+                            message: result.message
+                        },
+                        () => { props.navigation.navigate('Inicio'); }
+                    );
+                }
+                else {
+                    OkAlert({ title: "Error", message: "No se pudo realizar el registro, inténtalo más tarde." });
+                    console.log(result.message);
+                }
+            })
+            .catch(err => {
+                OkAlert({ title: "Error", message: "No se pudo conectar con el servidor." });
+                console.log("error at postRequest");
+                console.log(err);
+            });
     };// onSubmit
 
-    function handleRadios(name){
-        if(name === "Hombre")
+    function handleRadios(name) {
+        if (name === "Hombre")
             setSex(true);
         else
             setSex(false);
     }//handleRadios
 
-    function handleShift(name){
-        if(name === "Matutino")
+    function handleShift(name) {
+        if (name === "Matutino")
             setShift(true);
         else
             setShift(false);
     }//handleShift
 
 
-    return(
+    return (
         <ScrollView style={styles.container}>
-            {loading && <Loading/>}
+            {loading && <Loading />}
             <View>
                 <Text style={styles.text}>Nombre</Text>
                 <Controller
@@ -132,7 +130,7 @@ function AccountForm(props){
                 />
                 {errors.name && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
             </View>
-            
+
             <View>
                 <Text style={styles.text}>Boleta</Text>
                 <Controller
@@ -160,7 +158,7 @@ function AccountForm(props){
                     control={control}
                     render={({ onChange, onBlur, value }) => (
                         <TextInput
-                            autoCapitalize = "none"
+                            autoCapitalize="none"
                             onBlur={onBlur}
                             style={styles.input}
                             onChangeText={value => onChange(value)}
@@ -176,12 +174,12 @@ function AccountForm(props){
             <View>
                 <Text style={styles.text}>Sexo</Text>
                 <View style={styles.row}>
-                    <RadioBtn 
+                    <RadioBtn
                         name="Hombre"
                         selected={sex}
                         onPressFunc={handleRadios}
                     />
-                    <RadioBtn 
+                    <RadioBtn
                         name="Mujer"
                         selected={!sex}
                         onPressFunc={handleRadios}
@@ -213,12 +211,12 @@ function AccountForm(props){
             <View>
                 <Text style={styles.text}>Turno</Text>
                 <View style={styles.row}>
-                    <RadioBtn 
+                    <RadioBtn
                         name="Matutino"
                         selected={shift}
                         onPressFunc={handleShift}
                     />
-                    <RadioBtn 
+                    <RadioBtn
                         name="Vespertino"
                         selected={!shift}
                         onPressFunc={handleShift}
