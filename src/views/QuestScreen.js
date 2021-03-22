@@ -14,8 +14,12 @@ function QuestScreen(props) {
 
     const styles = StyleSheet.create({
         container: {
-            backgroundColor: "#120078",/*120078 */
-            flex: 1,
+            backgroundColor: "#120078",/* 120078 */
+            //flex: 1,
+        },
+        contentContainer:{
+            flexGrow: 1,
+            justifyContent: 'center'
         },
     });
 
@@ -262,7 +266,10 @@ function QuestScreen(props) {
     },[]);
 
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView 
+            style={styles.container}
+            contentContainerStyle={styles.contentContainer}
+        >
             {loading && <Loading />}
             {display.part1 &&
                 <QuestionFPt
@@ -283,7 +290,7 @@ function QuestScreen(props) {
             }
 
             { (!display.part1 && !display.part2) &&
-                <ActionBtn 
+                <ActionBtn
                     onPressFunc={display.submit ? submitAnswers : 
                         () => {
                             setDisplay(prevValue => {
