@@ -6,7 +6,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCloud, faComment, faCommentDots, faEraser, faMinus, faMinusCircle, faMinusSquare, faPen, faPencilAlt, faPenFancy, faPowerOff, faQuestion, faTrash, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { remove } from '../utils/storage';
 import {get} from '../utils/storage';
-
+import Loading from '../components/Loading';
+import CustomModal from '../components/CustomModal';
+import { hash } from '../utils/hashing';
+import { postRequest } from '../utils/HttpRequest';
 
 function HomeScreen(props) {
     const styles = StyleSheet.create({
@@ -41,32 +44,78 @@ function HomeScreen(props) {
             marginBottom: 30,
         },
     });
-    const [userName, setUserName] = useState("Nombre Alumno");
+    
+    const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
+    const [user, setUser] = useState({
+        name: "Nombre Alumno",
+        boleta: "",
+    });
+    const [displayDelete, setDisplayDelete] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    const handleDisplay = () => setDisplayDelete(prevVal => !prevVal);
+
+    async function deleteAccount(data){
+        setLoading(true);
+        const url = `http:${localHost}:3030/student/delete-account`;
+        const hashPass = await hash(data.password);
+        const finalData = {password: hashPass[0], boleta: user.boleta};
+        console.log(finalData);
+        postRequest(url, finalData)
+        .then(async response => {
+            setLoading(false);
+            handleDisplay();
+            if (response.success) {
+                const removed = await remove("user");
+                if(!removed)
+                    console.log("couldnt remove user froom storage");
+                OkAlert({ title: "Éxito", message: "Se eliminó la cuenta correctamente"},
+                    ()=> props.navigation.navigate('Inicio')
+                );
+            }
+            else 
+            {
+                let mess = "Problema en el servidor, no se ha podido eliminar la cuenta."
+                if (response.wrongPass)
+                    mess = "Contraseña incorrecta";
+                OkAlert({ title: "Error", message: mess });
+            }
+        })
+        .catch(err => {
+            setLoading(false);
+            OkAlert({ title: "Error", message: "No se pudo conectar con el servidor" })
+        });
+    }//deleteAccount
 
     function navigateTo(screenOption, paramts){
         props.navigation.navigate(screenOption, paramts);
     }//navigateTo
 
-    async function getName(){
-        const name = await get("user");
-        if(name === null)
-            console.log(name);
+    async function getUser(){
+        const stUser = await get("user");
+        if(stUser !== null)
+        {
+            const parsObj = JSON.parse(stUser);
+            console.log("user in storage", parsObj);
+            setUser(parsObj);
+        }
         else
-            setUserName(name);
-    }//
+            console.log("not user found in storage");
+    }//getUser
 
     useEffect(() =>{
-        getName();
+        getUser();
     }, []);
     return (
         <ScrollView style={styles.container}>
+            {loading && <Loading />}
             <View style={[styles.row, styles.titleContainer]}>
                 <FontAwesomeIcon
                     icon={ faUserCircle }
                     style={styles.icon}
                     size={40}
                 />
-                <Text style={[styles.text, styles.title]}>{userName}</Text>
+                <Text style={[styles.text, styles.title]}>{user.name}</Text>
             </View>
             <TouchableOpacity
                 onPress={() => {
@@ -101,7 +150,7 @@ function HomeScreen(props) {
                 <Text style={[styles.text]}>Modificar datos de la cuenta</Text>
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={() => {}}
+                onPress={handleDisplay}
                 style={[styles.row, styles.optionContainer]}
             >
                 <FontAwesomeIcon
@@ -122,6 +171,17 @@ function HomeScreen(props) {
                 />
                 <Text style={[styles.text]}>¿Qué hacemos con tus chats?</Text>
             </TouchableOpacity>
+
+            {displayDelete &&
+                <CustomModal
+                    input={true}
+                    inputName={"password"}
+                    password={true}
+                    onAcceptFunc={deleteAccount}
+                    onCancelFunc={handleDisplay}
+                    text={"Ingresa tu contraseña para eliminar definitivamente tu cuenta:"}
+                />
+            }
             
         </ScrollView>
     );

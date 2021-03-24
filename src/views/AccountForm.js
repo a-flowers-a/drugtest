@@ -74,7 +74,8 @@ function AccountForm(props) {
             .then(async result => {
                 setLoading(false);
                 if (result.success) {
-                    const stored = await store("user", result.data.name);
+                    const jsonObj = JSON.stringify(result.user);
+                    const stored = await store("user", jsonObj);
                     if (!stored)
                         OkAlert({ title: "Error", message: "No se pudo guardar sesión, tendrás que iniciar nuevamente al cerrar la aplicación" });
                     OkAlert(

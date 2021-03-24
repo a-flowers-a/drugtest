@@ -17,8 +17,8 @@ function HomeScreen(props) {
     }//navigateTo
 
     async function test(){
-        const name = await get("user");
-        console.log(name);
+        const user = await get("user");
+        console.log("user in Home", user);
     }//
 
     test();

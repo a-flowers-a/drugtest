@@ -4,8 +4,6 @@ import { useForm, Controller } from "react-hook-form";
 import ActionBtn from './ActionBtn';
 
 function CustomModal(props){
-    const {onAcceptFunc, onCancelFunc, text, input} = props;
-    const { control, handleSubmit, errors } = useForm();
 
     const styles = StyleSheet.create({
         acceptBtn:{
@@ -79,6 +77,11 @@ function CustomModal(props){
             margin: 10,
         },
     });
+    const {
+        onAcceptFunc, onCancelFunc,
+        text, input, inputName, 
+        numericInp, password} = props;
+    const { control, handleSubmit, errors } = useForm();
 
     return (
         <Modal
@@ -95,14 +98,15 @@ function CustomModal(props){
                                 render={({ onChange, onBlur, value }) => (
                                     <TextInput
                                         onBlur={onBlur}
-                                        keyboardType='numeric'
-                                        maxLength={10}
+                                        keyboardType= {numericInp && 'numeric'}
+                                        secureTextEntry={password}
+                                        maxLength={ numericInp && 10}
                                         style={styles.input}
                                         onChangeText={value => onChange(value)}
                                         value={value}
                                     />
                                 )}
-                                name="boleta"
+                                name={inputName}
                                 rules={{ required: true }}
                                 defaultValue=""
                             />

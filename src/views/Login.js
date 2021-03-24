@@ -28,11 +28,12 @@ function Login(props) {
             .then(async result => {
                 setLoading(false);
                 if (result.success) {
-                    const stored = await store("user", result.name);
+                    const jsonObj = JSON.stringify(result.user);
+                    const stored = await store("user", jsonObj);
                     if (!stored)
                         OkAlert({ title: "Error", message: "No se pudo guardar sesión, tendrás que iniciar nuevamente al cerrar la aplicación" });
 
-                    OkAlert({ title: "Bienvenido", message: result.name },
+                    OkAlert({ title: "Bienvenido", message: result.user.name },
                         () => { props.navigation.navigate('Inicio'); }
                     );
                 }
@@ -192,10 +193,12 @@ function Login(props) {
 
             {display &&
                 <CustomModal
+                    input={true}
+                    inputName={"boleta"}
+                    numericInp={true}
                     onAcceptFunc={recoverPassword}
                     onCancelFunc={displayRecover}
                     text={"Ingresa la boleta con la que te registraste:"}
-                    input={true}
                 />
             }
         </ScrollView>
