@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, StyleSheet } from "react-native";
+import { Text, View, TextInput, StyleSheet, Platform } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import ActionBtn from '../components/ActionBtn';
@@ -8,17 +8,23 @@ import { postRequest } from '../utils/HttpRequest';
 import { OkAlert } from '../components/CustomAlerts';
 import { store } from '../utils/storage';
 import Loading from '../components/Loading';
+import { hash } from '../utils/hashing';
+
 
 function Login(props) {
 
     const { control, handleSubmit, errors } = useForm();
     const [display, setDisplay] = useState(false);
     const [loading, setLoading] = useState(false);
+    const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
 
     const onSubmit = async data => {
         setLoading(true);
-        const url = "http:localhost:3030/student/log-in";
-        postRequest(url, data)
+        const url = `http:${localHost}:3030/student/log-in`;
+        const twoVals = await hash(data.boleta, data.password);
+        const finalData = {boleta: twoVals[0], password: twoVals[1]};
+
+        postRequest(url, finalData)
             .then(async result => {
                 setLoading(false);
                 if (result.success) {
@@ -42,6 +48,7 @@ function Login(props) {
                 }
             })
             .catch(err => {
+                setLoading(false);
                 OkAlert({ title: "Error", message: "No se pudo conectar con el servidor" });
                 console.log(err);
             });
@@ -53,15 +60,17 @@ function Login(props) {
 
     async function recoverPassword(data) {
         setLoading(true);
-        const url = "http:192.168.1.89:3030/student/reset-pass"
-        postRequest(url, data)
+        const url = `http:${localHost}:3030/student/reset-pass`;
+        const twoVals = await hash(data.boleta);
+        const finalData = {boleta: twoVals[0]};
+        console.log("finalData", finalData);
+        postRequest(url, finalData)
             .then(response => {
                 setLoading(false);
                 displayRecover();
                 if (response.success) {
                     OkAlert({ title: "Éxito", message: "Se envió un correo con las instrucciones para acceder" });
                 } else {
-                    console.log("está en el success false" + response);
                     let mess = "No se pudo recuperar contraseña";
                     if (response.boletaNotFound)
                         mess = "No se encontró la boleta ingresada";
@@ -71,7 +80,7 @@ function Login(props) {
                 }
             })
             .catch(err => {
-                console.log("está en el catch");
+                setLoading(false);
                 OkAlert({ title: "Error", message: "No se pudo conectar con el servidor" })
             })
     }//recoverPassword

@@ -47,6 +47,7 @@ A Storage dentro de la app
 A sesión en storage
 A componente Loading e inserción en login, signup, sendQuestionaire y sendStats
 A Cuestionario en storage
+A Hash boleta y contra, throw Error en caso de error en los httpRequests methods
 
 Server:
 A Creación de aplicación con node

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, Pressable, StyleSheet } from "react-native";
+import { Text, View, TextInput, Pressable, StyleSheet, Platform } from "react-native";
 import { ScrollView } from 'react-native-gesture-handler';
 import { useForm, Controller } from "react-hook-form";
 import RadioBtn from '../components/RadioBtn';
@@ -8,6 +8,7 @@ import { postRequest } from '../utils/HttpRequest';
 import { OkAlert } from '../components/CustomAlerts';
 import { store } from '../utils/storage';
 import Loading from '../components/Loading';
+import { hash } from '../utils/hashing';
 
 function AccountForm(props) {
     const { create } = props.route.params;
@@ -62,11 +63,13 @@ function AccountForm(props) {
     const { control, handleSubmit, errors } = useForm();
     const [loading, setLoading] = useState(false);
 
-    const onSubmit = data => {
+    const onSubmit = async data => {
         setLoading(true);
-        const finalData = { ...data, sex, shift };
-        console.log(finalData);
-        const url = "http:192.168.1.89:3030/student/sign-up";
+        const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
+        const url = `http:${localHost}:3030/student/sign-up`;
+        const {boleta, password} = data;
+        const twoVals = await hash(boleta, password);
+        const finalData = {...data, sex, shift, boleta: twoVals[0], password: twoVals[1]};
         postRequest(url, finalData)
             .then(async result => {
                 setLoading(false);
@@ -88,9 +91,8 @@ function AccountForm(props) {
                 }
             })
             .catch(err => {
+                setLoading(false);
                 OkAlert({ title: "Error", message: "No se pudo conectar con el servidor." });
-                console.log("error at postRequest");
-                console.log(err);
             });
     };// onSubmit
 

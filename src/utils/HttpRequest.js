@@ -9,7 +9,7 @@ export const postRequest = async (url, data) => {
             return result.data;
         }).catch(error => {
             console.error(error);
-            return error;
+            throw Error(error);
         });
     return response;
 }//postRequest
@@ -22,7 +22,7 @@ export const getRequest = async (url) => {
             return result.data;
         }).catch(error => {
             console.error("in getRequest", error);
-            return error;
+            throw Error(error);
         });
     return response;
 }//getRequest
