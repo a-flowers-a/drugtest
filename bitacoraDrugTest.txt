@@ -48,7 +48,8 @@ A sesión en storage
 A componente Loading e inserción en login, signup, sendQuestionaire y sendStats
 A Cuestionario en storage
 A Hash boleta y contra, throw Error en caso de error en los httpRequests methods
-A Delete account
+A Delete account, storage user object, añadir props al modal para ser usado para contra y para boleta
+
 
 Server:
 A Creación de aplicación con node
