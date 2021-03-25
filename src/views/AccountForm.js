@@ -141,13 +141,14 @@ function AccountForm(props) {
                             onBlur={onBlur}
                             onChangeText={value => onChange(value)}
                             value={value}
+
                         />
                     )}
                     name="name"
-                    rules={{ required: true }}
+                    rules={{ required: true, pattern: /^[A-Za-z]+$/i }}
                     defaultValue=""
                 />
-                {errors.name && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
+                {errors.name && <Text style={[styles.text, styles.errorText]}>{errors.name.type == 'pattern' ? "Nombre inválido" : "Campo requerido"}</Text>}
             </View>
 
             <View>
@@ -165,10 +166,10 @@ function AccountForm(props) {
                         />
                     )}
                     name="boleta"
-                    rules={{ required: true }}
+                    rules={{ required: true, pattern: /^[0-9]{2,10}$/ }}
                     defaultValue=""
                 />
-                {errors.boleta && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
+                {errors.boleta && <Text style={[styles.text, styles.errorText]}>{errors.boleta.type == 'pattern' ? "Boleta inválida" : "Campo requerido"}</Text>}
             </View>
 
             <View>
@@ -185,10 +186,10 @@ function AccountForm(props) {
                         />
                     )}
                     name="email"
-                    rules={{ required: true }}
+                    rules={{ required: true, pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/ }}
                     defaultValue=""
                 />
-                {errors.email && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
+                {errors.email && <Text style={[styles.text, styles.errorText]}>{errors.email.type == 'pattern' ? "Correo inválido" : "Campo requerido"}</Text>}
             </View>
             <View>
                 <Text style={styles.text}>Sexo</Text>
@@ -258,10 +259,10 @@ function AccountForm(props) {
                         />
                     )}
                     name="password"
-                    rules={{ required: true }}
+                    rules={{ required: true, pattern: /.{3,12}/ }}
                     defaultValue=""
                 />
-                {errors.password && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
+                {errors.password && <Text style={[styles.text, styles.errorText]}>{errors.password.type == 'pattern' ? "La contraseña es muy corta" : "Campo requerido"}</Text>}
             </View>
 
             {!create &&
@@ -279,10 +280,10 @@ function AccountForm(props) {
                             />
                         )}
                         name="newPass"
-                        rules={{ required: true }}
+                        rules={{ required: true, pattern: /.{3,12}/ }}
                         defaultValue=""
                     />
-                    {errors.password && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
+                    {errors.password && <Text style={[styles.text, styles.errorText]}>{errors.password.type == 'pattern' ? "La contraseña es muy corta" : "Campo requerido"}</Text>}
                 </View>
             }
 

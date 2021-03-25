@@ -150,10 +150,10 @@ function Login(props) {
                         />
                     )}
                     name="boleta"
-                    rules={{ required: true }}
+                    rules={{ required: true, pattern: /^[0-9]{3,10}$/ }}
                     defaultValue=""
                 />
-                {errors.boleta && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
+                {errors.boleta && <Text style={[styles.text, styles.errorText]}>{errors.boleta.type == 'pattern' ? "Boleta inválida" : "Campo requerido"}</Text>}
             </View>
             <View>
                 <Text style={styles.text}>Contraseña</Text>
