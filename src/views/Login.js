@@ -16,12 +16,11 @@ function Login(props) {
     const { control, handleSubmit, errors } = useForm();
     const [display, setDisplay] = useState(false);
     const [loading, setLoading] = useState(false);
-    const localHost = Platform.OS == 'ios' ? "localhost" : "10.0.2.2";
+    const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
 
     const onSubmit = async data => {
         setLoading(true);
-        //const url = `http:${localHost}:3030/student/log-in`;
-        const url = "http://192.168.1.89:3030/student/log-in";
+        const url = `http:${localHost}:3030/student/log-in`;
         const twoVals = await hash(data.boleta, data.password);
         const finalData = { boleta: twoVals[0], password: twoVals[1] };
 
