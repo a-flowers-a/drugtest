@@ -11,7 +11,6 @@ import Loading from '../components/Loading';
 import { hash } from '../utils/hashing';
 
 function AccountForm(props) {
-    const { create } = props.route.params;
 
     const styles = StyleSheet.create({
         container: {
@@ -58,6 +57,8 @@ function AccountForm(props) {
             margin: 10,
         },
     });
+    const { create } = props.route.params;
+
     const [sex, setSex] = useState(true);
     const [shift, setShift] = useState(true);
     const { control, handleSubmit, errors } = useForm();
@@ -66,10 +67,11 @@ function AccountForm(props) {
     const onSubmit = async data => {
         setLoading(true);
         const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
-        const url = `http:${localHost}:3030/student/sign-up`;
-        const {boleta, password} = data;
+        const url = create ? `http:${localHost}:3030/student/sign-up` : `http:${localHost}:3030/student/update-info`;
+        console.log(url);
+        const { boleta, password } = data;
         const twoVals = await hash(boleta, password);
-        const finalData = {...data, sex, shift, boleta: twoVals[0], password: twoVals[1]};
+        const finalData = { ...data, sex, shift, boleta: twoVals[0], password: twoVals[1] };
         postRequest(url, finalData)
             .then(async result => {
                 setLoading(false);
@@ -78,16 +80,30 @@ function AccountForm(props) {
                     const stored = await store("user", jsonObj);
                     if (!stored)
                         OkAlert({ title: "Error", message: "No se pudo guardar sesión, tendrás que iniciar nuevamente al cerrar la aplicación" });
+
+                    let titl = "Datos modificados exitósamente";
+                    if (create && result.new)
+                        titl = "Registro exitoso"
+                    else if (create && !result.new)
+                        titl = "Boleta ya registrada"
+
                     OkAlert(
                         {
-                            title: result.new ? "Registro exitoso" : "Boleta ya registrada",
+                            title: titl,
                             message: result.message
                         },
                         () => { props.navigation.navigate('Inicio'); }
                     );
                 }
                 else {
-                    OkAlert({ title: "Error", message: "No se pudo realizar el registro, inténtalo más tarde." });
+                    let mess = "No se pudo realizar el registro, inténtalo más tarde.";
+                    if (result.wrongPass) {
+                        mess = "Contraseña actual incorrecta";
+                    }
+                    if (result.notExist)
+                        mess = "La boleta es incorrecta";
+
+                    OkAlert({ title: "Error", message: mess });
                     console.log(result.message);
                 }
             })
@@ -227,8 +243,9 @@ function AccountForm(props) {
                 </View>
             </View>
 
+
             <View>
-                <Text style={styles.text}>Contraseña</Text>
+                <Text style={styles.text}>Contraseña {!create && 'actual'} </Text>
                 <Controller
                     control={control}
                     render={({ onChange, onBlur, value }) => (
@@ -246,6 +263,30 @@ function AccountForm(props) {
                 />
                 {errors.password && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
             </View>
+
+            {!create &&
+                <View>
+                    <Text style={styles.text}>Nueva contraseña</Text>
+                    <Controller
+                        control={control}
+                        render={({ onChange, onBlur, value }) => (
+                            <TextInput
+                                onBlur={onBlur}
+                                style={styles.input}
+                                onChangeText={value => onChange(value)}
+                                secureTextEntry={true}
+                                value={value}
+                            />
+                        )}
+                        name="newPass"
+                        rules={{ required: true }}
+                        defaultValue=""
+                    />
+                    {errors.password && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
+                </View>
+            }
+
+
             <ActionBtn
                 btnText={create ? "Crear cuenta" : "Actualizar datos"}
                 onPressFunc={handleSubmit(onSubmit)}

@@ -20,9 +20,10 @@ function Login(props) {
 
     const onSubmit = async data => {
         setLoading(true);
-        const url = `http:${localHost}:3030/student/log-in`;
+        //const url = `http:${localHost}:3030/student/log-in`;
+        const url = "http://192.168.1.89:3030/student/log-in";
         const twoVals = await hash(data.boleta, data.password);
-        const finalData = {boleta: twoVals[0], password: twoVals[1]};
+        const finalData = { boleta: twoVals[0], password: twoVals[1] };
 
         postRequest(url, finalData)
             .then(async result => {
@@ -62,7 +63,7 @@ function Login(props) {
         setLoading(true);
         const url = `http:${localHost}:3030/student/reset-pass`;
         const twoVals = await hash(data.boleta);
-        const finalData = {boleta: twoVals[0]};
+        const finalData = { boleta: twoVals[0] };
         console.log("finalData", finalData);
         postRequest(url, finalData)
             .then(response => {
