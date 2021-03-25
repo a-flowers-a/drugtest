@@ -16,7 +16,7 @@ function Login(props) {
     const { control, handleSubmit, errors } = useForm();
     const [display, setDisplay] = useState(false);
     const [loading, setLoading] = useState(false);
-    const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
+    const localHost = Platform.OS == 'ios' ? "localhost" : "10.0.2.2";
 
     const onSubmit = async data => {
         setLoading(true);
@@ -38,7 +38,6 @@ function Login(props) {
                     );
                 }
                 else {
-                    succesful = false;
                     let aMessage = "No se puede iniciar sesión en este momento.";
                     if (result.wrongPass)
                         aMessage = "Datos incorrectos";

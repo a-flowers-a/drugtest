@@ -45,7 +45,7 @@ function HomeScreen(props) {
         },
     });
     
-    const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
+    const localHost = Platform.OS == 'ios' ? "localhost" : "10.0.2.2";
     const [user, setUser] = useState({
         name: "Nombre Alumno",
         boleta: "",
