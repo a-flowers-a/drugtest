@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, processColor } from 'react-native';
+import { StyleSheet, Text, View, processColor, Platform } from 'react-native';
 import ActionBtn from '../components/ActionBtn';
 import { getRequest } from '../utils/HttpRequest';
 import Loading from '../components/Loading';
@@ -18,11 +18,11 @@ const styles = StyleSheet.create({
 
 export default function StatsScreen(props) {
     const [loading, setLoading] = useState(false);
-
+    const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
+    
     function submitData() {
         setLoading(true);
-        const url = "http:localhost:3030/admin/get-all-quest-res";
-        //const url = "http:192.168.100.107:3030/admin/get-all-quest-res";
+        const url = `http:${localHost}:3030/admin/get-all-quest-res`;
 
         getRequest(url)
 

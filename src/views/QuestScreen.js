@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { ScrollView } from 'react-native-gesture-handler';
 
 import ActionBtn from '../components/ActionBtn';
@@ -22,6 +22,8 @@ function QuestScreen(props) {
             justifyContent: 'center'
         },
     });
+
+    const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
 
     /*if they do not have state, since it needs to be initialized with 0,
     every re render is reinitialized to 0*/
@@ -196,8 +198,7 @@ function QuestScreen(props) {
     async function submitAnswers() {
         setLoading(true);
         console.log("answ2", answPt2);
-        //console.log("other", other);
-        const url = "http:localhost:3030/analysis/save-quest-answers";
+        const url = `http:${localHost}:3030/analysis/save-quest-answers`;
         const data = {
             resTaps2: answPt2,
             boleta: 2017630222,
