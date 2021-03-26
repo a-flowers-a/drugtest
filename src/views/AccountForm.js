@@ -57,33 +57,34 @@ function AccountForm(props) {
             margin: 10,
         },
     });
-    const { create } = props.route.params;
 
+    const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
+
+    const { create } = props.route.params;
     const [sex, setSex] = useState(true);
     const [shift, setShift] = useState(true);
     const { control, handleSubmit, setValue, errors } = useForm();
     const [loading, setLoading] = useState(false);
-    /*const [user, setUser] = useState({
-        boleta: "",
-        email: "",
-        name:"",
-        semester: "",
-        sex: true,
-        shift: true,
-    });*/
+    const [stBoleta, setStBoleta] = useState("");
 
     const onSubmit = async data => {
         setLoading(true);
-        const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
         const url = create ? `http:${localHost}:3030/student/sign-up` : `http:${localHost}:3030/student/update-info`;
-        console.log(url);
-        const { boleta, password, newPass } = data;
-        let HnewPass = "";
+        let newAndPass = ["",""];
+        let bolAndPass = ["",""];
         if (!create) {
-            HnewPass = await hash(newPass);
+            const { newPass, password } = data;
+            newAndPass = await hash(newPass, password);
+            bolAndPass[0] = stBoleta;
+            bolAndPass[1] = newAndPass[1];
         }
-        const twoVals = await hash(boleta, password);
-        const finalData = { ...data, sex, shift, boleta: twoVals[0], password: twoVals[1], newPass: HnewPass[0] };
+        else
+        {
+            const {boleta, password} = data;
+            bolAndPass = await hash(boleta, password);
+        }
+        const finalData = { ...data, sex, shift, boleta: bolAndPass[0], password: bolAndPass[1], newPass: newAndPass[0] };
+        console.log("finalData to submit signup/update account", finalData);
         postRequest(url, finalData)
             .then(async result => {
                 setLoading(false);
@@ -116,7 +117,6 @@ function AccountForm(props) {
                         mess = "La boleta es incorrecta";
 
                     OkAlert({ title: "Error", message: mess });
-                    console.log(result.message);
                 }
             })
             .catch(err => {
@@ -130,6 +130,7 @@ function AccountForm(props) {
         if(userObj !==null)
         {
             const parsedUser = JSON.parse(userObj);
+            setStBoleta(parsedUser.boleta);
             setValue("email", parsedUser.email);
             setValue("name", parsedUser.name);
             setValue("semester", (parsedUser.semester).toString());
