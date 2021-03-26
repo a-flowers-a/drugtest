@@ -77,9 +77,13 @@ function AccountForm(props) {
         const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
         const url = create ? `http:${localHost}:3030/student/sign-up` : `http:${localHost}:3030/student/update-info`;
         console.log(url);
-        const { boleta, password } = data;
+        const { boleta, password, newPass } = data;
+        let HnewPass = "";
+        if (!create) {
+            HnewPass = await hash(newPass);
+        }
         const twoVals = await hash(boleta, password);
-        const finalData = { ...data, sex, shift, boleta: twoVals[0], password: twoVals[1] };
+        const finalData = { ...data, sex, shift, boleta: twoVals[0], password: twoVals[1], newPass: HnewPass[0] };
         postRequest(url, finalData)
             .then(async result => {
                 setLoading(false);
