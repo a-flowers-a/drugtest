@@ -70,17 +70,16 @@ function AccountForm(props) {
     const onSubmit = async data => {
         setLoading(true);
         const url = create ? `http:${localHost}:3030/student/sign-up` : `http:${localHost}:3030/student/update-info`;
-        let newAndPass = ["",""];
-        let bolAndPass = ["",""];
+        let newAndPass = ["", ""];
+        let bolAndPass = ["", ""];
         if (!create) {
             const { newPass, password } = data;
             newAndPass = await hash(newPass, password);
             bolAndPass[0] = stBoleta;
             bolAndPass[1] = newAndPass[1];
         }
-        else
-        {
-            const {boleta, password} = data;
+        else {
+            const { boleta, password } = data;
             bolAndPass = await hash(boleta, password);
         }
         const finalData = { ...data, sex, shift, boleta: bolAndPass[0], password: bolAndPass[1], newPass: newAndPass[0] };
@@ -125,10 +124,9 @@ function AccountForm(props) {
             });
     };// onSubmit
 
-    async function getStorage(){
+    async function getStorage() {
         const userObj = await get("user");
-        if(userObj !==null)
-        {
+        if (userObj !== null) {
             const parsedUser = JSON.parse(userObj);
             setStBoleta(parsedUser.boleta);
             setValue("email", parsedUser.email);
@@ -155,10 +153,10 @@ function AccountForm(props) {
             setShift(false);
     }//handleShift
 
-    useEffect(()=>{
-        if(!create)
+    useEffect(() => {
+        if (!create)
             getStorage();
-    },[]);
+    }, []);
 
     return (
         <ScrollView style={styles.container}>
@@ -256,7 +254,7 @@ function AccountForm(props) {
                         />
                     )}
                     name="semester"
-                    rules={{ required: true }}
+                    rules={{ required: true, pattern: /^[0-9]$/ }}
                     defaultValue=""
                 />
                 {errors.semester && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
@@ -317,7 +315,7 @@ function AccountForm(props) {
                         rules={{ required: true, pattern: /.{3,12}/ }}
                         defaultValue=""
                     />
-                    {errors.password && <Text style={[styles.text, styles.errorText]}>{errors.password.type == 'pattern' ? "La contraseña es muy corta" : "Campo requerido"}</Text>}
+                    {errors.newPass && <Text style={[styles.text, styles.errorText]}>{errors.newPass.type == 'pattern' ? "La contraseña es muy corta" : "Campo requerido"}</Text>}
                 </View>
             }
 

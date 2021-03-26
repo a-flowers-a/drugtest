@@ -17,9 +17,9 @@ const styles = StyleSheet.create({
 function ContactsScreen() {
     const [loading, setLoading] = useState(false);
     const [contacts, setContacts] = useState([]);
-    const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
 
     const getContacts = async () => {
+        const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
         setLoading(true);
         const url = `http:${localHost}:3030/admin/get-contacts`;
         await getRequest(url)
@@ -31,7 +31,7 @@ function ContactsScreen() {
                     //console.log(result.data);
                     setContacts(result.data);
                 }
-                else{
+                else {
                     console.log(result.message);
                 }
             })
