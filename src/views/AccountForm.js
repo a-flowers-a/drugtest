@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { Text, View, TextInput, Pressable, StyleSheet, Platform } from "react-native";
+import React, { useEffect, useState } from 'react';
+import { Text, View, TextInput, StyleSheet, Platform } from "react-native";
 import { ScrollView } from 'react-native-gesture-handler';
 import { useForm, Controller } from "react-hook-form";
 import RadioBtn from '../components/RadioBtn';
 import ActionBtn from '../components/ActionBtn';
 import { postRequest } from '../utils/HttpRequest';
 import { OkAlert } from '../components/CustomAlerts';
-import { store } from '../utils/storage';
+import { get, store } from '../utils/storage';
 import Loading from '../components/Loading';
 import { hash } from '../utils/hashing';
 
@@ -61,8 +61,16 @@ function AccountForm(props) {
 
     const [sex, setSex] = useState(true);
     const [shift, setShift] = useState(true);
-    const { control, handleSubmit, errors } = useForm();
+    const { control, handleSubmit, setValue, errors } = useForm();
     const [loading, setLoading] = useState(false);
+    /*const [user, setUser] = useState({
+        boleta: "",
+        email: "",
+        name:"",
+        semester: "",
+        sex: true,
+        shift: true,
+    });*/
 
     const onSubmit = async data => {
         setLoading(true);
@@ -113,6 +121,21 @@ function AccountForm(props) {
             });
     };// onSubmit
 
+    async function getStorage(){
+        const userObj = await get("user");
+        if(userObj !==null)
+        {
+            const parsedUser = JSON.parse(userObj);
+            setValue("email", parsedUser.email);
+            setValue("name", parsedUser.name);
+            setValue("semester", (parsedUser.semester).toString());
+            setSex(parsedUser.sex);
+            setShift(parsedUser.shift);
+        }
+        else
+            console.log("error, user iin storage is null");
+    }//getStorage
+
     function handleRadios(name) {
         if (name === "Hombre")
             setSex(true);
@@ -127,6 +150,10 @@ function AccountForm(props) {
             setShift(false);
     }//handleShift
 
+    useEffect(()=>{
+        if(!create)
+            getStorage();
+    },[]);
 
     return (
         <ScrollView style={styles.container}>
@@ -151,26 +178,28 @@ function AccountForm(props) {
                 {errors.name && <Text style={[styles.text, styles.errorText]}>{errors.name.type == 'pattern' ? "Nombre inválido" : "Campo requerido"}</Text>}
             </View>
 
-            <View>
-                <Text style={styles.text}>Boleta</Text>
-                <Controller
-                    control={control}
-                    render={({ onChange, onBlur, value }) => (
-                        <TextInput
-                            onBlur={onBlur}
-                            keyboardType='numeric'
-                            maxLength={10}
-                            style={styles.input}
-                            onChangeText={value => onChange(value)}
-                            value={value}
-                        />
-                    )}
-                    name="boleta"
-                    rules={{ required: true, pattern: /^[0-9]{2,10}$/ }}
-                    defaultValue=""
-                />
-                {errors.boleta && <Text style={[styles.text, styles.errorText]}>{errors.boleta.type == 'pattern' ? "Boleta inválida" : "Campo requerido"}</Text>}
-            </View>
+            {create && (
+                <View>
+                    <Text style={styles.text}>Boleta</Text>
+                    <Controller
+                        control={control}
+                        render={({ onChange, onBlur, value }) => (
+                            <TextInput
+                                onBlur={onBlur}
+                                keyboardType='numeric'
+                                maxLength={10}
+                                style={styles.input}
+                                onChangeText={value => onChange(value)}
+                                value={value}
+                            />
+                        )}
+                        name="boleta"
+                        rules={{ required: true, pattern: /^[0-9]{2,10}$/ }}
+                        defaultValue=""
+                    />
+                    {errors.boleta && <Text style={[styles.text, styles.errorText]}>{errors.boleta.type == 'pattern' ? "Boleta inválida" : "Campo requerido"}</Text>}
+                </View>
+            )}
 
             <View>
                 <Text style={styles.text}>E-mail</Text>
@@ -215,7 +244,7 @@ function AccountForm(props) {
                         <TextInput
                             onBlur={onBlur}
                             keyboardType='numeric'
-                            maxLength={1}
+                            maxLength={2}
                             style={styles.input}
                             onChangeText={value => onChange(value)}
                             value={value}
