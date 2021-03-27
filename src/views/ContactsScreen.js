@@ -4,6 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import ContactItem from '../components/ContactItem';
 import Loading from '../components/Loading';
 import { getRequest } from '../utils/HttpRequest';
+import { OkAlert } from '../components/CustomAlerts';
 
 const styles = StyleSheet.create({
     container: {
@@ -27,16 +28,16 @@ function ContactsScreen() {
 
                 setLoading(false);
                 if (result.success) {
-                    console.log("Success at getting the contacts");
-                    //console.log(result.data);
                     setContacts(result.data);
                 }
                 else {
+                    OkAlert({ title: "Error", message: "No se pudieron obtener los contactos, por favor intente más tarde" });
                     console.log(result.message);
                 }
             })
             .catch(err => {
                 setLoading(false);
+                OkAlert({ title: "Error", message: "No se pudo conectar con el servidor" });
                 console.log("Error at getting the contacts");
                 console.log(err);
             });
