@@ -63,7 +63,7 @@ function AccountForm(props) {
     const { create } = props.route.params;
     const [sex, setSex] = useState(true);
     const [shift, setShift] = useState(true);
-    const { control, handleSubmit, setValue, errors } = useForm();
+    const { control, handleSubmit, reset, errors } = useForm();
     const [loading, setLoading] = useState(false);
     const [stBoleta, setStBoleta] = useState("");
 
@@ -129,9 +129,14 @@ function AccountForm(props) {
         if (userObj !== null) {
             const parsedUser = JSON.parse(userObj);
             setStBoleta(parsedUser.boleta);
-            setValue("email", parsedUser.email);
+            reset({
+                email: parsedUser.email,
+                name: parsedUser.name,
+                semester: (parsedUser.semester).toString(),
+            });
+            /*setValue("email", parsedUser.email);
             setValue("name", parsedUser.name);
-            setValue("semester", (parsedUser.semester).toString());
+            setValue("semester", (parsedUser.semester).toString());*/
             setSex(parsedUser.sex);
             setShift(parsedUser.shift);
         }
@@ -254,7 +259,7 @@ function AccountForm(props) {
                         />
                     )}
                     name="semester"
-                    rules={{ required: true, pattern: /^[0-9]$/ }}
+                    rules={{ required: true, pattern: /^[0-9]+$/ }}
                     defaultValue=""
                 />
                 {errors.semester && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
@@ -312,10 +317,10 @@ function AccountForm(props) {
                             />
                         )}
                         name="newPass"
-                        rules={{ required: true, pattern: /.{3,12}/ }}
+                        rules={{pattern: /.{3,12}/ }}
                         defaultValue=""
                     />
-                    {errors.newPass && <Text style={[styles.text, styles.errorText]}>{errors.newPass.type == 'pattern' ? "La contraseña es muy corta" : "Campo requerido"}</Text>}
+                    {errors.newPass && <Text style={[styles.text, styles.errorText]}>La contraseña es muy corta</Text>}
                 </View>
             }
 
