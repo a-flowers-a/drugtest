@@ -1,6 +1,5 @@
 import React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBrain, faBookReader, faIdCardAlt, faClock } from '@fortawesome/free-solid-svg-icons';
 
@@ -17,17 +16,19 @@ function ContactItem(props) {
             //font color 0a043c
         },
         icon: {
+            alignSelf: "center",
             color: "#0a043c",
             marginRight: 15,
         },
         infoContainer: {
             flex: 1,
-            flexWrap: 'wrap',
-            flexShrink: 1,
+            //padding: 5
         },
         row: {
             flexDirection: "row",
-            paddingRight: 25
+        },
+        textContainer:{
+            flex:1,
         },
         textName: {
             color: "black",
@@ -45,12 +46,11 @@ function ContactItem(props) {
         },
     });
 
-    const { onPressFunc, escuela, nombre, telContacto, horario } = props;
+    const { escuela, nombre, telContacto, horario } = props;
 
     return (
-        <TouchableOpacity
+        <View
             style={styles.card}
-            onPress={onPressFunc}
         >
             <FontAwesomeIcon
                 icon={faBrain}
@@ -66,7 +66,9 @@ function ContactItem(props) {
                         style={styles.icon}
                         size={20}
                     />
-                    <Text style={styles.textPhone}>{telContacto}</Text>
+                    <View style={styles.textContainer}>
+                        <Text style={styles.textPhone}>{telContacto}</Text>
+                    </View>
                 </View>}
                 {nombre && <View style={styles.row}>
                     <FontAwesomeIcon
@@ -74,7 +76,9 @@ function ContactItem(props) {
                         style={styles.icon}
                         size={20}
                     />
-                    <Text style={styles.textSchool}>{nombre}</Text>
+                    <View style={styles.textContainer}>
+                        <Text style={styles.textSchool}>{nombre}</Text>
+                    </View>
                 </View>}
                 {horario && <View style={styles.row}>
                     <FontAwesomeIcon
@@ -82,10 +86,12 @@ function ContactItem(props) {
                         style={styles.icon}
                         size={20}
                     />
-                    <Text style={styles.textSchool}>{horario}</Text>
+                    <View style={styles.textContainer}>
+                        <Text style={styles.textSchool}>{horario}</Text>
+                    </View>
                 </View>}
             </View>
-        </TouchableOpacity >
+        </View>
     );
 }//ContactItem
 
