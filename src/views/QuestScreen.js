@@ -33,7 +33,9 @@ function QuestScreen(props) {
     const [fstQNum, setFstQNum] = useState(0);
     const [secQNum, setSecQNum] = useState(0);
     const [subQstIndex, setSubQIndex] = useState(0);
-
+    const [user, setUser] = useState({
+        boleta:"",
+    });
     const [subsIndxToDspl, setSubsIndxToDspl] = useState([]);
 
     const [display, setDisplay] = useState({
@@ -201,8 +203,7 @@ function QuestScreen(props) {
         const url = `http:${localHost}:3030/analysis/save-quest-answers`;
         const data = {
             resTaps2: answPt2,
-            boleta: 2017630222,
-            password: 123,
+            boleta: user.boleta
         };
         postRequest(url,data)
         .then(result => {
@@ -236,11 +237,11 @@ function QuestScreen(props) {
 
     async function getStorage(){
         //const keys = await getAllKeys();
-        const values = await multiGet(["display", "subQstIndex", "fstQNum", "answPt1", "answPt2", "secQNum", "subsIndxToDspl"]);
+        const values = await multiGet(["display", "subQstIndex", "fstQNum", "answPt1", "answPt2", "secQNum", "subsIndxToDspl", "user"]);
         if(values !==null)
         {
             //console.log(values);
-            const [display, subQstIndex, fstQNum, answPt1, answPt2, secQNum, subsIndxToDspl] = values;
+            const [display, subQstIndex, fstQNum, answPt1, answPt2, secQNum, subsIndxToDspl, user] = values;
             subsIndxToDspl[1] && setSubsIndxToDspl(JSON.parse(subsIndxToDspl[1]));
             subQstIndex[1] && setSubQIndex(parseInt(subQstIndex[1]));
             secQNum[1] && setSecQNum(parseInt(secQNum[1]));
@@ -248,6 +249,7 @@ function QuestScreen(props) {
             answPt1[1] && setAnswPt1(JSON.parse(answPt1[1]));
             answPt2[1] && setAnswPt2(JSON.parse(answPt2[1]));
             display[1] && setDisplay(JSON.parse(display[1]));
+            user[1] && setUser(JSON.parse(user[1]));
         }
     }//getStorage
 
