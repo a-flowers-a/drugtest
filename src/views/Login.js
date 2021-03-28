@@ -30,7 +30,8 @@ function Login(props) {
                 if (result.success) {
                     const jsonObj = JSON.stringify(result.user);
                     const stored = await store("user", jsonObj);
-                    if (!stored)
+                    const storedFlags = await store("analysisFlags", JSON.stringify({ questSent: false, chatsSent: false }));
+                    if (!stored && !storedFlags)
                         OkAlert({ title: "Error", message: "No se pudo guardar sesión, tendrás que iniciar nuevamente al cerrar la aplicación" });
 
                     OkAlert({ title: "Bienvenido", message: result.user.name },

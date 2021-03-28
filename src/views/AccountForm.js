@@ -94,8 +94,11 @@ function AccountForm(props) {
                         OkAlert({ title: "Error", message: "No se pudo guardar sesión, tendrás que iniciar nuevamente al cerrar la aplicación" });
 
                     let titl = "Datos modificados exitósamente";
-                    if (create && result.new)
+                    if (create && result.new) {
                         titl = "Registro exitoso"
+                        const analysisFlags = await store("analysisFlags", JSON.stringify({ questSent: false, chatsSent: false }));
+                        analysisFlags ? console.log("Se crearon las banderas de análisis al crear la cuenta") : console.log("No se pudieron crear las banderas al crear la cuenta");
+                    }
                     else if (create && !result.new)
                         titl = "Boleta ya registrada"
 
@@ -317,7 +320,7 @@ function AccountForm(props) {
                             />
                         )}
                         name="newPass"
-                        rules={{pattern: /.{3,12}/ }}
+                        rules={{ pattern: /.{3,12}/ }}
                         defaultValue=""
                     />
                     {errors.newPass && <Text style={[styles.text, styles.errorText]}>La contraseña es muy corta</Text>}

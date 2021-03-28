@@ -3,12 +3,12 @@ import { Platform, StyleSheet } from "react-native";
 import { ScrollView } from 'react-native-gesture-handler';
 
 import ActionBtn from '../components/ActionBtn';
-import {postRequest} from '../utils/HttpRequest';
+import { postRequest } from '../utils/HttpRequest';
 import QuestionFPt from '../components/QuestionFPt';
 import QuestionSPt from '../components/QuestionSPt';
 import questionsII from '../res/questionsII';
 import Loading from '../components/Loading';
-import { getAllKeys, multiGet, removeMany, store } from '../utils/storage';
+import { multiGet, removeMany, store, get } from '../utils/storage';
 
 function QuestScreen(props) {
 
@@ -17,7 +17,7 @@ function QuestScreen(props) {
             backgroundColor: "#120078",/* 120078 */
             //flex: 1,
         },
-        contentContainer:{
+        contentContainer: {
             flexGrow: 1,
             justifyContent: 'center'
         },
@@ -51,11 +51,11 @@ function QuestScreen(props) {
     */
     async function handleFAnswers(answer) {
         const stAns1 = await store("answPt1", JSON.stringify(answPt1));
-        if(!stAns1)
+        if (!stAns1)
             console.log("coulnt save stAns1");
         else
             console.log("answPt1 stored");
-            
+
         setAnswPt1(prevValues => {
             prevValues[fstQNum] = answer;
             return prevValues;
@@ -63,8 +63,7 @@ function QuestScreen(props) {
         setFstQNum(prevQNumber => {
             if (prevQNumber < 3)
                 return prevQNumber += 1;
-            else
-            {
+            else {
                 setDisplay(prevValue => {
                     return {
                         ...prevValue,
@@ -78,24 +77,21 @@ function QuestScreen(props) {
 
     async function handleSAnswers(answer) {
         const stAns2 = await store("answPt2", JSON.stringify(answPt2));
-        if(!stAns2)
+        if (!stAns2)
             console.log("coulnt save answPt2");
         else
             console.log("answPt2 stored");
         //positive answer
         if (answer) {
             let indexSecAnswers = subsIndxToDspl[secQNum];//subsIndex;
-            if(subsIndxToDspl[secQNum] == 2)
-            {
+            if (subsIndxToDspl[secQNum] == 2) {
                 indexSecAnswers = 2 + Math.floor(subQstIndex / 3);
             }
-            else if(subsIndxToDspl[secQNum] == 3)
-            {
+            else if (subsIndxToDspl[secQNum] == 3) {
                 indexSecAnswers = 5 + Math.floor(subQstIndex / 3);
             }
-            
-            if(subQstIndex == 10)
-            {
+
+            if (subQstIndex == 10) {
                 //setOther(answer);//answer
                 setAnswPt2(prevValues => {
                     prevValues[8] = answer;
@@ -103,24 +99,22 @@ function QuestScreen(props) {
                 });
 
             }
-            else if(subQstIndex != 9)
-            {
+            else if (subQstIndex != 9) {
                 setAnswPt2(prevValues => {
                     prevValues[indexSecAnswers] += 1;
                     return prevValues;
                 });
             }
-            
+
             nextSubIndex(1);
         }
         //negative answer
         else {
             let numNextQst = 1;
-            if (subQstIndex == 0 || subQstIndex == 3 || subQstIndex == 6 || subQstIndex == 9)
-            {
+            if (subQstIndex == 0 || subQstIndex == 3 || subQstIndex == 6 || subQstIndex == 9) {
                 const substanceIndex = subsIndxToDspl[secQNum];
                 //in case they are the alcohol questions
-                if(substanceIndex == 1)
+                if (substanceIndex == 1)
                     numNextQst = 4;
                 else
                     numNextQst = 3;
@@ -132,8 +126,7 @@ function QuestScreen(props) {
 
     function nextIndexQst() {
         //last second part question
-        if(secQNum == (subsIndxToDspl.length - 1) )
-        {
+        if (secQNum == (subsIndxToDspl.length - 1)) {
             setDisplay(prevValue => {
                 return {
                     ...prevValue,
@@ -142,8 +135,7 @@ function QuestScreen(props) {
                 }
             });//setDisplay
         }
-        else
-        {
+        else {
             setSecQNum(prevQstIn => prevQstIn += 1);
             setSubQIndex(0);
         }
@@ -155,13 +147,11 @@ function QuestScreen(props) {
         console.log("nextSub would be ", nextIndex);
         //last subquestion
         const substanceIndex = subsIndxToDspl[secQNum];
-        if(nextIndex > (questionsII[substanceIndex].length - 1) )
-        {
+        if (nextIndex > (questionsII[substanceIndex].length - 1)) {
             console.log("going to next qstIndex ");
             nextIndexQst();
         }
-        else
-        {
+        else {
             setSubQIndex(nextIndex);
         }
     }//nextSubIndex
@@ -170,8 +160,7 @@ function QuestScreen(props) {
         console.log("las answ1", answPt1);
         let ansWithZero = 0;
         answPt1.map((answer, index) => {
-            if (answer > 0)
-            {
+            if (answer > 0) {
                 //console.log("entra una vez en answ>0");
                 setSubsIndxToDspl(prevIndexs => {
                     let newArray = prevIndexs;
@@ -182,13 +171,12 @@ function QuestScreen(props) {
             else
                 ansWithZero += 1;
         });
-        if(ansWithZero == answPt1.length)
-        {
+        if (ansWithZero == answPt1.length) {
             console.log("todas answ pt1 con 0");
             setDisplay(prevValues => {
-                return{
+                return {
                     ...prevValues,
-                    submit:true
+                    submit: true
                 };
             });
         }
@@ -204,26 +192,27 @@ function QuestScreen(props) {
             boleta: 2017630222,
             password: 123,
         };
-        postRequest(url,data)
-        .then(result => {
-            setLoading(false);
-            console.log("result de postReq", result);
-            if (result.success) {
-                deleteStorage();
-                props.navigation.navigate('Inicio');
-            }
-            else {
-                console.log('error');
-            }
-        })
-        .catch(err => {
-            console.log(err);
-        });
+        postRequest(url, data)
+            .then(result => {
+                setLoading(false);
+                console.log("result de postReq", result);
+                if (result.success) {
+                    deleteStorage();
+                    const analysisFlags = store("analysisFlags", JSON.stringify({ questSent: true, chatsSent: false }));
+                    console.log("Se guardó la bandera de cuestionario enviado" + get("analysisFlags"))
+                    props.navigation.navigate('Inicio');
+                }
+                else {
+                    console.log('error');
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
 
     }//submitAnswers
 
-    if(!display.part1 && !display.part2 && !display.submit && !display.setTapsII)
-    {
+    if (!display.part1 && !display.part2 && !display.submit && !display.setTapsII) {
         console.log("tapsII funct triggered");
         setDisplay(prevValues => {
             return {
@@ -234,11 +223,10 @@ function QuestScreen(props) {
         setTapsIIQst();
     }
 
-    async function getStorage(){
+    async function getStorage() {
         //const keys = await getAllKeys();
         const values = await multiGet(["display", "subQstIndex", "fstQNum", "answPt1", "answPt2", "secQNum", "subsIndxToDspl"]);
-        if(values !==null)
-        {
+        if (values !== null) {
             //console.log(values);
             const [display, subQstIndex, fstQNum, answPt1, answPt2, secQNum, subsIndxToDspl] = values;
             subsIndxToDspl[1] && setSubsIndxToDspl(JSON.parse(subsIndxToDspl[1]));
@@ -251,23 +239,23 @@ function QuestScreen(props) {
         }
     }//getStorage
 
-    async function deleteStorage(){
+    async function deleteStorage() {
         const deleted = await removeMany(["display", "subQstIndex", "fstQNum", "answPt1", "answPt2", "secQNum", "subsIndxToDspl"]);
-        if(!deleted)
+        if (!deleted)
             console.log("couldnt delete quest Storage");
         else
             console.log("quest Storage deleted");
     }//deleteStorage
 
-    useEffect(()=>{
+    useEffect(() => {
         //setLoading(true);
         getStorage();
         //deleteStorage();
         //setLoading(false);
-    },[]);
+    }, []);
 
     return (
-        <ScrollView 
+        <ScrollView
             style={styles.container}
             contentContainerStyle={styles.contentContainer}
         >
@@ -286,13 +274,13 @@ function QuestScreen(props) {
                     subQstIndex={subQstIndex}
                     subsIndxToDspl={subsIndxToDspl}
                     display={display}
-                    txtInput={(subsIndxToDspl[secQNum]==2 && subQstIndex==10) && true}
+                    txtInput={(subsIndxToDspl[secQNum] == 2 && subQstIndex == 10) && true}
                 />
             }
 
             { (!display.part1 && !display.part2) &&
                 <ActionBtn
-                    onPressFunc={display.submit ? submitAnswers : 
+                    onPressFunc={display.submit ? submitAnswers :
                         () => {
                             setDisplay(prevValue => {
                                 return {

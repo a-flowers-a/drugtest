@@ -50,6 +50,13 @@ A Cuestionario en storage
 A Hash boleta y contra, throw Error en caso de error en los httpRequests methods
 A Delete account, storage user object, añadir props al modal para ser usado para contra y para boleta
 A desplegar los datos de la cuenta cuando se van a actualizar
+B Validación si es login o crear cuenta antes de enviar el HTTP httpRequest
+B Añadir el símbolo de carga en donde sea realicen HTTP httpRequest
+B Ingresar contactos a la base de datos 
+B solicitar los contactos, mostrarlos en la vista contactsScreen, hacer correcciones de estilo, añadir okAlerts para el manejo de errores, añadir un texto para cuando no haya contactos para mostrar
+B Añadir RegExp a todos los campos para validarlos
+B Insertar botones en el orden de analisis: 1 cuestionario, 2 chats , 3 mostrar resultados / realizar nuevo análisis
+
 
 Server:
 A Creación de aplicación con node
@@ -66,3 +73,4 @@ B Creación del controller Chat que recibe un chat en forma de array
 B Creación de cuenta de correo desde donde se enviarán los emails de drugtest
 D Primera normalización de las frases del modelo 
 A Delete account
+B Creación del modelo (tabla) para almacenar los contactos y crear el get request 
