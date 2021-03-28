@@ -5,6 +5,7 @@ import ContactItem from '../components/ContactItem';
 import Loading from '../components/Loading';
 import { getRequest } from '../utils/HttpRequest';
 import { OkAlert } from '../components/CustomAlerts';
+import CardMessage from '../components/CardMessage';
 
 const styles = StyleSheet.create({
     container: {
@@ -52,6 +53,11 @@ function ContactsScreen() {
             { loading && <Loading />}
             {contacts.map((contact) =>
                 <ContactItem escuela={contact.escuela} nombre={contact.nombre} telContacto={contact.contacto} horario={contact.horario} key={contact.id} />
+            )}
+            {contacts.length === 0 && (
+                <CardMessage 
+                    cardText="No hay contactos disponibles"
+                />
             )}
         </ScrollView>
     );
