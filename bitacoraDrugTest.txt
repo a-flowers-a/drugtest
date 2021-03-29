@@ -49,8 +49,7 @@ A componente Loading e inserción en login, signup, sendQuestionaire y sendStats
 A Cuestionario en storage
 A Hash boleta y contra, throw Error en caso de error en los httpRequests methods
 A Delete account, storage user object, añadir props al modal para ser usado para contra y para boleta
-A desplegar los datos de la cuenta cuando se van a actualizar: hash de boleta, pass y newPass cuando se necesita
-A Componente CardMessage
+A desplegar los datos de la cuenta cuando se van a actualizar
 
 Server:
 A Creación de aplicación con node
