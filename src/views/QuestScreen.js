@@ -34,7 +34,7 @@ function QuestScreen(props) {
     const [secQNum, setSecQNum] = useState(0);
     const [subQstIndex, setSubQIndex] = useState(0);
     const [user, setUser] = useState({
-        boleta:"",
+        boleta: "",
     });
     const [subsIndxToDspl, setSubsIndxToDspl] = useState([]);
 
@@ -194,21 +194,30 @@ function QuestScreen(props) {
             boleta: user.boleta
         };
         postRequest(url, data)
-            .then(result => {
+            .then(async result => {
                 setLoading(false);
                 console.log("result de postReq", result);
                 if (result.success) {
                     deleteStorage();
-                    const analysisFlags = store("analysisFlags", JSON.stringify({ questSent: true, chatsSent: false }));
-                    console.log("Se guardó la bandera de cuestionario enviado" + get("analysisFlags"))
+                    const analysisFlags = await store("analysisFlags", JSON.stringify({ questSent: true, chatsSent: false }));
+                    if (analysisFlags)
+                        console.log("Se guardó la bandera de cuestionario enviado");
+                    else
+                        OkAlert(
+                            {
+                                title: Error,
+                                message: "No se pudo guardar el questionario por favor inténtelo nuevamente"
+                            },
+                            () => { props.navigation.navigate('Inicio'); }
+                        );
                     props.navigation.navigate('Inicio');
                 }
                 else {
-                    console.log('error');
+                    console.error('error');
                 }
             })
             .catch(err => {
-                console.log(err);
+                console.error(err);
             });
 
     }//submitAnswers
@@ -227,8 +236,7 @@ function QuestScreen(props) {
     async function getStorage() {
         //const keys = await getAllKeys();
         const values = await multiGet(["display", "subQstIndex", "fstQNum", "answPt1", "answPt2", "secQNum", "subsIndxToDspl", "user"]);
-        if(values !==null)
-        {
+        if (values !== null) {
             //console.log(values);
             const [display, subQstIndex, fstQNum, answPt1, answPt2, secQNum, subsIndxToDspl, user] = values;
             subsIndxToDspl[1] && setSubsIndxToDspl(JSON.parse(subsIndxToDspl[1]));

@@ -6,7 +6,7 @@ import ActionBtn from '../components/ActionBtn';
 import CustomModal from '../components/CustomModal';
 import { postRequest } from '../utils/HttpRequest';
 import { OkAlert } from '../components/CustomAlerts';
-import { store } from '../utils/storage';
+import { store, get } from '../utils/storage';
 import Loading from '../components/Loading';
 import { hash } from '../utils/hashing';
 

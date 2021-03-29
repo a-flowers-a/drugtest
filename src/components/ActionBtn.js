@@ -1,9 +1,9 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 
-function FinishBtn(props){
-    
-    const {extraStyles, onPressFunc, btnText} = props;
+function FinishBtn(props) {
+
+    const { extraStyles, onPressFunc, btnText, hidden } = props;
 
     const styles = StyleSheet.create({
         btnText: {
@@ -33,16 +33,16 @@ function FinishBtn(props){
         container: {
             alignItems: "center",
         },
+
     });
-    
+
     return (
         <View style={styles.container}>
-            <TouchableOpacity
+            {hidden ? null : <TouchableOpacity
                 style={[styles.button, extraStyles]}
-                onPress={() => onPressFunc()}
-            >
+                onPress={() => onPressFunc()}>
                 <Text style={styles.btnText}>{btnText}</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>}
         </View>
     );
 }//FinishBtn
