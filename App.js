@@ -27,34 +27,30 @@ const App: () => React$Node = () => {
   /*This is to receive the file(chat) */
   const [sharedData, setSharedData] = useState('');
   const [sharedMimeType, setSharedMimeType] = useState('');
-  const [sharedExtraData, setSharedExtraData] = useState(null);
 
   const handleShare = useCallback((item: ?SharedItem) => {
     if (!item) {
       return;
     }
 
-    const { mimeType, data, extraData } = item;
+    const { mimeType, data } = item;
 
     setSharedData(data);
-    setSharedExtraData(extraData);
     setSharedMimeType(mimeType);
 
   }, []);
 
   useEffect(() => {
     ShareMenu.getInitialShare(handleShare);
-  }, []);
-
-  useEffect(() => {
     const listener = ShareMenu.addNewShareListener(handleShare);
+    getSharedChat();
 
     return () => {
       listener.remove();
     };
   }, []);
 
-  var getSharedChat = () => {
+  const getSharedChat = () => {
     if (sharedMimeType) {
       console.log("There is a MimeType: " + sharedMimeType);
       var chatURI = sharedData.toString();
@@ -63,11 +59,7 @@ const App: () => React$Node = () => {
     else {
       console.log("there is nothing to share");
     }
-  }
-
-  /*-----------------------------End of get chat--------------- */
-
-  getSharedChat(); //Check if the user sent a chat and catch it
+  };
 
   return (
 
@@ -94,10 +86,6 @@ const App: () => React$Node = () => {
                 style={{color: color}}
                 size={30}
               />
-              /*<Image
-                source={require('drugtest/src/assets/bank.png')}
-                style={{ tintColor: color, width: size, height: size}}
-              />*/
             )
           }}
         />
@@ -130,23 +118,8 @@ const App: () => React$Node = () => {
           }}
         />
 
-        {/*<Tabs.Screen
-          component={nameOfTheStackComponent}
-          name="Name which it will be used to be referenced"
-          options={{
-            tabBarIcon: ({size, color}) => (
-              <Image
-                source={require('drugtest/src/assets/image.png')}
-                style={{ tintColor: color, width: size, height: size}}
-              />
-            )
-          }}
-        />*/}
-
       </Tabs.Navigator>
     </NavigationContainer>
-
-
   );
 };
 
