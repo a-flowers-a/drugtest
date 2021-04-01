@@ -13,6 +13,7 @@ import { postRequest } from './utils/HttpRequest'
 
 function saveChatReceived(chatURI) {
     if (Platform.OS === 'ios') {
+        console.log(chatURI);
         fetchChatIOS(chatURI);
     } else if (Platform.OS === 'android') {
         //for Android up to 6.0 version ask the user for permission to access the local storage
@@ -49,24 +50,18 @@ const fetchChatAndroid = (chatURI) => {
 const fetchChatIOS = (chatURI) => {
 
     //Remove file// prefix 
-    let arr = chatURI.split('/');
-    const dirs = RNFetchBlob.fs.dirs;
-    let filePath = `${dirs.DocumentDir}/${arr[arr.length - 1]}`;
-    decodedFilePath = decodeURI(filePath)
-    //---------------------------------------
+    let arr = chatURI.split('//');
+    decodedFilePath = decodeURI(arr[1]);
 
     RNFetchBlob.fs.exists(decodedFilePath)
         .then((exist) => {
-            console.log(`file ${exist ? '' : 'not'} exists`)
+            console.log(`file ${exist ? '' : 'not'} exists`);
+            RNFetchBlob.fs.readFile(decodedFilePath, 'utf8')
+            .then((data) => {
+                console.log("el chat",data);
+            });
         })
-        .catch(() => { console.error(err) })
-
-
-    /*RNFetchBlob.fs.readFile(decodedFilePath, 'utf8')
-    .then((data) => {
-    console.log(data);
-    })*/
-
+        .catch(() => { console.error(err) });
 }//fetchChatIOS
 
 const cutChat = async (chatContent) => {
