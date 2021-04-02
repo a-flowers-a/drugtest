@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Pressable, Image, StyleSheet } from 'react-native';
+import { View, Text, Pressable, StyleSheet, Image } from 'react-native';
 import { ShareMenuReactView } from 'react-native-share-menu';
 import { saveChatReceived } from "./src/Chats";
 
@@ -30,7 +30,7 @@ const Share = () => {
       saveChatReceived(chatURI);
     }
     else {
-      console.log("there is nothing to share");
+      console.log("there is nothing to share iOS");
     }
   }
 //-------------------------------------------------
@@ -38,14 +38,14 @@ const Share = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Button
-          title="Dismiss"
+          title="Cerrar"
           onPress={() => {
             ShareMenuReactView.dismissExtension();
           }}
           style={styles.destructive}
         />
         <Button
-          title={sending ? "Sending..." : 'Send'}
+          title={sending ? "Enviando..." : 'Enviar'}
           onPress={() => {
             setSending(true);
 
@@ -59,57 +59,47 @@ const Share = () => {
           style={sending ? styles.sending : styles.send}
         />
       </View>
-      {sharedMimeType === 'text/plain' && <Text>{sharedData}</Text>}
 
-      <View style={styles.buttonGroup}>
-        <Button
-          title="Dismiss with Error"
-          onPress={() => {
-            ShareMenuReactView.dismissExtension('Dismissed with error');
-          }}
-          style={styles.destructive}
-        />
-        <Button
-          title="Continue In App"
-          onPress={() => {
-            ShareMenuReactView.continueInApp();
-          }}
-        />
-        <Button
-          title="Continue In App With Extra Data"
-          onPress={() => {
-            ShareMenuReactView.continueInApp({ hello: 'from the other side' });
-          }}
-        />
+      <View style={styles.centerContent}>
+          <Image 
+            source={require('drugtest/src/assets/capsules1.png')}
+            style={styles.icon}
+          />
+        <Text style={styles.centerText}>Enviar chat</Text>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  centerContent: {
+    alignItems: 'center',
+  },
+  centerText:{
+    color: 'grey',
+    fontSize: 20,
+  },
   container: {
-    flex: 1,
-    backgroundColor: 'white',
+    flex:1,
+  },
+  destructive: {
+    color: 'red',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  destructive: {
-    color: 'red',
+  icon:{
+    borderRadius: 40,
+    margin: 20,
+    width: 130,
+    height: 130,
   },
   send: {
     color: 'blue',
   },
   sending: {
     color: 'grey',
-  },
-  image: {
-    width: '100%',
-    height: 200,
-  },
-  buttonGroup: {
-    alignItems: 'center',
   },
 });
 

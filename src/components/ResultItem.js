@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCapsules, faSpa, faLightbulb } from '@fortawesome/free-solid-svg-icons';
+import { faSpa, faLightbulb } from '@fortawesome/free-solid-svg-icons';
 
 function ResultItem(){
     const styles = StyleSheet.create({
