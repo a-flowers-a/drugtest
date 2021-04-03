@@ -25,7 +25,7 @@ const Share = () => {
   and then be able to fetch the chat */
   var getSharedChat = () => {
     if (sharedMimeType) {
-      console.log("There is a MimeType: " + sharedMimeType);
+      //console.log("There is a MimeType: " + sharedMimeType);
       var chatURI = sharedData.toString();
       saveChatReceived(chatURI);
     }
@@ -38,7 +38,7 @@ const Share = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Button
-          title="Cerrar"
+          title="Cancelar"
           onPress={() => {
             ShareMenuReactView.dismissExtension();
           }}
@@ -62,10 +62,10 @@ const Share = () => {
 
       <View style={styles.centerContent}>
           <Image 
-            source={require('drugtest/src/assets/capsules1.png')}
+            source={require('drugtest/src/assets/capsules.png')}
             style={styles.icon}
           />
-        <Text style={styles.centerText}>Enviar chat</Text>
+        <Text style={styles.centerText}>¿Enviar Chat a Drugtest?</Text>
       </View>
     </View>
   );

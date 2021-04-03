@@ -7,13 +7,19 @@
  */
 
 import RNFetchBlob from 'rn-fetch-blob';
-import { PermissionsAndroid } from 'react-native';
-import { Platform } from 'react-native';
+import { PermissionsAndroid, Platform } from 'react-native';
 import { postRequest } from './utils/HttpRequest'
+
+const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
+const url = `http:${localHost}:3030/analysis/save-chat`;
+
+/*
+I belive there's no need to have 1 method for adnroid and one for iOS, cause the only
+deifference is that for iOS File:// needs to be removed (apparently)
+*/
 
 function saveChatReceived(chatURI) {
     if (Platform.OS === 'ios') {
-        console.log(chatURI);
         fetchChatIOS(chatURI);
     } else if (Platform.OS === 'android') {
         //for Android up to 6.0 version ask the user for permission to access the local storage
@@ -52,17 +58,33 @@ const fetchChatIOS = (chatURI) => {
     //Remove file// prefix 
     let arr = chatURI.split('//');
     decodedFilePath = decodeURI(arr[1]);
-
-    RNFetchBlob.fs.exists(decodedFilePath)
+    sendChat(decodedFilePath);
+    /*RNFetchBlob.fs.exists(decodedFilePath)
         .then((exist) => {
+            console.log("file's path", decodedFilePath);
             console.log(`file ${exist ? '' : 'not'} exists`);
             RNFetchBlob.fs.readFile(decodedFilePath, 'utf8')
             .then((data) => {
                 console.log("el chat",data);
             });
         })
-        .catch(() => { console.error(err) });
+        .catch(() => { console.error(err) });*/
 }//fetchChatIOS
+
+const sendChat = async (chatURI) => {
+    RNFetchBlob.fetch('POST', url, {
+        'Content-Type' : 'application/octet-stream',
+      }, RNFetchBlob.wrap(chatURI))
+      .uploadProgress((written, total) => {
+        console.log('uploaded written ' + written + ' total '+ total);
+      })
+      .then((res) => {
+        console.log("response of sendCHat",res.data);
+      })
+      .catch((err) => {
+        console.log("error at sendChat in Chat.js", err);
+      })
+}//sendChat
 
 const cutChat = async (chatContent) => {
     try {
