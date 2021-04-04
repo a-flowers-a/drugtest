@@ -59,6 +59,7 @@ B Insertar botones en el orden de analisis: 1 cuestionario, 2 chats , 3 mostrar 
 A desplegar los datos de la cuenta cuando se van a actualizar: hash de boleta, pass y newPass cuando se necesita
 A Componente CardMessage
 D obtener el path correcto al compartir un chat en iOS
+A juntar métodos en para enviar chat (androidy iOS)
 
 Server:
 A Creación de aplicación con node

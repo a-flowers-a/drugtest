@@ -199,7 +199,7 @@ function QuestScreen(props) {
                 console.log("result de postReq", result);
                 if (result.success) {
                     deleteStorage();
-                    const analysisFlags = await store("analysisFlags", JSON.stringify({ questSent: true, chatsSent: false }));
+                    const analysisFlags = await store("analysisFlags", JSON.stringify({ questSent: true, chatsSent: false, idResFinal: result.idResFinal}));
                     if (analysisFlags)
                         console.log("Se guardó la bandera de cuestionario enviado");
                     else

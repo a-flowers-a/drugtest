@@ -11,7 +11,7 @@ import { PermissionsAndroid, Platform } from 'react-native';
 import { postRequest } from './utils/HttpRequest'
 
 const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
-const url = `http:${localHost}:3030/analysis/save-chat`;
+const url = `http:${localHost}:3030/analysis/save-chat/${18}/${0}`;
 
 /*
 I belive there's no need to have 1 method for adnroid and one for iOS, cause the only
