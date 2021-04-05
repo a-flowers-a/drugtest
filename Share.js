@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, StyleSheet, Image } from 'react-native';
 import { ShareMenuReactView } from 'react-native-share-menu';
-import { saveChatReceived } from "./src/Chats";
+import { handleChatURI } from "./src/Chats";
+import Loading from './src/components/Loading';
 
 const Button = ({ onPress, title, style }) => (
   <Pressable onPress={onPress}>
@@ -13,6 +14,8 @@ const Share = () => {
   const [sharedData, setSharedData] = useState('');
   const [sharedMimeType, setSharedMimeType] = useState('');
   const [sending, setSending] = useState(false);
+  const [errorMes, setErrorMess] = useState(false);
+  const [message, setMessage] = useState('¿Enviar Chat a Drugtest?');
 
   useEffect(() => {
     ShareMenuReactView.data().then(({ mimeType, data }) => {
@@ -23,19 +26,32 @@ const Share = () => {
 
   /* This is the code we made to save the chat's URI inside a variable
   and then be able to fetch the chat */
-  var getSharedChat = () => {
+  const handleSharing = async () => {
+    setSending(true);
     if (sharedMimeType) {
       //console.log("There is a MimeType: " + sharedMimeType);
       var chatURI = sharedData.toString();
-      saveChatReceived(chatURI);
+      const ret = await handleChatURI(chatURI);
+      setSending(false);
+      if(ret.success)
+        return true;
+      else
+      {
+        setErrorMess(true);
+        setMessage(ret.message);
+        return false;
+      }
     }
     else {
-      console.log("there is nothing to share iOS");
+      setSending(false);
+      console.log("there is nothing to share iOS in SHare.js");
+      return false;
     }
   }
 //-------------------------------------------------
   return (
     <View style={styles.container}>
+      {sending && <Loading/>}
       <View style={styles.header}>
         <Button
           title="Cancelar"
@@ -46,14 +62,9 @@ const Share = () => {
         />
         <Button
           title={sending ? "Enviando..." : 'Enviar'}
-          onPress={() => {
-            setSending(true);
-
-            setTimeout(() => {
+          onPress={async () => {
+            if(await handleSharing())
               ShareMenuReactView.dismissExtension();
-            }, 3000);
-
-            getSharedChat();
           }}
           disabled={sending}
           style={sending ? styles.sending : styles.send}
@@ -65,7 +76,11 @@ const Share = () => {
             source={require('drugtest/src/assets/capsules.png')}
             style={styles.icon}
           />
-        <Text style={styles.centerText}>¿Enviar Chat a Drugtest?</Text>
+          <View style={styles.textContainer}>
+            <Text style={[styles.centerText, errorMes && styles.destructive]}>
+              {message}
+            </Text>
+          </View>
       </View>
     </View>
   );
@@ -78,6 +93,7 @@ const styles = StyleSheet.create({
   centerText:{
     color: 'grey',
     fontSize: 20,
+    textAlign: "center",
   },
   container: {
     flex:1,
@@ -101,6 +117,9 @@ const styles = StyleSheet.create({
   sending: {
     color: 'grey',
   },
+  textContainer:{
+    marginHorizontal: 15,
+  }
 });
 
 export default Share;

@@ -62,6 +62,7 @@ D obtener el path correcto al compartir un chat en iOS
 A juntar métodos en para enviar chat (androidy iOS)
 B poner icono a la aplicación
 B cambiar el botón de exportar chats por un pressable text y circulos que indiquen el progreso
+A configurar Share.js para que la extensión esté cargando mientras se envía y se cierre cuando termine, que muestre mensaje de error cuando no termine
 
 Server:
 A Creación de aplicación con node
