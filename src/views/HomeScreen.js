@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import ActionBtn from '../components/ActionBtn';
+import ChatUploadSection from '../components/ChatUploadSection';
 import { get, store } from '../utils/storage';
 
 
@@ -58,10 +59,8 @@ function HomeScreen(props) {
                 onPressFunc={() => navigateTo('Cuestionario')}
                 hidden={analFlags.questSent}
             />
-            <ActionBtn
-                btnText={"Exportar chats"}
-                hidden={analFlags.chatsSent}
-            />
+            <ChatUploadSection hidden={false}/>
+            
             <ActionBtn
                 btnText={"Mostrar Resultado"}
                 onPressFunc={() => navigateTo('Resultado')}

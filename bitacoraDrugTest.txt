@@ -60,6 +60,8 @@ A desplegar los datos de la cuenta cuando se van a actualizar: hash de boleta, p
 A Componente CardMessage
 D obtener el path correcto al compartir un chat en iOS
 A juntar métodos en para enviar chat (androidy iOS)
+B poner icono a la aplicación
+B cambiar el botón de exportar chats por un pressable text y circulos que indiquen el progreso
 
 Server:
 A Creación de aplicación con node
