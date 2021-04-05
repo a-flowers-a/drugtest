@@ -38,17 +38,17 @@ const sendChat = async (chatURI) => {
         const succ = parsedRes.success;
         if(succ)
         {
-            return true;
+            return {success: true};
         }
         else
         {
-            console.log("unsuccesful al guardar chat", parsedRes);
-            return false;
+            console.log("save chat returned ", parsedRes);
+            return {success: false, message: "Hubo un problema en el servidor, no se pudo guardar chat."};
         }
       })
       .catch((err) => {
         console.log("error at sendChat in Chat.js", err);
-        return false
+        return {success: false, message: "No se puede conectar con el servidor en este momento."};
       })
 }//sendChat
 

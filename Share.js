@@ -15,6 +15,7 @@ const Share = () => {
   const [sharedMimeType, setSharedMimeType] = useState('');
   const [sending, setSending] = useState(false);
   const [errorMes, setErrorMess] = useState(false);
+  const [message, setMessage] = useState('¿Enviar Chat a Drugtest?');
 
   useEffect(() => {
     ShareMenuReactView.data().then(({ mimeType, data }) => {
@@ -32,12 +33,12 @@ const Share = () => {
       var chatURI = sharedData.toString();
       const ret = await saveChatReceived(chatURI);
       setSending(false);
-      console.log("ret", ret);
-      if(ret)
+      if(ret.success)
         return true;
       else
       {
         setErrorMess(true);
+        setMessage(ret.message);
         return false;
       }
     }
@@ -75,10 +76,11 @@ const Share = () => {
             source={require('drugtest/src/assets/capsules.png')}
             style={styles.icon}
           />
-          <Text style={[styles.centerText, errorMes && styles.destructive]}>
-            {errorMes ? "Hubo un error al enviar chat" :
-            "¿Enviar Chat a Drugtest?"}
-          </Text>
+          <View style={styles.textContainer}>
+            <Text style={[styles.centerText, errorMes && styles.destructive]}>
+              {message}
+            </Text>
+          </View>
       </View>
     </View>
   );
@@ -91,6 +93,7 @@ const styles = StyleSheet.create({
   centerText:{
     color: 'grey',
     fontSize: 20,
+    textAlign: "center",
   },
   container: {
     flex:1,
@@ -114,6 +117,9 @@ const styles = StyleSheet.create({
   sending: {
     color: 'grey',
   },
+  textContainer:{
+    marginHorizontal: 15,
+  }
 });
 
 export default Share;
