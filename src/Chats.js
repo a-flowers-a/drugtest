@@ -9,185 +9,48 @@
 import RNFetchBlob from 'rn-fetch-blob';
 import { PermissionsAndroid, Platform } from 'react-native';
 import { postRequest } from './utils/HttpRequest'
+import { OkAlert } from './components/CustomAlerts';
 
 const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
 const url = `http:${localHost}:3030/analysis/save-chat/${18}/${0}`;
 
-/*
-I belive there's no need to have 1 method for adnroid and one for iOS, cause the only
-deifference is that for iOS File:// needs to be removed (apparently)
-*/
-
-function saveChatReceived(chatURI) {
-    if (Platform.OS === 'ios') {
-        fetchChatIOS(chatURI);
-    } else if (Platform.OS === 'android') {
-        //for Android up to 6.0 version ask the user for permission to access the local storage
-        if (requestStoragePermission()) {
-            //Fetch chat by using its URI
-            fetchChatAndroid(chatURI);
-        }
+async function saveChatReceived(chatURI)
+{
+    let chatPath = chatURI;
+    if (Platform.OS === 'ios')
+    {
+        //Remove file// prefix 
+        const arr = chatURI.split('//');
+        chatPath = decodeURI(arr[1]);
     }
-}
-
-//Looks for the chat inside the mobile storage, reads the chat and splits it into an array of messages
-const fetchChatAndroid = (chatURI) => {
-    RNFetchBlob.fs
-        .readStream(chatURI, 'utf8')
-        .then((stream) => {
-
-            let data = '';
-            stream.open();
-            console.log('Chat found!!...');
-            stream.onData((chunk) => {
-                data += chunk;
-            });
-            stream.onEnd(() => {
-                console.log('Reading chat...');
-                //cutChat(data);
-                chatToTXT();
-            });
-        })
-        .catch((err) => {
-            console.error(err);
-        });
-}; //fetchChatAndroid
-
-const fetchChatIOS = (chatURI) => {
-
-    //Remove file// prefix 
-    let arr = chatURI.split('//');
-    decodedFilePath = decodeURI(arr[1]);
-    sendChat(decodedFilePath);
-    /*RNFetchBlob.fs.exists(decodedFilePath)
-        .then((exist) => {
-            console.log("file's path", decodedFilePath);
-            console.log(`file ${exist ? '' : 'not'} exists`);
-            RNFetchBlob.fs.readFile(decodedFilePath, 'utf8')
-            .then((data) => {
-                console.log("el chat",data);
-            });
-        })
-        .catch(() => { console.error(err) });*/
-}//fetchChatIOS
+    if(Platform.OS === "android" && !requestStoragePermission())
+        OkAlert({title: "Permiso necesario", message: "Sin permiso para acceder a tu almacenamiento, no se puede realizar el análisis."});
+    else
+        return await sendChat(chatPath);
+}//saveChatReceived
 
 const sendChat = async (chatURI) => {
-    RNFetchBlob.fetch('POST', url, {
+    return await RNFetchBlob.fetch('POST', url, {
         'Content-Type' : 'application/octet-stream',
       }, RNFetchBlob.wrap(chatURI))
-      .uploadProgress((written, total) => {
-        console.log('uploaded written ' + written + ' total '+ total);
-      })
       .then((res) => {
-        console.log("response of sendCHat",res.data);
+        const parsedRes = JSON.parse(res.data);
+        const succ = parsedRes.success;
+        if(succ)
+        {
+            return true;
+        }
+        else
+        {
+            console.log("unsuccesful al guardar chat", parsedRes);
+            return false;
+        }
       })
       .catch((err) => {
         console.log("error at sendChat in Chat.js", err);
+        return false
       })
 }//sendChat
-
-const cutChat = async (chatContent) => {
-    try {
-        var messagesArray = chatContent.split('\n'); //Turn string into array
-
-        messagesArray.reverse(); //Put array backwards to get last messages first
-
-        var validDateMessages = await messagesArray.filter(filterbyDate);
-
-        //console.log(validDateMessages);
-        //await sendChatToBackend(validDateMessages);
-
-    } catch (error) {
-
-    }
-}; //cutChat
-
-var today = new Date(); //THIS MIGHT NOT GO HERE!!
-
-const filterbyDate = (message) => {
-    if (message) {
-        //if message is not empty like this ""
-
-        var messageDate = message.split(',', 1); //get date
-        if (messageDate[0].search('/') !== -1) {
-            //Make sure the message starts with a date
-
-            let mdy = messageDate[0].split('/'); //Get the day, month and year into an array
-            let ObjectMessageDate = new Date('20' + mdy[2], mdy[0] - 1, mdy[1]);
-            var timeElapsedMs = today.getTime() - ObjectMessageDate.getTime(); // time in ms from today to this message
-            var daysElapsed = Math.round(timeElapsedMs / (1000 * 60 * 60 * 24)); //Get the days elapsed
-            if (daysElapsed < 30) {
-                //console.log(daysElapsed);
-                return true;
-            }
-        }
-    } else {
-        return false;
-    }
-};
-
-const chatToTXT = (messagesArray) => {
-    ///storage/emulated/0/Download
-
-
-    const dirs = RNFetchBlob.fs.dirs;
-    const NEW_FILE_PATH = dirs.DownloadDir + '/test.txt';
-    //RNFetchBlob.fs.createFile(NEW_FILE_PATH, 'foo', 'utf8');
-    PruebaSendTxt(NEW_FILE_PATH);
-
-    /*RNFetchBlob.fs.writeStream("storage/emulated/0/Download/chat.txt", 'utf8')
-        .then((stream) => {
-            stream.write('foo')
-            return stream.close()
-        }).catch((err) => {
-            console.error(err);
-        });*/
-}
-
-
-const PruebaSendTxt = (path) => {
-    filename = 'test.txt';
-    const file = {
-        uri: path,             // e.g. 'file:///path/to/file/image123.jpg'
-        name: filename,            // e.g. 'image123.jpg',
-        type: 'text/plain'             // e.g. 'image/jpg'
-    }
-
-    var body = new FormData();
-    body.append('file', file);
-    body.append('title', 'A beautiful photo!');
-
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', "http:192.168.100.107:3030/chat/save-chat");
-    xhr.send(body);
-}
-
-const sendChatToBackend = async (validDateMessages) => {
-
-    console.log(validDateMessages);
-    const url = "http:192.168.100.107:3030/chat/save-chat";
-    const data = {
-        chat: validDateMessages,
-        boleta: 2017630222,
-        password: 123,
-    };
-
-    postRequest(url, data)
-        .then(result => {
-            console.log("result de postReq", result);
-            if (result.success) {
-                //handle successs
-            }
-            else {
-                console.error('error');
-            }
-        })
-        .catch(err => {
-            console.error(err);
-        });
-
-
-}//sendChatToBackend
 
 const requestStoragePermission = async () => {
     try {
