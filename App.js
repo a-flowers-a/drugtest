@@ -11,7 +11,7 @@ import AnalysisStack from 'drugtest/src/components/AnalysisStack';
 import AdminStack from 'drugtest/src/components/AdminStack';
 import OptionsStack from 'drugtest/src/components/OptionsStack';
 import ShareMenu from 'react-native-share-menu';
-import { saveChatReceived } from "./src/Chats";
+import { handleChatURI } from "./src/Chats";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBars, faDiceD20, faFeather, faFilter } from '@fortawesome/free-solid-svg-icons';
 
@@ -58,7 +58,7 @@ const App: () => React$Node = () => {
     if (sharedMimeType) {
       console.log("There is a MimeType: " + sharedMimeType);
       var chatURI = sharedData.toString();
-      saveChatReceived(chatURI);
+      handleChatURI(chatURI);
     }
     else {
       console.log("there is nothing to share");

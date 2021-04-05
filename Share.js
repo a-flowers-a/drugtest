@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, StyleSheet, Image } from 'react-native';
 import { ShareMenuReactView } from 'react-native-share-menu';
-import { saveChatReceived } from "./src/Chats";
+import { handleChatURI } from "./src/Chats";
 import Loading from './src/components/Loading';
 
 const Button = ({ onPress, title, style }) => (
@@ -26,12 +26,12 @@ const Share = () => {
 
   /* This is the code we made to save the chat's URI inside a variable
   and then be able to fetch the chat */
-  const getSharedChat = async () => {
+  const handleSharing = async () => {
     setSending(true);
     if (sharedMimeType) {
       //console.log("There is a MimeType: " + sharedMimeType);
       var chatURI = sharedData.toString();
-      const ret = await saveChatReceived(chatURI);
+      const ret = await handleChatURI(chatURI);
       setSending(false);
       if(ret.success)
         return true;
@@ -63,7 +63,7 @@ const Share = () => {
         <Button
           title={sending ? "Enviando..." : 'Enviar'}
           onPress={async () => {
-            if(await getSharedChat())
+            if(await handleSharing())
               ShareMenuReactView.dismissExtension();
           }}
           disabled={sending}

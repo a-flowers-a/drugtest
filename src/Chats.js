@@ -14,7 +14,7 @@ import { OkAlert } from './components/CustomAlerts';
 const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
 const url = `http:${localHost}:3030/analysis/save-chat/${18}/${0}`;
 
-async function saveChatReceived(chatURI)
+async function handleChatURI(chatURI)
 {
     let chatPath = chatURI;
     if (Platform.OS === 'ios')
@@ -27,7 +27,7 @@ async function saveChatReceived(chatURI)
         OkAlert({title: "Permiso necesario", message: "Sin permiso para acceder a tu almacenamiento, no se puede realizar el análisis."});
     else
         return await sendChat(chatPath);
-}//saveChatReceived
+}//handleChatURI
 
 const sendChat = async (chatURI) => {
     return await RNFetchBlob.fetch('POST', url, {
@@ -93,4 +93,4 @@ const requestStoragePermission = async () => {
     }
 };
 
-export { saveChatReceived };
+export { handleChatURI };
