@@ -6,7 +6,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-//import { Image } from "react-native";
 import AnalysisStack from 'drugtest/src/components/AnalysisStack';
 import AdminStack from 'drugtest/src/components/AdminStack';
 import OptionsStack from 'drugtest/src/components/OptionsStack';
@@ -27,31 +26,22 @@ const App: () => React$Node = () => {
   /*This is to receive the file(chat) */
   const [sharedData, setSharedData] = useState('');
   const [sharedMimeType, setSharedMimeType] = useState('');
-  const [sharedExtraData, setSharedExtraData] = useState(null);
 
   const handleShare = useCallback((item: ?SharedItem) => {
     if (!item) {
       return;
     }
 
-    const { mimeType, data, extraData } = item;
+    const { mimeType, data } = item;
 
     setSharedData(data);
-    setSharedExtraData(extraData);
     setSharedMimeType(mimeType);
-
   }, []);
 
   useEffect(() => {
     ShareMenu.getInitialShare(handleShare);
-  }, []);
-
-  useEffect(() => {
     const listener = ShareMenu.addNewShareListener(handleShare);
-
-    return () => {
-      listener.remove();
-    };
+    return () => listener.remove();
   }, []);
 
   var getSharedChat = () => {
@@ -64,7 +54,6 @@ const App: () => React$Node = () => {
       console.log("there is nothing to share");
     }
   }
-
   /*-----------------------------End of get chat--------------- */
 
   getSharedChat(); //Check if the user sent a chat and catch it
@@ -90,8 +79,8 @@ const App: () => React$Node = () => {
           options={{
             tabBarIcon: ({ color }) => (
               <FontAwesomeIcon
-                icon={ faDiceD20 }
-                style={{color: color}}
+                icon={faDiceD20}
+                style={{ color: color }}
                 size={30}
               />
               /*<Image
@@ -106,11 +95,11 @@ const App: () => React$Node = () => {
           component={AdminStack}
           name="Admin"
           options={{
-            tabBarIcon: ({color}) => (
+            tabBarIcon: ({ color }) => (
               <FontAwesomeIcon
-                  icon={ faFeather /*faFilter faFeather*/ }
-                  style={{color: color}}
-                  size={30}
+                icon={faFeather /*faFilter faFeather*/}
+                style={{ color: color }}
+                size={30}
               />
             )
           }}
@@ -120,11 +109,11 @@ const App: () => React$Node = () => {
           component={OptionsStack}
           name="Options"
           options={{
-            tabBarIcon: ({color}) => (
+            tabBarIcon: ({ color }) => (
               <FontAwesomeIcon
-                  icon={ faBars }
-                  style={{color: color}}
-                  size={30}
+                icon={faBars}
+                style={{ color: color }}
+                size={30}
               />
             )
           }}
