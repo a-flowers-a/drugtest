@@ -12,7 +12,9 @@ import OptionsStack from 'drugtest/src/components/OptionsStack';
 import ShareMenu from 'react-native-share-menu';
 import { handleChatURI } from "./src/Chats";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faBars, faDiceD20, faFeather, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faDiceD20, faFeather } from '@fortawesome/free-solid-svg-icons';
+import Loading from './src/components/Loading';
+import { OkAlert } from './src/components/CustomAlerts';
 
 const Tabs = createBottomTabNavigator();
 
@@ -26,6 +28,7 @@ const App: () => React$Node = () => {
   /*This is to receive the file(chat) */
   const [sharedData, setSharedData] = useState('');
   const [sharedMimeType, setSharedMimeType] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleShare = useCallback((item: ?SharedItem) => {
     if (!item) {
@@ -41,14 +44,21 @@ const App: () => React$Node = () => {
   useEffect(() => {
     ShareMenu.getInitialShare(handleShare);
     const listener = ShareMenu.addNewShareListener(handleShare);
+    getSharedChat();
     return () => listener.remove();
   }, []);
 
-  var getSharedChat = () => {
+  const getSharedChat = async () => {
     if (sharedMimeType) {
+      setLoading(true);
       console.log("There is a MimeType: " + sharedMimeType);
       var chatURI = sharedData.toString();
-      handleChatURI(chatURI);
+      const ret = await handleChatURI(chatURI);
+      setLoading(false);
+      if(ret.success)
+        OkAlert({title: "Éxito", message: "chat enviado correctamente"});
+      else
+        OkAlert({title: "Error", message: ret.message});
     }
     else {
       console.log("there is nothing to share");
@@ -56,12 +66,11 @@ const App: () => React$Node = () => {
   }
   /*-----------------------------End of get chat--------------- */
 
-  getSharedChat(); //Check if the user sent a chat and catch it
 
   return (
 
     <NavigationContainer>
-
+      {loading && <Loading />}
       <Tabs.Navigator
         tabBarOptions={{
           //tintColor: "#fefefe",
