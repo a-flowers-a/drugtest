@@ -42,11 +42,11 @@ const App: () => React$Node = () => {
   }, []);
 
   useEffect(() => {
+    getSharedChat();
     ShareMenu.getInitialShare(handleShare);
     const listener = ShareMenu.addNewShareListener(handleShare);
-    getSharedChat();
     return () => listener.remove();
-  }, []);
+  }, [sharedData]);
 
   const getSharedChat = async () => {
     if (sharedMimeType) {
@@ -55,10 +55,10 @@ const App: () => React$Node = () => {
       var chatURI = sharedData.toString();
       const ret = await handleChatURI(chatURI);
       setLoading(false);
-      if(ret.success)
-        OkAlert({title: "Éxito", message: "chat enviado correctamente"});
+      if (ret.success)
+        OkAlert({ title: "Éxito", message: "Chat enviado correctamente." });
       else
-        OkAlert({title: "Error", message: ret.message});
+        OkAlert({ title: "Error", message: ret.message });
     }
     else {
       console.log("there is nothing to share");
@@ -67,10 +67,11 @@ const App: () => React$Node = () => {
   /*-----------------------------End of get chat--------------- */
 
 
+
   return (
 
     <NavigationContainer>
-      {loading && <Loading />}
+      { loading && <Loading />}
       <Tabs.Navigator
         tabBarOptions={{
           //tintColor: "#fefefe",
