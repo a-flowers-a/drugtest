@@ -33,7 +33,7 @@ function HomeScreen(props) {
     }
 
     async function resetFlags() {
-        const storedFlags = await store("analysisFlags", JSON.stringify({ questSent: false, chatsSent: false }));
+        const storedFlags = await store("analysisFlags", JSON.stringify({ questSent: false, chatsSent: 0 }));
         if (!storedFlags)
             OkAlert({ title: "Error", message: "No se ha podido iniciar un nuevo análisis por favor inténtelo más tarde" },
                 () => { props.navigation.navigate('Inicio'); }
@@ -48,7 +48,7 @@ function HomeScreen(props) {
 
     const [analFlags, setAnalFlags] = useState({
         questSent: false,
-        chatSent: false,
+        chatSent: 0,
     });
 
     return (
@@ -64,12 +64,12 @@ function HomeScreen(props) {
             <ActionBtn
                 btnText={"Mostrar Resultado"}
                 onPressFunc={() => navigateTo('Resultado')}
-                hidden={!(analFlags.questSent === true && analFlags.chatsSent === true)}
+                hidden={!(analFlags.questSent === true && analFlags.chatsSent === 3)}
             />
             <ActionBtn
                 btnText={"Nuevo análisis"}
                 onPressFunc={resetFlags}
-                hidden={!(analFlags.questSent === true && analFlags.chatsSent === true)}
+                hidden={!(analFlags.questSent === true && analFlags.chatsSent === 3)}
             />
             <ActionBtn
                 btnText={"Login"}

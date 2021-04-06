@@ -11,7 +11,7 @@ import { PermissionsAndroid, Platform } from 'react-native';
 import { OkAlert } from './components/CustomAlerts';
 
 const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
-const url = `http:${localHost}:3030/analysis/save-chat/${18}/${0}`;
+const url = `http:${localHost}:3030/analysis/save-chat/${18}`;
 
 async function handleChatURI(chatURI) {
     let chatPath = chatURI.split(',')[0];
@@ -35,7 +35,7 @@ const sendChat = async (chatURI) => {
             const parsedRes = JSON.parse(res.data);
             const succ = parsedRes.success;
             if (succ) {
-                return { success: true };
+                return parsedRes;
             }
             else {
                 console.log("save chat returned ", parsedRes);
