@@ -14,42 +14,40 @@ import { OkAlert } from './components/CustomAlerts';
 const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
 const url = `http:${localHost}:3030/analysis/save-chat/${18}/${0}`;
 
-async function handleChatURI(chatURI)
-{
-    let chatPath = chatURI;
-    if (Platform.OS === 'ios')
-    {
+async function handleChatURI(chatURI) {
+    console.log("chat URI[0], android plaform in Chat.js", chatURI.split(',')[0]);
+    let chatPath = chatURI.split(',')[0];
+    if (Platform.OS === 'ios') {
         //Remove file// prefix 
         const arr = chatURI.split('//');
         chatPath = decodeURI(arr[1]);
     }
-    if(Platform.OS === "android" && !requestStoragePermission())
-        OkAlert({title: "Permiso necesario", message: "Sin permiso para acceder a tu almacenamiento, no se puede realizar el análisis."});
-    else
+    if (Platform.OS === "android" && !requestStoragePermission())
+        OkAlert({ title: "Permiso necesario", message: "Sin permiso para acceder a tu almacenamiento, no se puede realizar el análisis." });
+    else {
         return await sendChat(chatPath);
+    }
 }//handleChatURI
 
 const sendChat = async (chatURI) => {
     return await RNFetchBlob.fetch('POST', url, {
-        'Content-Type' : 'application/octet-stream',
-      }, RNFetchBlob.wrap(chatURI))
-      .then((res) => {
-        const parsedRes = JSON.parse(res.data);
-        const succ = parsedRes.success;
-        if(succ)
-        {
-            return {success: true};
-        }
-        else
-        {
-            console.log("save chat returned ", parsedRes);
-            return {success: false, message: "Hubo un problema en el servidor, no se pudo guardar chat."};
-        }
-      })
-      .catch((err) => {
-        console.log("error at sendChat in Chat.js", err);
-        return {success: false, message: "No se puede conectar con el servidor en este momento."};
-      })
+        'Content-Type': 'application/octet-stream',
+    }, RNFetchBlob.wrap(chatURI))
+        .then((res) => {
+            const parsedRes = JSON.parse(res.data);
+            const succ = parsedRes.success;
+            if (succ) {
+                return { success: true };
+            }
+            else {
+                console.log("save chat returned ", parsedRes);
+                return { success: false, message: "Hubo un problema en el servidor, no se pudo guardar chat." };
+            }
+        })
+        .catch((err) => {
+            console.log("error at sendChat in Chat.js", err);
+            return { success: false, message: "No se puede conectar con el servidor en este momento." };
+        })
 }//sendChat
 
 const requestStoragePermission = async () => {
