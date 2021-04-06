@@ -8,14 +8,12 @@
 
 import RNFetchBlob from 'rn-fetch-blob';
 import { PermissionsAndroid, Platform } from 'react-native';
-import { postRequest } from './utils/HttpRequest'
 import { OkAlert } from './components/CustomAlerts';
 
 const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
 const url = `http:${localHost}:3030/analysis/save-chat/${18}/${0}`;
 
 async function handleChatURI(chatURI) {
-    console.log("chat URI[0], android plaform in Chat.js", chatURI.split(',')[0]);
     let chatPath = chatURI.split(',')[0];
     if (Platform.OS === 'ios') {
         //Remove file// prefix 
