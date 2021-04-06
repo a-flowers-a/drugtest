@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, StyleSheet, Image } from 'react-native';
 import { ShareMenuReactView } from 'react-native-share-menu';
-import { handleChatURI } from "./src/Chats";
-import Loading from './src/components/Loading';
+import { handleChatURI } from "drugtest/src/Chats.js";
+import Loading from 'drugtest/src/components/Loading';
 
 const Button = ({ onPress, title, style }) => (
   <Pressable onPress={onPress}>
