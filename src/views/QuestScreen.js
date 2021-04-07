@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Platform, StyleSheet } from "react-native";
 import { ScrollView } from 'react-native-gesture-handler';
-
 import ActionBtn from '../components/ActionBtn';
 import { postRequest } from '../utils/HttpRequest';
 import QuestionFPt from '../components/QuestionFPt';
 import QuestionSPt from '../components/QuestionSPt';
 import questionsII from '../res/questionsII';
 import Loading from '../components/Loading';
-import { multiGet, removeMany, store, get } from '../utils/storage';
+import { multiGet, removeMany, store } from '../utils/storage';
+import { OkAlert } from '../components/CustomAlerts';
 
 function QuestScreen(props) {
 
@@ -196,30 +196,39 @@ function QuestScreen(props) {
         postRequest(url, data)
             .then(async result => {
                 setLoading(false);
-                console.log("result de postReq", result);
+                let tit = "Éxito";
+                let mess = "Resultado de cuestionario correctamente guardado.";
                 if (result.success) {
                     deleteStorage();
-                    const analysisFlags = await store("analysisFlags", JSON.stringify({ questSent: true, chatsSent: false, idResFinal: result.idResFinal}));
-                    if (analysisFlags)
-                        console.log("Se guardó la bandera de cuestionario enviado");
-                    else
-                        OkAlert(
-                            {
-                                title: Error,
-                                message: "No se pudo guardar el questionario por favor inténtelo nuevamente"
-                            },
-                            () => { props.navigation.navigate('Inicio'); }
-                        );
-                    props.navigation.navigate('Inicio');
+                    const analysisFlags = await store("analysisFlags", JSON.stringify({ questSent: true, chatsSent: 0, idResFinal: result.idResFinal}));
+                    if (!analysisFlags)
+                    {
+                        tit = "Error";
+                        mess = "El resultado del cuestionario se guardó en el servidor, pero No se pudo guardar datos en el storage de este dispositivo.";
+                    }
                 }
-                else {
-                    console.error('error');
+                else
+                {
+                    tit = "Error",
+                    mess = "No se ha podido guardar resultado de cuestionario en la base de datos."
                 }
+                OkAlert({
+                        title: tit,
+                        message: mess
+                    },
+                    () => {props.navigation.navigate('Inicio');}
+                );
             })
             .catch(err => {
-                console.error(err);
+                console.log(err);
+                OkAlert(
+                    {
+                        title: "Error",
+                        message: "No se puede conectar con el servidor en este momento."
+                    },
+                    () => { props.navigation.navigate('Inicio'); }
+                );
             });
-
     }//submitAnswers
 
     if (!display.part1 && !display.part2 && !display.submit && !display.setTapsII) {
