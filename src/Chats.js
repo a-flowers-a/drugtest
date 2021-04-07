@@ -39,7 +39,10 @@ const sendChat = async (chatURI) => {
             }
             else {
                 console.log("save chat returned ", parsedRes);
-                return { success: false, message: "Hubo un problema en el servidor, no se pudo guardar chat." };
+                let mess = "Hubo un problema en el servidor, no se pudo guardar chat.";
+                if(parsedRes.complete)
+                    mess = "Chats completos, espera resultado de análisis."
+                return { success: false, message: mess };
             }
         })
         .catch((err) => {
