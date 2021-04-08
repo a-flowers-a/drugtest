@@ -69,7 +69,7 @@ function HomeScreen(props) {
             <ActionBtn
                 btnText={"Nuevo análisis"}
                 onPressFunc={resetFlags}
-                hidden={!(analFlags.questSent === true && analFlags.chatsSent === 3)}
+                hidden={false/*!(analFlags.questSent === true && analFlags.chatsSent === 3)*/}
             />
             <ActionBtn
                 btnText={"Login"}

@@ -9,6 +9,7 @@ import questionsII from '../res/questionsII';
 import Loading from '../components/Loading';
 import { multiGet, removeMany, store } from '../utils/storage';
 import { OkAlert } from '../components/CustomAlerts';
+import { iosStore } from '../utils/iosStorage';
 
 function QuestScreen(props) {
 
@@ -201,7 +202,14 @@ function QuestScreen(props) {
                 if (result.success) {
                     deleteStorage();
                     const analysisFlags = await store("analysisFlags", JSON.stringify({ questSent: true, chatsSent: 0, idResFinal: result.idResFinal}));
-                    if (!analysisFlags)
+                    let iosStored = true;
+                    if(Platform.OS == 'ios')
+                    {
+                        const storedios = await iosStore(result.idResFinal);
+                        console.log("returned stored en ios quest", storedios);
+                        iosStored = storedios;
+                    }
+                    if (!analysisFlags || !iosStored)
                     {
                         tit = "Error";
                         mess = "El resultado del cuestionario se guardó en el servidor, pero No se pudo guardar datos en el storage de este dispositivo.";

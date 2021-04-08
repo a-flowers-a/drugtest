@@ -9,22 +9,35 @@
 import RNFetchBlob from 'rn-fetch-blob';
 import { PermissionsAndroid, Platform } from 'react-native';
 import { OkAlert } from './components/CustomAlerts';
+import { iosGet } from './utils/iosStorage';
 
 const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
-const url = `http:${localHost}:3030/analysis/save-chat/${18}`;
+let url = `http:${localHost}:3030/analysis/save-chat/`;
 
 async function handleChatURI(chatURI) {
     let chatPath = chatURI.split(',')[0];
+    let idResFinal = 0;
+    const errMess = "No se encontró un dato en el storage de tu dispositivo necesario para realizar el envío, realiza el cuestionario nuevamente.";
     if (Platform.OS === 'ios') {
         //Remove file// prefix 
         const arr = chatURI.split('//');
         chatPath = decodeURI(arr[1]);
+        idResFinal = await iosGet();
+        console.log("idResFinal got from ios in chat.js", idResFinal);
+        return {success: false, message: errMess };
     }
-    if (Platform.OS === "android" && !requestStoragePermission())
+    else
+    {
+        idResFinal = 18;
+        console.log("idResFinal got from android in chat.js", idResFinal);
+        //return {success: false, message: errMess };
+    }
+    url += idResFinal;
+    console.log("url to send chat in chat.js", url);
+    if(Platform.OS === 'android' && !requestStoragePermission())
         OkAlert({ title: "Permiso necesario", message: "Sin permiso para acceder a tu almacenamiento, no se puede realizar el análisis." });
-    else {
+    else 
         return await sendChat(chatPath);
-    }
 }//handleChatURI
 
 const sendChat = async (chatURI) => {
