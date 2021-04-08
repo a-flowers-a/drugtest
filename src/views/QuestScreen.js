@@ -200,12 +200,14 @@ function QuestScreen(props) {
                 let tit = "Éxito";
                 let mess = "Resultado de cuestionario correctamente guardado.";
                 if (result.success) {
+                    console.log("el result",result);
                     deleteStorage();
                     const analysisFlags = await store("analysisFlags", JSON.stringify({ questSent: true, chatsSent: 0, idResFinal: result.idResFinal}));
                     let iosStored = true;
                     if(Platform.OS == 'ios')
                     {
-                        const storedios = await iosStore(result.idResFinal);
+                        const idResFin = result.idResFinal;
+                        const storedios = await iosStore(idResFin.toString());
                         console.log("returned stored en ios quest", storedios);
                         iosStored = storedios;
                     }
