@@ -13,38 +13,37 @@ import { iosGet } from './utils/iosStorage';
 import { get } from './utils/storage';
 
 const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
-let url = `http:${localHost}:3030/analysis/save-chat/`;
+let idResFinal = 0;
 
 async function handleChatURI(chatURI) {
     let chatPath = chatURI.split(',')[0];
-    let idResFinal = 0;
     const errMess = "No se encontró un dato en el storage de tu dispositivo necesario para realizar el envío, realiza el cuestionario nuevamente.";
     if (Platform.OS === 'ios') {
         //Remove file// prefix 
         const arr = chatURI.split('//');
         chatPath = decodeURI(arr[1]);
         idResFinal = await iosGet();
-        if(idResFinal === "")
-            return {success: false, message: errMess };
+        if (idResFinal === "")
+            return { success: false, message: errMess };
     }
-    else
-    {
+    else {
         console.log("idResFinal got from android in chat.js", idResFinal);
         const analysisFlags = await get("analysisFlags");
-        if(analysisFlags)
+        if (analysisFlags)
             idResFinal = JSON.parse(analysisFlags).idResFinal;
         else
-            return {success: false, message: errMess };
+            return { success: false, message: errMess };
     }
-    url += idResFinal;
-    console.log("url to send chat in chat.js", url);
-    if(Platform.OS === 'android' && !requestStoragePermission())
+
+    if (Platform.OS === 'android' && !requestStoragePermission())
         OkAlert({ title: "Permiso necesario", message: "Sin permiso para acceder a tu almacenamiento, no se puede realizar el análisis." });
-    else 
+    else
         return await sendChat(chatPath);
 }//handleChatURI
 
 const sendChat = async (chatURI) => {
+    const url = `http:${localHost}:3030/analysis/save-chat/${idResFinal}`;
+    console.log("url to send chat in chat.js", url);
     return await RNFetchBlob.fetch('POST', url, {
         'Content-Type': 'application/octet-stream',
     }, RNFetchBlob.wrap(chatURI))
@@ -57,7 +56,7 @@ const sendChat = async (chatURI) => {
             else {
                 console.log("save chat returned ", parsedRes);
                 let mess = "Hubo un problema en el servidor, no se pudo guardar chat.";
-                if(parsedRes.complete)
+                if (parsedRes.complete)
                     mess = "Chats completos, espera resultado de análisis."
                 return { success: false, message: mess };
             }
