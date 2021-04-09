@@ -10,6 +10,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import { PermissionsAndroid, Platform } from 'react-native';
 import { OkAlert } from './components/CustomAlerts';
 import { iosGet } from './utils/iosStorage';
+import { get } from './utils/storage';
 
 const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
 let url = `http:${localHost}:3030/analysis/save-chat/`;
@@ -28,9 +29,12 @@ async function handleChatURI(chatURI) {
     }
     else
     {
-        idResFinal = 18;
         console.log("idResFinal got from android in chat.js", idResFinal);
-        //return {success: false, message: errMess };
+        const analysisFlags = await get("analysisFlags");
+        if(analysisFlags)
+            idResFinal = JSON.parse(analysisFlags).idResFinal;
+        else
+            return {success: false, message: errMess };
     }
     url += idResFinal;
     console.log("url to send chat in chat.js", url);
