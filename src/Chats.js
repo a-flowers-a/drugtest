@@ -22,9 +22,9 @@ async function handleChatURI(chatURI) {
         //Remove file// prefix 
         const arr = chatURI.split('//');
         chatPath = decodeURI(arr[1]);
-        const idResFin = await iosGet();
-        console.log("idResFin got from ios in chat.js", idResFin);
-        return {success: false, message: errMess };
+        idResFinal = await iosGet();
+        if(idResFinal === "")
+            return {success: false, message: errMess };
     }
     else
     {
