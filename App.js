@@ -42,16 +42,19 @@ const App: () => React$Node = () => {
   }, []);
 
   useEffect(() => {
-    getSharedChat();
     ShareMenu.getInitialShare(handleShare);
     const listener = ShareMenu.addNewShareListener(handleShare);
+    getSharedChat();
     return () => listener.remove();
-  }, [sharedData]);
+  }, []);
+
+  console.log("sharedData out of any methods" + sharedData);
+  console.log("sharedMimeType out of any methods" + sharedMimeType);
 
   const getSharedChat = async () => {
-    if (sharedMimeType) {
+    if (sharedData) {
       setLoading(true);
-      console.log("There is a MimeType: " + sharedMimeType);
+      //console.log("There is a sharedData: " + sharedData);
       var chatURI = sharedData.toString();
       const ret = await handleChatURI(chatURI);
       setLoading(false);
@@ -61,7 +64,7 @@ const App: () => React$Node = () => {
         OkAlert({ title: "Error", message: ret.message });
     }
     else {
-      console.log("there is nothing to share");
+      console.log("there is no sharedData in getSharedCHat");
     }
   }
   /*-----------------------------End of get chat--------------- */
