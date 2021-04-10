@@ -28,10 +28,12 @@ async function handleChatURI(chatURI) {
             return { success: false, message: errMess };
     }
     else {
-        console.log("idResFinal got from android in chat.js", idResFinal);
         const analysisFlags = await get("analysisFlags");
         if (analysisFlags)
+        {
             idResFinal = JSON.parse(analysisFlags).idResFinal;
+            console.log("idResFinal got from android in chat.js", idResFinal);
+        }
         else
             return { success: false, message: errMess };
     }
