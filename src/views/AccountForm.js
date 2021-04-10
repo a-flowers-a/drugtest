@@ -9,6 +9,7 @@ import { OkAlert } from '../components/CustomAlerts';
 import { get, store } from '../utils/storage';
 import Loading from '../components/Loading';
 import { hash } from '../utils/hashing';
+import {androidHost} from '../utils/hosts';
 
 function AccountForm(props) {
 
@@ -58,7 +59,7 @@ function AccountForm(props) {
         },
     });
 
-    const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
+    const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
 
     const { create } = props.route.params;
     const [sex, setSex] = useState(true);

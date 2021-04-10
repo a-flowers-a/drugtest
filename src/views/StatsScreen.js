@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, processColor, Platform } from 'react-native';
 import ActionBtn from '../components/ActionBtn';
 import { getRequest } from '../utils/HttpRequest';
 import Loading from '../components/Loading';
+import {androidHost} from '../utils/hosts';
 
 const styles = StyleSheet.create({
     container: {
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
 
 export default function StatsScreen(props) {
     const [loading, setLoading] = useState(false);
-    const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
+    const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
     
     function submitData() {
         setLoading(true);

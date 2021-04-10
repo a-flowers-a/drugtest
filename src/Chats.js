@@ -11,8 +11,9 @@ import { PermissionsAndroid, Platform } from 'react-native';
 import { OkAlert } from './components/CustomAlerts';
 import { iosGet } from './utils/iosStorage';
 import { get } from './utils/storage';
+import {androidHost} from './utils/hosts';
 
-const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
+const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;//"192.168.1.89";
 let idResFinal = 0;
 
 async function handleChatURI(chatURI) {

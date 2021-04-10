@@ -9,6 +9,7 @@ import { OkAlert } from '../components/CustomAlerts';
 import { store, get } from '../utils/storage';
 import Loading from '../components/Loading';
 import { hash } from '../utils/hashing';
+import {androidHost} from '../utils/hosts';
 
 
 function Login(props) {
@@ -16,7 +17,7 @@ function Login(props) {
     const { control, handleSubmit, errors } = useForm();
     const [display, setDisplay] = useState(false);
     const [loading, setLoading] = useState(false);
-    const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
+    const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
 
     const onSubmit = async data => {
         setLoading(true);

@@ -6,6 +6,7 @@ import Loading from '../components/Loading';
 import { getRequest } from '../utils/HttpRequest';
 import { OkAlert } from '../components/CustomAlerts';
 import CardMessage from '../components/CardMessage';
+import {androidHost} from '../utils/hosts';
 
 const styles = StyleSheet.create({
     container: {
@@ -21,7 +22,7 @@ function ContactsScreen() {
     const [contacts, setContacts] = useState([]);
 
     const getContacts = async () => {
-        const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
+        const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;//"192.168.1.89";
         setLoading(true);
         const url = `http:${localHost}:3030/admin/get-contacts`;
         await getRequest(url)

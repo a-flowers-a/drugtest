@@ -10,6 +10,7 @@ import Loading from '../components/Loading';
 import { multiGet, removeMany, store } from '../utils/storage';
 import { OkAlert } from '../components/CustomAlerts';
 import { iosStore } from '../utils/iosStorage';
+import {androidHost} from '../utils/hosts';
 
 function QuestScreen(props) {
 
@@ -24,7 +25,7 @@ function QuestScreen(props) {
         },
     });
 
-    const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
+    const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
 
     /*if they do not have state, since it needs to be initialized with 0,
     every re render is reinitialized to 0*/

@@ -10,6 +10,7 @@ import Loading from '../components/Loading';
 import CustomModal from '../components/CustomModal';
 import { hash } from '../utils/hashing';
 import { postRequest } from '../utils/HttpRequest';
+import {androidHost} from '../utils/hosts';
 
 function HomeScreen(props) {
     const styles = StyleSheet.create({
@@ -45,7 +46,7 @@ function HomeScreen(props) {
         },
     });
 
-    const localHost = Platform.OS == 'ios' ? "localhost" : "192.168.1.89";
+    const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
     const [user, setUser] = useState({
         name: "Nombre Alumno",
         boleta: "",
