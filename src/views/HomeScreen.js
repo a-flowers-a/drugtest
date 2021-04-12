@@ -28,7 +28,7 @@ function HomeScreen(props) {
         const flags = await get("analysisFlags");
         if (flags != null) {
             setAnalFlags(JSON.parse(flags));
-            console.log("Banderas obtenidas en home " + flags);
+            //console.log("Banderas obtenidas en home " + flags);
         }
     }
 

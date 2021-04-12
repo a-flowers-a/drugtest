@@ -44,9 +44,12 @@ const App: () => React$Node = () => {
   useEffect(() => {
     ShareMenu.getInitialShare(handleShare);
     const listener = ShareMenu.addNewShareListener(handleShare);
-    getSharedChat();
     return () => listener.remove();
   }, []);
+
+  useEffect(()=>{
+    getSharedChat();
+  }, [sharedData]);
 
   console.log("sharedData out of any methods" + sharedData);
   console.log("sharedMimeType out of any methods" + sharedMimeType);
