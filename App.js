@@ -15,6 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBars, faDiceD20, faFeather } from '@fortawesome/free-solid-svg-icons';
 import Loading from './src/components/Loading';
 import { OkAlert } from './src/components/CustomAlerts';
+import { get } from './src/utils/storage';
 
 const Tabs = createBottomTabNavigator();
 
@@ -56,15 +57,32 @@ const App: () => React$Node = () => {
 
   const getSharedChat = async () => {
     if (sharedData) {
-      setLoading(true);
-      //console.log("There is a sharedData: " + sharedData);
-      var chatURI = sharedData.toString();
-      const ret = await handleChatURI(chatURI);
-      setLoading(false);
-      if (ret.success)
+      let errMess = "";
+      let success = true;
+      const analysisFlags = await get("analysisFlags");
+      if (analysisFlags)
+      {
+        setLoading(true);
+        const idResFinal = JSON.parse(analysisFlags).idResFinal;
+        console.log("idResFinal got from android in chat.js", idResFinal);
+        var chatURI = sharedData.toString();
+        const ret = await handleChatURI(chatURI,idResFinal);
+        setLoading(false);
+        if (!ret.success)
+        {
+          success = false;
+          errMess = ret.message;
+        }
+      }
+      else
+      {
+        success = false;
+        errMess = "No se encontró un dato en el storage de tu dispositivo necesario para realizar el envío, realiza el cuestionario nuevamente."
+      }
+      if(success)
         OkAlert({ title: "Éxito", message: "Chat enviado correctamente." });
       else
-        OkAlert({ title: "Error", message: ret.message });
+        OkAlert({ title: "Error", message: errMess });
     }
     else {
       console.log("there is no sharedData in getSharedCHat");

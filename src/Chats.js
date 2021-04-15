@@ -10,13 +10,12 @@ import RNFetchBlob from 'rn-fetch-blob';
 import { PermissionsAndroid, Platform } from 'react-native';
 import { OkAlert } from './components/CustomAlerts';
 import { iosGet } from './utils/iosStorage';
-import { get } from './utils/storage';
 import {androidHost} from './utils/hosts';
 
 const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;//"192.168.1.89";
 let idResFinal = 0;
 
-async function handleChatURI(chatURI) {
+async function handleChatURI(chatURI, andResFin) {
     let chatPath = chatURI.split(',')[0];
     const errMess = "No se encontró un dato en el storage de tu dispositivo necesario para realizar el envío, realiza el cuestionario nuevamente.";
     if (Platform.OS === 'ios') {
@@ -28,14 +27,7 @@ async function handleChatURI(chatURI) {
             return { success: false, message: errMess };
     }
     else {
-        const analysisFlags = await get("analysisFlags");
-        if (analysisFlags)
-        {
-            idResFinal = JSON.parse(analysisFlags).idResFinal;
-            console.log("idResFinal got from android in chat.js", idResFinal);
-        }
-        else
-            return { success: false, message: errMess };
+        idResFinal = andResFin;
     }
 
     if (Platform.OS === 'android' && !requestStoragePermission())
