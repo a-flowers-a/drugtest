@@ -52,9 +52,6 @@ const App: () => React$Node = () => {
     getSharedChat();
   }, [sharedData]);
 
-  console.log("sharedData out of any methods" + sharedData);
-  console.log("sharedMimeType out of any methods" + sharedMimeType);
-
   const getSharedChat = async () => {
     if (sharedData) {
       let errMess = "";
@@ -84,10 +81,7 @@ const App: () => React$Node = () => {
       else
         OkAlert({ title: "Error", message: errMess });
     }
-    else {
-      console.log("there is no sharedData in getSharedCHat");
-    }
-  }
+  }//getSharedChat
   /*-----------------------------End of get chat--------------- */
 
 
