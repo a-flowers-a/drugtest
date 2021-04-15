@@ -13,52 +13,6 @@ import {androidHost} from '../utils/hosts';
 
 function AccountForm(props) {
 
-    const styles = StyleSheet.create({
-        container: {
-            backgroundColor: "#120078",/*120078 */
-            flex: 1,
-        },
-        errorText: {
-            fontSize: 14,
-            marginTop: 5,
-            marginHorizontal: 25,
-        },
-        hr: {
-            borderBottomColor: "#f5f4f4",
-            borderBottomWidth: 1,
-            marginHorizontal: 20,
-            marginVertical: 5,
-        },
-        input: {
-            //box-sizing: border-box,
-            borderRadius: 5,
-            borderStyle: "solid",
-            borderWidth: 1,
-            borderColor: "white",
-            color: "#f5f4f4",
-            fontSize: 18,
-            marginHorizontal: 15,
-            marginBottom: 5,
-            padding: 10,
-            //width: 300,
-        },
-        pressText: {
-            color: "#dddddd",
-            fontSize: 16,
-            marginLeft: 30
-        },
-        row: {
-            flexDirection: "row",
-            justifyContent: "center",
-        },
-        text: {
-            color: "#f5f4f4",
-            fontSize: 20,
-            textAlign: "left",
-            margin: 10,
-        },
-    });
-
     const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
 
     const { create } = props.route.params;
@@ -108,7 +62,7 @@ function AccountForm(props) {
                             title: titl,
                             message: result.message
                         },
-                        () => { props.navigation.navigate('Inicio'); }
+                        () => { result.new && props.navigation.navigate('Inicio'); }
                     );
                 }
                 else {
@@ -138,9 +92,6 @@ function AccountForm(props) {
                 name: parsedUser.name,
                 semester: (parsedUser.semester).toString(),
             });
-            /*setValue("email", parsedUser.email);
-            setValue("name", parsedUser.name);
-            setValue("semester", (parsedUser.semester).toString());*/
             setSex(parsedUser.sex);
             setShift(parsedUser.shift);
         }
@@ -337,5 +288,52 @@ function AccountForm(props) {
         </ScrollView>
     );
 }//AccountForm
+
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: "#120078",/*120078 */
+        flex: 1,
+    },
+    errorText: {
+        fontSize: 14,
+        marginTop: 5,
+        marginHorizontal: 25,
+    },
+    hr: {
+        borderBottomColor: "#f5f4f4",
+        borderBottomWidth: 1,
+        marginHorizontal: 20,
+        marginVertical: 5,
+    },
+    input: {
+        //box-sizing: border-box,
+        borderRadius: 5,
+        borderStyle: "solid",
+        borderWidth: 1,
+        borderColor: "white",
+        color: "#f5f4f4",
+        fontSize: 18,
+        marginHorizontal: 15,
+        marginBottom: 5,
+        padding: 10,
+        //width: 300,
+    },
+    pressText: {
+        color: "#dddddd",
+        fontSize: 16,
+        marginLeft: 30
+    },
+    row: {
+        flexDirection: "row",
+        justifyContent: "center",
+    },
+    text: {
+        color: "#f5f4f4",
+        fontSize: 20,
+        textAlign: "left",
+        margin: 10,
+    },
+});
 
 export default AccountForm;
