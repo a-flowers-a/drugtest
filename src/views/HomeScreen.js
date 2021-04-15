@@ -5,26 +5,13 @@ import ActionBtn from '../components/ActionBtn';
 import ChatUpload from '../components/ChatUpload';
 import { get, store } from '../utils/storage';
 
-
 function HomeScreen(props) {
-    const styles = StyleSheet.create({
-        container: {
-            backgroundColor: "#120078",/*120078 */
-            flex: 1,
-        },
-    });
 
     function navigateTo(screenOption) {
         props.navigation.navigate(screenOption);
     }//navigateTo
 
-    async function test() {
-        const user = await get("user");
-        console.log("user in Home", user);
-    }//
-
-    async function getFlags() {
-
+    async function getStorage() {
         const flags = await get("analysisFlags");
         if (flags != null) {
             setAnalFlags(JSON.parse(flags));
@@ -40,10 +27,8 @@ function HomeScreen(props) {
             );
     }
 
-    test();
-
     useEffect(() => {
-        getFlags();
+        getStorage();
     }, []);
 
     const [analFlags, setAnalFlags] = useState({
@@ -53,7 +38,6 @@ function HomeScreen(props) {
 
     return (
         <ScrollView style={styles.container}>
-
             <ActionBtn
                 btnText={"Realizar Cuestionario"}
                 onPressFunc={() => navigateTo('Cuestionario')}
@@ -87,5 +71,12 @@ function HomeScreen(props) {
         </ScrollView>
     );
 }//HomeScreen
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: "#120078",/*120078 */
+        flex: 1,
+    },
+});
 
 export default HomeScreen;

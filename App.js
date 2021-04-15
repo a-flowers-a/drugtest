@@ -93,7 +93,6 @@ const App: () => React$Node = () => {
 
 
   return (
-
     <NavigationContainer>
       { loading && <Loading />}
       <Tabs.Navigator
