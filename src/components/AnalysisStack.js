@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from '../views/HomeScreen';
 import QuestScreen from '../views/QuestScreen';
@@ -9,30 +9,27 @@ import PrevResultsScreen from '../views/PrevResultsScreen';
 import AccountForm from '../views/AccountForm';
 import { useEffect, useState } from 'react';
 import { get } from '../utils/storage';
-import { AuthContext } from './AuthProvider';
 
 const Stack = createStackNavigator();
 
 const AnalysisStack = (props) => {
-    const { user, setUser } = useContext(AuthContext);
-    
+    const [userLogged, setUserLogged] = useState(false);
     async function getUser(){
-        console.log("getuser in analysisstack triggered");
         const userSt = await get("user");
         console.log("user in AnalysisStack", userSt);
         let showBtmTab = false;
         if(userSt)
         {
             showBtmTab = true;
-            setUser(userSt);
+            setUserLogged(true);
         }
         props.navigation.setOptions({tabBarVisible: showBtmTab});
-    }//getUser
-
-    useEffect(() => {
+    }
+    console.log("userLogged en analysysStack fuera de todo método", userLogged);
+    useEffect(()=>{
+        console.log("useEffect analysysStack triggered");
         getUser();
-        //return subscriber; // unsubscribe on unmount
-    }, []);
+    },[userLogged]);
 
     return (
         <Stack.Navigator
@@ -45,7 +42,7 @@ const AnalysisStack = (props) => {
                 headerTintColor: "#ffffff"
             }}
         >
-        {user ? (
+        {userLogged ? (
             <>
                 <Stack.Screen 
                     name="Inicio" 
