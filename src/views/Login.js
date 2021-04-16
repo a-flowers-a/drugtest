@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Text, View, TextInput, StyleSheet, Platform } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
@@ -10,9 +10,12 @@ import { store, get } from '../utils/storage';
 import Loading from '../components/Loading';
 import { hash } from '../utils/hashing';
 import {androidHost} from '../utils/hosts';
+import { AuthContext } from '../components/AuthProvider';
 
 
 function Login(props) {
+    //FOR CONTEXT
+    const { setUser } = useContext(AuthContext);
 
     const { control, handleSubmit, errors } = useForm();
     const [display, setDisplay] = useState(false);
@@ -30,6 +33,8 @@ function Login(props) {
                 setLoading(false);
                 if (result.success) {
                     const jsonObj = JSON.stringify(result.user);
+                    //FOR CONTEXT
+                    setUser(jsonObj);
                     const stored = await store("user", jsonObj);
                     const storedFlags = await store("analysisFlags", JSON.stringify({ questSent: false, chatsSent: false }));
                     if (!stored && !storedFlags)

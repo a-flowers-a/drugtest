@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { OkAlert, OkCancelAlert } from '../components/CustomAlerts';
@@ -11,6 +11,7 @@ import CustomModal from '../components/CustomModal';
 import { hash } from '../utils/hashing';
 import { postRequest } from '../utils/HttpRequest';
 import {androidHost} from '../utils/hosts';
+import { AuthContext } from '../components/AuthProvider';
 
 function HomeScreen(props) {
     const styles = StyleSheet.create({
@@ -47,7 +48,11 @@ function HomeScreen(props) {
     });
 
     const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
-    const [user, setUser] = useState({
+    //FOR CONTEXT
+    const { setUser } = useContext(AuthContext);
+
+
+    const [userSt, setUserSt] = useState({
         name: "Nombre Alumno",
         boleta: "",
     });
@@ -60,7 +65,7 @@ function HomeScreen(props) {
         setLoading(true);
         const url = `http:${localHost}:3030/student/delete-account`;
         const hashPass = await hash(data.password);
-        const finalData = { password: hashPass[0], boleta: user.boleta };
+        const finalData = { password: hashPass[0], boleta: userSt.boleta };
         console.log(finalData);
         postRequest(url, finalData)
             .then(async response => {
@@ -99,7 +104,7 @@ function HomeScreen(props) {
         if (stUser !== null) {
             const parsObj = JSON.parse(stUser);
             console.log("user in storage", parsObj);
-            setUser(parsObj);
+            setUserSt(parsObj);
         }
         else
             console.log("not user found in storage");
@@ -117,7 +122,7 @@ function HomeScreen(props) {
                     style={styles.icon}
                     size={40}
                 />
-                <Text style={[styles.text, styles.title]}>{user.name}</Text>
+                <Text style={[styles.text, styles.title]}>{userSt.name}</Text>
             </View>
             <TouchableOpacity
                 onPress={() => {
@@ -126,7 +131,10 @@ function HomeScreen(props) {
                             const removed = await remove("user");
                             const removedFlags = await remove("analysisFlags");
                             if (removed && removedFlags)
-                                props.navigation.navigate('Inicio');
+                            {
+                                setUser(null);
+                                //props.navigation.navigate('Inicio');
+                            }
                             else{
                                 !removed ? mess = "No se ha podido cerrar sesión, inténtalo nuevamente": "Algo salió mal por favor intenté nuevamente";
                                 OkAlert({ title: "Error", message: mess});

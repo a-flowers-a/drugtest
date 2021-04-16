@@ -16,6 +16,7 @@ import { faBars, faDiceD20, faFeather } from '@fortawesome/free-solid-svg-icons'
 import Loading from './src/components/Loading';
 import { OkAlert } from './src/components/CustomAlerts';
 import { get } from './src/utils/storage';
+import { AuthProvider } from './src/components/AuthProvider';
 
 const Tabs = createBottomTabNavigator();
 
@@ -87,82 +88,63 @@ const App: () => React$Node = () => {
 
 
   return (
-    <NavigationContainer>
-      { loading && <Loading />}
-      <Tabs.Navigator
-        tabBarOptions={{
-          //tintColor: "#fefefe",
-          activeTintColor: '#1db954', //fefefe #1db954
-          inactiveTintColor: '#fefefe', //fefefe 9A9F99
-          style: {
-            backgroundColor: "#120078"
-          },
-        }}
-
-      >
-        <Tabs.Screen
-          component={AnalysisStack}
-          name="Analysis"
-          options={{
-            tabBarIcon: ({ color }) => (
-              <FontAwesomeIcon
-                icon={faDiceD20}
-                style={{ color: color }}
-                size={30}
-              />
-              /*<Image
-                source={require('drugtest/src/assets/bank.png')}
-                style={{ tintColor: color, width: size, height: size}}
-              />*/
-            )
+    <AuthProvider>
+      <NavigationContainer>
+        { loading && <Loading />}
+        <Tabs.Navigator
+          tabBarOptions={{
+            //tintColor: "#fefefe",
+            activeTintColor: '#1db954', //fefefe #1db954
+            inactiveTintColor: '#fefefe', //fefefe 9A9F99
+            style: {
+              backgroundColor: "#120078"
+            },
           }}
-        />
+        >
+          <Tabs.Screen
+            component={AnalysisStack}
+            name="Analysis"
+            options={{
+              tabBarIcon: ({ color }) => (
+                <FontAwesomeIcon
+                  icon={faDiceD20}
+                  style={{ color: color }}
+                  size={30}
+                />
+              )
+            }}
+          />
 
-        <Tabs.Screen
-          component={AdminStack}
-          name="Admin"
-          options={{
-            tabBarIcon: ({ color }) => (
-              <FontAwesomeIcon
-                icon={faFeather /*faFilter faFeather*/}
-                style={{ color: color }}
-                size={30}
-              />
-            )
-          }}
-        />
+          <Tabs.Screen
+            component={AdminStack}
+            name="Admin"
+            options={{
+              tabBarIcon: ({ color }) => (
+                <FontAwesomeIcon
+                  icon={faFeather /*faFilter faFeather*/}
+                  style={{ color: color }}
+                  size={30}
+                />
+              )
+            }}
+          />
 
-        <Tabs.Screen
-          component={OptionsStack}
-          name="Options"
-          options={{
-            tabBarIcon: ({ color }) => (
-              <FontAwesomeIcon
-                icon={faBars}
-                style={{ color: color }}
-                size={30}
-              />
-            )
-          }}
-        />
-
-        {/*<Tabs.Screen
-          component={nameOfTheStackComponent}
-          name="Name which it will be used to be referenced"
-          options={{
-            tabBarIcon: ({size, color}) => (
-              <Image
-                source={require('drugtest/src/assets/image.png')}
-                style={{ tintColor: color, width: size, height: size}}
-              />
-            )
-          }}
-        />*/}
-
-      </Tabs.Navigator>
-    </NavigationContainer>
-
-
+          <Tabs.Screen
+            component={OptionsStack}
+            name="Options"
+            options={{
+              tabBarIcon: ({ color }) => (
+                <FontAwesomeIcon
+                  icon={faBars}
+                  style={{ color: color }}
+                  size={30}
+                />
+              )
+            }}
+          />
+        </Tabs.Navigator>
+      </NavigationContainer>
+    </AuthProvider>
   );
 };
 
