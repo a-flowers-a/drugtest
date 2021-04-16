@@ -35,8 +35,8 @@ function Login(props) {
                     if (!stored && !storedFlags)
                         OkAlert({ title: "Error", message: "No se pudo guardar sesión, tendrás que iniciar nuevamente al cerrar la aplicación" });
 
-                    OkAlert({ title: "Bienvenido", message: result.user.name },
-                        () => { props.navigation.navigate('Inicio'); }
+                    OkAlert({ title: "Bienvenido", message: result.user.name }
+                    //,() => { props.navigation.navigate('Inicio'); }
                     );
                 }
                 else {

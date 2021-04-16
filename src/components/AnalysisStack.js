@@ -12,19 +12,24 @@ import { get } from '../utils/storage';
 
 const Stack = createStackNavigator();
 
-const AnalysisStack = (props) =>{
+const AnalysisStack = (props) => {
     const [userLogged, setUserLogged] = useState(false);
     async function getUser(){
         const userSt = await get("user");
         console.log("user in AnalysisStack", userSt);
-        setUserLogged(true);
+        let showBtmTab = false;
+        if(userSt)
+        {
+            showBtmTab = true;
+            setUserLogged(true);
+        }
+        props.navigation.setOptions({tabBarVisible: showBtmTab});
     }
+    console.log("userLogged en analysysStack fuera de todo método", userLogged);
     useEffect(()=>{
+        console.log("useEffect analysysStack triggered");
         getUser();
-    },[]);
-    useEffect(()=>{
-        props.navigation.setOptions({tabBarVisible: userLogged});
-    },[]);
+    },[userLogged]);
 
     return (
         <Stack.Navigator
@@ -37,44 +42,45 @@ const AnalysisStack = (props) =>{
                 headerTintColor: "#ffffff"
             }}
         >
-            {userLogged &&
+        {userLogged ? (
+            <>
                 <Stack.Screen 
                     name="Inicio" 
                     component={HomeScreen}
                 />
-            }
-            {userLogged &&
                 <Stack.Screen 
                     name="Cuestionario" 
                     component={QuestScreen}
                 />
-            }
-            {userLogged &&
                 <Stack.Screen 
                     name="Contactos" 
                     component={ContactsScreen}
                 />
-            }
-            {userLogged &&
                 <Stack.Screen 
                     name="Resultado" 
                     component={ResultScreen}
                 />
-            }
-            {userLogged &&
                 <Stack.Screen 
                     name="Resultados Anteriores" 
                     component={PrevResultsScreen}
                 />
-            }
-            <Stack.Screen 
-                name="Login" 
-                component={Login}
-            />
-            <Stack.Screen 
-                name="Datos Cuenta" 
-                component={AccountForm}
-            />
+                <Stack.Screen 
+                    name="Datos Cuenta" 
+                    component={AccountForm}
+                />
+            </>
+        ) : (
+            <>
+                <Stack.Screen 
+                    name="Login" 
+                    component={Login}
+                />
+                <Stack.Screen 
+                    name="Datos Cuenta" 
+                    component={AccountForm}
+                />
+            </>
+        )}
         </Stack.Navigator>
     );
 }//AnalysisStack
