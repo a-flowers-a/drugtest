@@ -41,7 +41,7 @@ function HomeScreen(props) {
                     if (!removedFlags)
                         console.log("couldn't remove flags from storage");
                     OkAlert({ title: "Éxito", message: "Se eliminó la cuenta correctamente" },
-                        () => setReloadFlag(!reloadFlag)
+                        () => {setUser(null);setReloadFlag(!reloadFlag);}
                     );
                 }
                 else {
