@@ -1,26 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, processColor, Platform } from 'react-native';
 import ActionBtn from '../components/ActionBtn';
 import { getRequest } from '../utils/HttpRequest';
 import Loading from '../components/Loading';
 import {androidHost} from '../utils/hosts';
-
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: "#120078",/*120078 */
-        flex: 1,
-    },
-    text: {
-        color: "#f5f4f4",
-        fontSize: 20,
-        textAlign: "center"
-    },
-});
+import Login from './Login';
+import { get } from '../utils/storage';
 
 export default function StatsScreen(props) {
-    const [loading, setLoading] = useState(false);
     const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(false);
     
+    async function getUser(){
+        const userSt = await get("user");
+        console.log("user in StatsScreen", userSt);
+        setUser(userSt);
+    }//getUser
+
     function submitData() {
         setLoading(true);
         const url = `http:${localHost}:3030/admin/get-all-quest-res`;
@@ -40,6 +37,13 @@ export default function StatsScreen(props) {
             });
     }//submitData
 
+    useEffect(()=>{
+        getUser();
+    },[]);
+
+    if(!user)
+        return <Login navigation={props.navigation}/>
+
     return (
         <View style={styles.container}>
             {loading && <Loading />}
@@ -52,3 +56,15 @@ export default function StatsScreen(props) {
         </View>
     );
 }//StatsScreen
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: "#120078",/*120078 */
+        flex: 1,
+    },
+    text: {
+        color: "#f5f4f4",
+        fontSize: 20,
+        textAlign: "center"
+    },
+});

@@ -11,48 +11,15 @@ import CustomModal from '../components/CustomModal';
 import { hash } from '../utils/hashing';
 import { postRequest } from '../utils/HttpRequest';
 import {androidHost} from '../utils/hosts';
+import Login from './Login';
 
 function HomeScreen(props) {
-    const styles = StyleSheet.create({
-        container: {
-            backgroundColor: "#120078",/*120078 */
-            flex: 1,
-            paddingVertical: 20,
-        },
-        icon: {
-            color: "#f5f4f4",
-            marginRight: 15,
-        },
-        optionContainer: {
-            marginHorizontal: 60,
-            marginVertical: 10,
-        },
-        row: {
-            alignItems: "center", //vertically
-            //backgroundColor: "black",
-            //flex: 1,
-            flexDirection: "row",
-            marginHorizontal: 20,
-        },
-        text: {
-            color: "#f5f4f4",
-            fontSize: 20,
-        },
-        title: {
-            fontSize: 40,
-        },
-        titleContainer: {
-            marginBottom: 30,
-        },
-    });
 
     const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
-    const [user, setUser] = useState({
-        name: "Nombre Alumno",
-        boleta: "",
-    });
+    const [user, setUser] = useState(null);
     const [displayDelete, setDisplayDelete] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [reloadFlag, setReloadFlag] = useState(false);
 
     const handleDisplay = () => setDisplayDelete(prevVal => !prevVal);
 
@@ -74,7 +41,7 @@ function HomeScreen(props) {
                     if (!removedFlags)
                         console.log("couldn't remove flags from storage");
                     OkAlert({ title: "Éxito", message: "Se eliminó la cuenta correctamente" },
-                        () => props.navigation.navigate('Inicio')
+                        () => setReloadFlag(!reloadFlag)
                     );
                 }
                 else {
@@ -102,12 +69,20 @@ function HomeScreen(props) {
             setUser(parsObj);
         }
         else
-            console.log("not user found in storage");
+            console.log("not user found in OptionsScreen");
     }//getUser
 
     useEffect(() => {
         getUser();
-    }, []);
+    }, [reloadFlag]);
+
+    if(!user)
+        return (
+            <Login 
+                navigation={props.navigation}
+                toggleReloadFlag = {()=>{setReloadFlag(!reloadFlag);}}
+            />
+        );
     return (
         <ScrollView style={styles.container}>
             {loading && <Loading />}
@@ -126,7 +101,10 @@ function HomeScreen(props) {
                             const removed = await remove("user");
                             const removedFlags = await remove("analysisFlags");
                             if (removed && removedFlags)
-                                props.navigation.navigate('Inicio');
+                            {
+                                setUser(null);
+                                setReloadFlag(!reloadFlag);
+                            }
                             else{
                                 !removed ? mess = "No se ha podido cerrar sesión, inténtalo nuevamente": "Algo salió mal por favor intenté nuevamente";
                                 OkAlert({ title: "Error", message: mess});
@@ -191,5 +169,38 @@ function HomeScreen(props) {
         </ScrollView>
     );
 }//HomeScreen
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: "#120078",/*120078 */
+        flex: 1,
+        paddingVertical: 20,
+    },
+    icon: {
+        color: "#f5f4f4",
+        marginRight: 15,
+    },
+    optionContainer: {
+        marginHorizontal: 60,
+        marginVertical: 10,
+    },
+    row: {
+        alignItems: "center", //vertically
+        //backgroundColor: "black",
+        //flex: 1,
+        flexDirection: "row",
+        marginHorizontal: 20,
+    },
+    text: {
+        color: "#f5f4f4",
+        fontSize: 20,
+    },
+    title: {
+        fontSize: 40,
+    },
+    titleContainer: {
+        marginBottom: 30,
+    },
+});
 
 export default HomeScreen;

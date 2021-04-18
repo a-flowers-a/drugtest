@@ -4,14 +4,24 @@ import { ScrollView } from 'react-native-gesture-handler';
 import ActionBtn from '../components/ActionBtn';
 import ChatUpload from '../components/ChatUpload';
 import { get, store } from '../utils/storage';
+import Login from './Login';
 
 function HomeScreen(props) {
+    const [user, setUser] = useState(null);
+    const [analFlags, setAnalFlags] = useState({
+        questSent: false,
+        chatSent: 0,
+    });
+    const [reloadFlag, setReloadFlag] = useState(false);
 
     function navigateTo(screenOption) {
         props.navigation.navigate(screenOption);
     }//navigateTo
 
     async function getStorage() {
+        const userSt = await get("user");
+        console.log("user in HomeScreen", userSt);
+        setUser(userSt);
         const flags = await get("analysisFlags");
         if (flags != null) {
             setAnalFlags(JSON.parse(flags));
@@ -29,12 +39,15 @@ function HomeScreen(props) {
 
     useEffect(() => {
         getStorage();
-    }, []);
+    }, [reloadFlag]);
 
-    const [analFlags, setAnalFlags] = useState({
-        questSent: false,
-        chatSent: 0,
-    });
+    if(!user)
+        return (
+            <Login 
+                navigation={props.navigation}
+                toggleReloadFlag = {()=>{setReloadFlag(!reloadFlag);}}
+            />
+        );
 
     return (
         <ScrollView style={styles.container}>

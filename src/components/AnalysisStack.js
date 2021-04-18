@@ -12,20 +12,7 @@ import { get } from '../utils/storage';
 
 const Stack = createStackNavigator();
 
-const AnalysisStack = (props) =>{
-    const [userLogged, setUserLogged] = useState(false);
-    async function getUser(){
-        const userSt = await get("user");
-        console.log("user in AnalysisStack", userSt);
-        setUserLogged(true);
-    }
-    useEffect(()=>{
-        getUser();
-    },[]);
-    useEffect(()=>{
-        props.navigation.setOptions({tabBarVisible: userLogged});
-    },[]);
-
+const AnalysisStack = () =>{
     return (
         <Stack.Navigator
             screenOptions={{
@@ -37,36 +24,26 @@ const AnalysisStack = (props) =>{
                 headerTintColor: "#ffffff"
             }}
         >
-            {userLogged &&
-                <Stack.Screen 
-                    name="Inicio" 
-                    component={HomeScreen}
-                />
-            }
-            {userLogged &&
-                <Stack.Screen 
-                    name="Cuestionario" 
-                    component={QuestScreen}
-                />
-            }
-            {userLogged &&
-                <Stack.Screen 
-                    name="Contactos" 
-                    component={ContactsScreen}
-                />
-            }
-            {userLogged &&
-                <Stack.Screen 
-                    name="Resultado" 
-                    component={ResultScreen}
-                />
-            }
-            {userLogged &&
-                <Stack.Screen 
-                    name="Resultados Anteriores" 
-                    component={PrevResultsScreen}
-                />
-            }
+            <Stack.Screen 
+                name="Inicio" 
+                component={HomeScreen}
+            />
+            <Stack.Screen 
+                name="Cuestionario" 
+                component={QuestScreen}
+            />
+            <Stack.Screen 
+                name="Contactos" 
+                component={ContactsScreen}
+            />
+            <Stack.Screen 
+                name="Resultado" 
+                component={ResultScreen}
+            />
+            <Stack.Screen 
+                name="Resultados Anteriores" 
+                component={PrevResultsScreen}
+            />
             <Stack.Screen 
                 name="Login" 
                 component={Login}

@@ -18,6 +18,7 @@ function Login(props) {
     const [display, setDisplay] = useState(false);
     const [loading, setLoading] = useState(false);
     const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
+    const {toggleReloadFlag} = props;
 
     const onSubmit = async data => {
         setLoading(true);
@@ -36,7 +37,7 @@ function Login(props) {
                         OkAlert({ title: "Error", message: "No se pudo guardar sesión, tendrás que iniciar nuevamente al cerrar la aplicación" });
 
                     OkAlert({ title: "Bienvenido", message: result.user.name },
-                        () => { props.navigation.navigate('Inicio'); }
+                        () => { toggleReloadFlag();/*props.navigation.navigate('Inicio');*/ }
                     );
                 }
                 else {
