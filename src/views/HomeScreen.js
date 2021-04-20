@@ -7,7 +7,7 @@ import { get, store } from '../utils/storage';
 import Login from './Login';
 
 function HomeScreen(props) {
-    const [user, setUser] = useState(null);
+    const {reloadLogged, reloadValue} = props;
     const [analFlags, setAnalFlags] = useState({
         questSent: false,
         chatSent: 0,
@@ -18,9 +18,6 @@ function HomeScreen(props) {
     }//navigateTo
 
     async function getStorage() {
-        const userSt = await get("user");
-        console.log("user in HomeScreen", userSt);
-        setUser(userSt);
         const flags = await get("analysisFlags");
         if (flags != null) {
             setAnalFlags(JSON.parse(flags));
@@ -40,11 +37,11 @@ function HomeScreen(props) {
         getStorage();
     }, []);
 
-    if(!user)
+    if(!reloadValue)
         return (
             <Login
                 navigation={props.navigation}
-                reloadLogged={props.reloadLogged}
+                reloadLogged={reloadLogged}
             />
         );
 
@@ -66,10 +63,6 @@ function HomeScreen(props) {
                 btnText={"Nuevo análisis"}
                 onPressFunc={resetFlags}
                 hidden={false/*!(analFlags.questSent === true && analFlags.chatsSent === 3)*/}
-            />
-            <ActionBtn
-                btnText={"Login"}
-                onPressFunc={() => navigateTo('Login')}
             />
             <ActionBtn
                 btnText={"Ver Contactos de apoyo"}

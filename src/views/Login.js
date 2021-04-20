@@ -36,7 +36,7 @@ function Login(props) {
                         OkAlert({ title: "Error", message: "No se pudo guardar sesión, tendrás que iniciar nuevamente al cerrar la aplicación" });
 
                     OkAlert({ title: "Bienvenido", message: result.user.name },
-                        () => { reloadLogged();/*props.navigation.navigate('Inicio');*/ }
+                        () => { reloadLogged(true); }
                     );
                 }
                 else {

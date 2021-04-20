@@ -41,7 +41,7 @@ function HomeScreen(props) {
                     if (!removedFlags)
                         console.log("couldn't remove flags from storage");
                     OkAlert({ title: "Éxito", message: "Se eliminó la cuenta correctamente" },
-                        () => {setUser(null);reloadLogged();}
+                        () => {setUser(null);reloadLogged(false);}
                     );
                 }
                 else {
@@ -102,7 +102,7 @@ function HomeScreen(props) {
                             const removedFlags = await remove("analysisFlags");
                             if (removed && removedFlags)
                             {
-                                setUser(null);reloadLogged();
+                                setUser(null);reloadLogged(false);
                             }
                             else{
                                 !removed ? mess = "No se ha podido cerrar sesión, inténtalo nuevamente": "Algo salió mal por favor intenté nuevamente";

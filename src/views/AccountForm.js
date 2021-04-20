@@ -63,7 +63,7 @@ function AccountForm(props) {
                             title: titl,
                             message: result.message
                         },
-                        () => { result.new && reloadLogged(); }
+                        () => { result.new && reloadLogged(true); }
                     );
                 }
                 else {

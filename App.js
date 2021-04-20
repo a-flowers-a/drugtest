@@ -32,10 +32,19 @@ const App: () => React$Node = () => {
   const [loading, setLoading] = useState(false);
   const [reloadAll, setReloadAll] = useState(false);
 
-  function handleReloadLogged(){
+  function handleReloadLogged(reloadValue){
     console.log("handleReload triggered in app.js");
-    setReloadAll(!reloadAll);
+    setReloadAll(reloadValue);
   }//handleReloadLogged
+
+    async function getUser(){
+      const fndUser = await get("user");
+      if(fndUser)
+      {
+        console.log("user found in appjs", fndUser);
+        setReloadAll(true);
+      }
+    }//getUser
 
   const handleShare = useCallback((item: ?SharedItem) => {
     if (!item) {
@@ -49,6 +58,7 @@ const App: () => React$Node = () => {
   }, []);
 
   useEffect(() => {
+    getUser();
     ShareMenu.getInitialShare(handleShare);
     const listener = ShareMenu.addNewShareListener(handleShare);
     return () => listener.remove();
@@ -118,7 +128,11 @@ const App: () => React$Node = () => {
               />
             )
           }}>
-            {props => <AnalysisStack {...props} reloadLogged={handleReloadLogged}/>}
+            {props => <AnalysisStack
+              {...props}
+              reloadLogged={handleReloadLogged}
+              reloadValue={reloadAll}
+            />}
         </Tabs.Screen>
 
         <Tabs.Screen

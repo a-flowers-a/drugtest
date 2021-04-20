@@ -13,7 +13,7 @@ import { get } from '../utils/storage';
 const Stack = createStackNavigator();
 
 const AnalysisStack = (props) =>{
-    const {reloadLogged} = props;
+    const {reloadLogged, reloadValue} = props;
     return (
         <Stack.Navigator
             screenOptions={{
@@ -26,7 +26,11 @@ const AnalysisStack = (props) =>{
             }}
         >
             <Stack.Screen name="Inicio">
-                {props => <HomeScreen {...props} reloadLogged={reloadLogged} />}
+                {props => <HomeScreen
+                    {...props}
+                    reloadLogged={reloadLogged}
+                    reloadValue={reloadValue}
+                />}
             </Stack.Screen>
             <Stack.Screen 
                 name="Cuestionario" 
