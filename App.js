@@ -94,7 +94,7 @@ const App: () => React$Node = () => {
 
 
   return (
-    <NavigationContainer>
+    <NavigationContainer key={reloadAll}>
       { loading && <Loading />}
       <Tabs.Navigator
         tabBarOptions={{
