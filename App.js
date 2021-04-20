@@ -98,7 +98,6 @@ const App: () => React$Node = () => {
       { loading && <Loading />}
       <Tabs.Navigator
         tabBarOptions={{
-          //tintColor: "#fefefe",
           activeTintColor: '#1db954', //fefefe #1db954
           inactiveTintColor: '#fefefe', //fefefe 9A9F99
           style: {
@@ -110,6 +109,7 @@ const App: () => React$Node = () => {
         <Tabs.Screen
           name="Analysis"
           options={{
+            tabBarVisible: reloadAll,
             tabBarIcon: ({ color }) => (
               <FontAwesomeIcon
                 icon={faDiceD20}
@@ -125,6 +125,7 @@ const App: () => React$Node = () => {
           component={AdminStack}
           name="Admin"
           options={{
+            tabBarVisible: reloadAll,
             tabBarIcon: ({ color }) => (
               <FontAwesomeIcon
                 icon={faFeather /*faFilter faFeather*/}
@@ -138,6 +139,7 @@ const App: () => React$Node = () => {
         <Tabs.Screen
           name="Options"
           options={{
+            tabBarVisible: reloadAll,
             tabBarIcon: ({ color }) => (
               <FontAwesomeIcon
                 icon={faBars}
