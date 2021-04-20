@@ -61,6 +61,7 @@ function Login(props) {
     }//displayRecover
 
     async function recoverPassword(data) {
+        displayRecover();
         setLoading(true);
         const url = `http:${localHost}:3030/student/reset-pass`;
         const twoVals = await hash(data.boleta);
@@ -69,7 +70,6 @@ function Login(props) {
         postRequest(url, finalData)
             .then(response => {
                 setLoading(false);
-                displayRecover();
                 if (response.success) {
                     OkAlert({ title: "Éxito", message: "Se envió un correo con las instrucciones para acceder" });
                 } else {
