@@ -5,7 +5,8 @@ import WhatWeDo from '../views/WhatWeDo';
 
 const Stack = createStackNavigator();
 
-const OptionsStack = () =>{
+const OptionsStack = (props) =>{
+    const {reloadLogged} = props;
     return (
         <Stack.Navigator
             screenOptions={{
@@ -17,10 +18,9 @@ const OptionsStack = () =>{
                 headerTintColor: "#ffffff"
             }}
         >
-            <Stack.Screen 
-                name="Opciones" 
-                component={OptionsScreen}
-            />
+            <Stack.Screen name="Opciones">
+                {props => <OptionsScreen {...props} reloadLogged={reloadLogged} />}
+            </Stack.Screen>
             <Stack.Screen 
                 name="Qué hacemos" 
                 component={WhatWeDo}

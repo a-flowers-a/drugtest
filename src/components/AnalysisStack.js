@@ -13,7 +13,6 @@ import { get } from '../utils/storage';
 const Stack = createStackNavigator();
 
 const AnalysisStack = (props) =>{
-    console.log("props en analysis stack", props);
     const {reloadLogged} = props;
     return (
         <Stack.Navigator
@@ -26,10 +25,9 @@ const AnalysisStack = (props) =>{
                 headerTintColor: "#ffffff"
             }}
         >
-            <Stack.Screen 
-                name="Inicio" 
-                component={HomeScreen}
-            />
+            <Stack.Screen name="Inicio">
+                {props => <HomeScreen {...props} reloadLogged={reloadLogged} />}
+            </Stack.Screen>
             <Stack.Screen 
                 name="Cuestionario" 
                 component={QuestScreen}
@@ -46,9 +44,10 @@ const AnalysisStack = (props) =>{
                 name="Resultados Anteriores" 
                 component={PrevResultsScreen}
             />
-            <Stack.Screen name="Login" >
-                {props => <Login {...props} reloadLogged={reloadLogged}/>}
-            </Stack.Screen>
+            <Stack.Screen 
+                name="Login" 
+                component={Login}
+            />
             <Stack.Screen 
                 name="Datos Cuenta" 
                 component={AccountForm}

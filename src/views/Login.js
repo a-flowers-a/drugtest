@@ -13,7 +13,6 @@ import {androidHost} from '../utils/hosts';
 
 
 function Login(props) {
-    console.log("props de log in", props);
     const { control, handleSubmit, errors } = useForm();
     const [display, setDisplay] = useState(false);
     const [loading, setLoading] = useState(false);

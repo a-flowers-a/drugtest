@@ -33,6 +33,7 @@ const App: () => React$Node = () => {
   const [reloadAll, setReloadAll] = useState(false);
 
   function handleReloadLogged(){
+    console.log("handleReload triggered in app.js");
     setReloadAll(!reloadAll);
   }//handleReloadLogged
 
@@ -54,6 +55,7 @@ const App: () => React$Node = () => {
   }, []);
 
   useEffect(()=>{
+    console.log("useeffect app.js");
     getSharedChat();
   }, [sharedData, reloadAll]);
 
@@ -134,7 +136,6 @@ const App: () => React$Node = () => {
         />
 
         <Tabs.Screen
-          component={OptionsStack}
           name="Options"
           options={{
             tabBarIcon: ({ color }) => (
@@ -144,9 +145,9 @@ const App: () => React$Node = () => {
                 size={30}
               />
             )
-          }}
-        />
-
+          }}>
+            {props => <OptionsStack {...props} reloadLogged={handleReloadLogged}/>}
+          </Tabs.Screen>
         {/*<Tabs.Screen
           component={nameOfTheStackComponent}
           name="Name which it will be used to be referenced"

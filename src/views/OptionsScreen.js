@@ -19,6 +19,7 @@ function HomeScreen(props) {
     const [user, setUser] = useState(null);
     const [displayDelete, setDisplayDelete] = useState(false);
     const [loading, setLoading] = useState(false);
+    const {reloadLogged} = props;
 
     const handleDisplay = () => setDisplayDelete(prevVal => !prevVal);
 
@@ -40,7 +41,7 @@ function HomeScreen(props) {
                     if (!removedFlags)
                         console.log("couldn't remove flags from storage");
                     OkAlert({ title: "Éxito", message: "Se eliminó la cuenta correctamente" },
-                        () => {setUser(null);setReloadFlag(!reloadFlag);}
+                        () => {setUser(null);reloadLogged();}
                     );
                 }
                 else {
@@ -98,8 +99,7 @@ function HomeScreen(props) {
                             const removedFlags = await remove("analysisFlags");
                             if (removed && removedFlags)
                             {
-                                setUser(null);
-                                setReloadFlag(!reloadFlag);
+                                setUser(null);reloadLogged();
                             }
                             else{
                                 !removed ? mess = "No se ha podido cerrar sesión, inténtalo nuevamente": "Algo salió mal por favor intenté nuevamente";

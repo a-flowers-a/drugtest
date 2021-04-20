@@ -42,7 +42,10 @@ function HomeScreen(props) {
 
     if(!user)
         return (
-            <Login navigation={props.navigation} />
+            <Login
+                navigation={props.navigation}
+                reloadLogged={props.reloadLogged}
+            />
         );
 
     return (
