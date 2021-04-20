@@ -24,6 +24,7 @@ function HomeScreen(props) {
     const handleDisplay = () => setDisplayDelete(prevVal => !prevVal);
 
     async function deleteAccount(data) {
+        handleDisplay();
         setLoading(true);
         const url = `http:${localHost}:3030/student/delete-account`;
         const hashPass = await hash(data.password);
@@ -32,7 +33,6 @@ function HomeScreen(props) {
         postRequest(url, finalData)
             .then(async response => {
                 setLoading(false);
-                handleDisplay();
                 if (response.success) {
                     const removed = await remove("user");
                     const removedFlags = await remove("analysisFlags");

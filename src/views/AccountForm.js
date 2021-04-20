@@ -21,6 +21,7 @@ function AccountForm(props) {
     const { control, handleSubmit, reset, errors } = useForm();
     const [loading, setLoading] = useState(false);
     const [stBoleta, setStBoleta] = useState("");
+    const {reloadLogged} = props;
 
     const onSubmit = async data => {
         setLoading(true);
@@ -62,7 +63,7 @@ function AccountForm(props) {
                             title: titl,
                             message: result.message
                         },
-                        () => { result.new && props.navigation.navigate('Inicio'); }
+                        () => { result.new && reloadLogged(); }
                     );
                 }
                 else {

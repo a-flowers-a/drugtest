@@ -48,10 +48,9 @@ const AnalysisStack = (props) =>{
                 name="Login" 
                 component={Login}
             />
-            <Stack.Screen 
-                name="Datos Cuenta" 
-                component={AccountForm}
-            />
+            <Stack.Screen name="Datos Cuenta">
+                {props => <AccountForm {...props} reloadLogged={reloadLogged} />}
+            </Stack.Screen>
         </Stack.Navigator>
     );
 }//AnalysisStack
