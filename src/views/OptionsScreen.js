@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { OkAlert, OkCancelAlert } from '../components/CustomAlerts';
@@ -11,51 +11,12 @@ import CustomModal from '../components/CustomModal';
 import { hash } from '../utils/hashing';
 import { postRequest } from '../utils/HttpRequest';
 import {androidHost} from '../utils/hosts';
-import { AuthContext } from '../components/AuthProvider';
+import Login from './Login';
 
 function HomeScreen(props) {
-    const styles = StyleSheet.create({
-        container: {
-            backgroundColor: "#120078",/*120078 */
-            flex: 1,
-            paddingVertical: 20,
-        },
-        icon: {
-            color: "#f5f4f4",
-            marginRight: 15,
-        },
-        optionContainer: {
-            marginHorizontal: 60,
-            marginVertical: 10,
-        },
-        row: {
-            alignItems: "center", //vertically
-            //backgroundColor: "black",
-            //flex: 1,
-            flexDirection: "row",
-            marginHorizontal: 20,
-        },
-        text: {
-            color: "#f5f4f4",
-            fontSize: 20,
-        },
-        title: {
-            fontSize: 40,
-        },
-        titleContainer: {
-            marginBottom: 30,
-        },
-    });
 
     const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
-    //FOR CONTEXT
-    const { setUser } = useContext(AuthContext);
-
-
-    const [userSt, setUserSt] = useState({
-        name: "Nombre Alumno",
-        boleta: "",
-    });
+    const [user, setUser] = useState(null);
     const [displayDelete, setDisplayDelete] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -65,7 +26,7 @@ function HomeScreen(props) {
         setLoading(true);
         const url = `http:${localHost}:3030/student/delete-account`;
         const hashPass = await hash(data.password);
-        const finalData = { password: hashPass[0], boleta: userSt.boleta };
+        const finalData = { password: hashPass[0], boleta: user.boleta };
         console.log(finalData);
         postRequest(url, finalData)
             .then(async response => {
@@ -79,7 +40,7 @@ function HomeScreen(props) {
                     if (!removedFlags)
                         console.log("couldn't remove flags from storage");
                     OkAlert({ title: "Éxito", message: "Se eliminó la cuenta correctamente" },
-                        () => props.navigation.navigate('Inicio')
+                        () => {setUser(null);setReloadFlag(!reloadFlag);}
                     );
                 }
                 else {
@@ -104,15 +65,20 @@ function HomeScreen(props) {
         if (stUser !== null) {
             const parsObj = JSON.parse(stUser);
             console.log("user in storage", parsObj);
-            setUserSt(parsObj);
+            setUser(parsObj);
         }
         else
-            console.log("not user found in storage");
+            console.log("not user found in OptionsScreen");
     }//getUser
 
     useEffect(() => {
         getUser();
     }, []);
+
+    if(!user)
+        return (
+            <Login navigation={props.navigation} />
+        );
     return (
         <ScrollView style={styles.container}>
             {loading && <Loading />}
@@ -122,7 +88,7 @@ function HomeScreen(props) {
                     style={styles.icon}
                     size={40}
                 />
-                <Text style={[styles.text, styles.title]}>{userSt.name}</Text>
+                <Text style={[styles.text, styles.title]}>{user.name}</Text>
             </View>
             <TouchableOpacity
                 onPress={() => {
@@ -133,7 +99,7 @@ function HomeScreen(props) {
                             if (removed && removedFlags)
                             {
                                 setUser(null);
-                                //props.navigation.navigate('Inicio');
+                                setReloadFlag(!reloadFlag);
                             }
                             else{
                                 !removed ? mess = "No se ha podido cerrar sesión, inténtalo nuevamente": "Algo salió mal por favor intenté nuevamente";
@@ -199,5 +165,38 @@ function HomeScreen(props) {
         </ScrollView>
     );
 }//HomeScreen
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: "#120078",/*120078 */
+        flex: 1,
+        paddingVertical: 20,
+    },
+    icon: {
+        color: "#f5f4f4",
+        marginRight: 15,
+    },
+    optionContainer: {
+        marginHorizontal: 60,
+        marginVertical: 10,
+    },
+    row: {
+        alignItems: "center", //vertically
+        //backgroundColor: "black",
+        //flex: 1,
+        flexDirection: "row",
+        marginHorizontal: 20,
+    },
+    text: {
+        color: "#f5f4f4",
+        fontSize: 20,
+    },
+    title: {
+        fontSize: 40,
+    },
+    titleContainer: {
+        marginBottom: 30,
+    },
+});
 
 export default HomeScreen;
