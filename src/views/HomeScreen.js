@@ -12,7 +12,6 @@ function HomeScreen(props) {
         questSent: false,
         chatSent: 0,
     });
-    const [reloadFlag, setReloadFlag] = useState(false);
 
     function navigateTo(screenOption) {
         props.navigation.navigate(screenOption);
@@ -39,14 +38,11 @@ function HomeScreen(props) {
 
     useEffect(() => {
         getStorage();
-    }, [reloadFlag]);
+    }, []);
 
     if(!user)
         return (
-            <Login 
-                navigation={props.navigation}
-                toggleReloadFlag = {()=>{setReloadFlag(!reloadFlag);}}
-            />
+            <Login navigation={props.navigation} />
         );
 
     return (

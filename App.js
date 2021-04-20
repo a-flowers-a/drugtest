@@ -30,6 +30,11 @@ const App: () => React$Node = () => {
   const [sharedData, setSharedData] = useState('');
   const [sharedMimeType, setSharedMimeType] = useState('');
   const [loading, setLoading] = useState(false);
+  const [reloadAll, setReloadAll] = useState(false);
+
+  function handleReloadLogged(){
+    setReloadAll(!reloadAll);
+  }//handleReloadLogged
 
   const handleShare = useCallback((item: ?SharedItem) => {
     if (!item) {
@@ -50,7 +55,7 @@ const App: () => React$Node = () => {
 
   useEffect(()=>{
     getSharedChat();
-  }, [sharedData]);
+  }, [sharedData, reloadAll]);
 
   const getSharedChat = async () => {
     if (sharedData) {
@@ -101,7 +106,6 @@ const App: () => React$Node = () => {
 
       >
         <Tabs.Screen
-          component={AnalysisStack}
           name="Analysis"
           options={{
             tabBarIcon: ({ color }) => (
@@ -110,13 +114,10 @@ const App: () => React$Node = () => {
                 style={{ color: color }}
                 size={30}
               />
-              /*<Image
-                source={require('drugtest/src/assets/bank.png')}
-                style={{ tintColor: color, width: size, height: size}}
-              />*/
             )
-          }}
-        />
+          }}>
+            {props => <AnalysisStack {...props} reloadLogged={handleReloadLogged}/>}
+        </Tabs.Screen>
 
         <Tabs.Screen
           component={AdminStack}

@@ -19,7 +19,6 @@ function HomeScreen(props) {
     const [user, setUser] = useState(null);
     const [displayDelete, setDisplayDelete] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [reloadFlag, setReloadFlag] = useState(false);
 
     const handleDisplay = () => setDisplayDelete(prevVal => !prevVal);
 
@@ -74,14 +73,11 @@ function HomeScreen(props) {
 
     useEffect(() => {
         getUser();
-    }, [reloadFlag]);
+    }, []);
 
     if(!user)
         return (
-            <Login 
-                navigation={props.navigation}
-                toggleReloadFlag = {()=>{setReloadFlag(!reloadFlag);}}
-            />
+            <Login navigation={props.navigation} />
         );
     return (
         <ScrollView style={styles.container}>

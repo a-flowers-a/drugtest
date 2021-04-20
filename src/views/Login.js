@@ -13,12 +13,12 @@ import {androidHost} from '../utils/hosts';
 
 
 function Login(props) {
-
+    console.log("props de log in", props);
     const { control, handleSubmit, errors } = useForm();
     const [display, setDisplay] = useState(false);
     const [loading, setLoading] = useState(false);
     const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
-    const {toggleReloadFlag} = props;
+    const {reloadLogged} = props;
 
     const onSubmit = async data => {
         setLoading(true);
@@ -37,7 +37,7 @@ function Login(props) {
                         OkAlert({ title: "Error", message: "No se pudo guardar sesión, tendrás que iniciar nuevamente al cerrar la aplicación" });
 
                     OkAlert({ title: "Bienvenido", message: result.user.name },
-                        () => { toggleReloadFlag();/*props.navigation.navigate('Inicio');*/ }
+                        () => { reloadLogged();/*props.navigation.navigate('Inicio');*/ }
                     );
                 }
                 else {
