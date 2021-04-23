@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Platform, StyleSheet } from 'react-native';
+import { Platform, StyleSheet, RefreshControl } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import ActionBtn from '../components/ActionBtn';
 import ChatUpload from '../components/ChatUpload';
@@ -9,7 +9,6 @@ import { get, store } from '../utils/storage';
 import Login from './Login';
 import {androidHost} from '../utils/hosts';
 import { OkAlert } from '../components/CustomAlerts';
-import Loading from '../components/Loading';
 
 const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
 
@@ -19,20 +18,20 @@ function HomeScreen(props) {
         questSent: false,
         chatSent: 0,
     });
-    const [loading, setLoading] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
 
     function navigateTo(screenOption) {
         props.navigation.navigate(screenOption);
     }//navigateTo
 
     async function getInfo() {
-        setLoading(true);
+        setRefreshing(true);
         const flags = await get("analysisFlags");
         if (flags != null) {
             let idResFin = 0;
             if(Platform.OS === 'ios')
             {
-                idResFin = await iosGet();
+                idResFin = await iosGet() || idResFin;
             }
             else
             {
@@ -50,11 +49,12 @@ function HomeScreen(props) {
                     OkAlert({ title: "Error", message: "No se ha podido guardar un dato en el storage de tu dispositivo" });
             }
         }
-        setLoading(false);
+        setRefreshing(false);
     }//getInfo
 
     async function getNumChats(idResFinal){
         const url = `http:${localHost}:3030/analysis/get-num-chats/${idResFinal}`;
+        console.log("la url",url);
         return await getRequest(url)
         .then(response => {
             if (response.success) {
@@ -99,15 +99,22 @@ function HomeScreen(props) {
         );
         
     return (
-        <ScrollView style={styles.container}>
-            {loading && <Loading />}
+        <ScrollView style={styles.container}
+            refreshControl={
+                <RefreshControl
+                    colors={"white"}
+                    onRefresh={getInfo}
+                    refreshing={refreshing}
+                    tintColor={"white"}
+                />
+            }
+        >
             <ActionBtn
                 btnText={"Realizar Cuestionario"}
                 onPressFunc={() => navigateTo('Cuestionario')}
                 disabled={analFlags.questSent}
             />
             <ChatUpload
-                onPressFunc={getInfo}
                 numChats={analFlags.chatSent}
             />
             <ActionBtn
