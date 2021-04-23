@@ -102,7 +102,7 @@ function HomeScreen(props) {
         <ScrollView style={styles.container}
             refreshControl={
                 <RefreshControl
-                    colors={"white"}
+                    colors={["#1db954"]}
                     onRefresh={getInfo}
                     refreshing={refreshing}
                     tintColor={"white"}

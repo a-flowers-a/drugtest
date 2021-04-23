@@ -77,15 +77,23 @@ const App: () => React$Node = () => {
         setLoading(true);
         const idResFinal = JSON.parse(analysisFlags).idResFinal;
         console.log("idResFinal got from android in chat.js", idResFinal);
-        var chatURI = sharedData.toString();
-        const ret = await handleChatURI(chatURI,idResFinal);
-        setLoading(false);
-        if (!ret.success)
+        if(!idResFinal)
         {
           success = false;
-          errMess = ret.message;
+          errMess = "No se encontró un dato en el storage de tu dispositivo necesario para realizar el envío, realiza el cuestionario nuevamente.";
         }
-      }
+        else
+        {
+          var chatURI = sharedData.toString();
+          const ret = await handleChatURI(chatURI,idResFinal);
+          if (!ret.success)
+          {
+            success = false;
+            errMess = ret.message;
+          }
+        }
+        setLoading(false);
+      }//analysisFlags
       else
       {
         success = false;
