@@ -9,6 +9,7 @@ import { get, store } from '../utils/storage';
 import Login from './Login';
 import {androidHost} from '../utils/hosts';
 import { OkAlert } from '../components/CustomAlerts';
+import Loading from '../components/Loading';
 
 const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
 
@@ -18,12 +19,14 @@ function HomeScreen(props) {
         questSent: false,
         chatSent: 0,
     });
+    const [loading, setLoading] = useState(false);
 
     function navigateTo(screenOption) {
         props.navigation.navigate(screenOption);
     }//navigateTo
 
     async function getInfo() {
+        setLoading(true);
         const flags = await get("analysisFlags");
         if (flags != null) {
             let idResFin = 0;
@@ -47,6 +50,7 @@ function HomeScreen(props) {
                     OkAlert({ title: "Error", message: "No se ha podido guardar un dato en el storage de tu dispositivo" });
             }
         }
+        setLoading(false);
     }//getInfo
 
     async function getNumChats(idResFinal){
@@ -93,25 +97,25 @@ function HomeScreen(props) {
         
     return (
         <ScrollView style={styles.container}>
+            {loading && <Loading />}
             <ActionBtn
                 btnText={"Realizar Cuestionario"}
                 onPressFunc={() => navigateTo('Cuestionario')}
-                hidden={analFlags.questSent}
+                disabled={analFlags.questSent}
             />
             <ChatUpload
-                hidden={false}
+                onPressFunc={getInfo}
                 numChats={analFlags.chatSent}
             />
-
             <ActionBtn
                 btnText={"Mostrar Resultado"}
                 onPressFunc={() => navigateTo('Resultado')}
-                hidden={!(analFlags.chatSent == 3)}
+                disabled={!(analFlags.chatSent == 3)}
             />
             <ActionBtn
                 btnText={"Nuevo análisis"}
                 onPressFunc={resetFlags}
-                hidden={false/*!(analFlags.questSent === true && analFlags.chatsSent === 3)*/}
+                disabled={!analFlags.questSent}
             />
             <ActionBtn
                 btnText={"Ver Contactos de apoyo"}
