@@ -5,7 +5,6 @@ import Svg, { Circle, Text as TextSVG } from "react-native-svg";
 
 function ChatUpload(props) {
     const { hidden, numChats } = props;
-    console.log("numChats en chatUpload", numChats);
     const [displayTut, setDisplayTut] = useState(false);
 
     const displayChatTutorial = () => {

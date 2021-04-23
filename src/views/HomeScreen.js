@@ -79,7 +79,6 @@ function HomeScreen(props) {
     }//resetFlags
 
     useEffect(() => {
-        console.log("useEfect in HomeScreen");
         if(reloadValue)
             getInfo();
     }, []);
@@ -91,7 +90,7 @@ function HomeScreen(props) {
                 reloadLogged={reloadLogged}
             />
         );
-    console.log("analFlags en omeScreen", analFlags);
+        
     return (
         <ScrollView style={styles.container}>
             <ActionBtn
@@ -107,7 +106,7 @@ function HomeScreen(props) {
             <ActionBtn
                 btnText={"Mostrar Resultado"}
                 onPressFunc={() => navigateTo('Resultado')}
-                hidden={!(analFlags.chatsSent === 3)}
+                hidden={!(analFlags.chatSent == 3)}
             />
             <ActionBtn
                 btnText={"Nuevo análisis"}
