@@ -53,6 +53,8 @@ const sendChat = async (chatURI) => {
                 let mess = "Hubo un problema en el servidor, no se pudo guardar chat.";
                 if (parsedRes.complete)
                     mess = "Chats completos, espera resultado de análisis."
+                else if(parsedRes.notFound)
+                    mess = "Primero se debe finalizar un Cuestionario, para que esté asociado a los chats";
                 return { success: false, message: mess };
             }
         })

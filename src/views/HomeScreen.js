@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import ActionBtn from '../components/ActionBtn';
 import ChatUpload from '../components/ChatUpload';
+import { getRequest } from '../utils/HttpRequest';
+import { iosGet } from '../utils/iosStorage';
 import { get, store } from '../utils/storage';
 import Login from './Login';
+import {androidHost} from '../utils/hosts';
+import { OkAlert } from '../components/CustomAlerts';
+
+const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
 
 function HomeScreen(props) {
     const {reloadLogged, reloadValue} = props;
@@ -17,24 +23,65 @@ function HomeScreen(props) {
         props.navigation.navigate(screenOption);
     }//navigateTo
 
-    async function getStorage() {
+    async function getInfo() {
         const flags = await get("analysisFlags");
         if (flags != null) {
-            setAnalFlags(JSON.parse(flags));
-            //console.log("Banderas obtenidas en home " + flags);
+            let idResFin = 0;
+            if(Platform.OS === 'ios')
+            {
+                idResFin = await iosGet();
+            }
+            else
+            {
+                idResFin = JSON.parse(flags).idResFinal;
+            }
+            const numChats = await getNumChats(idResFin);
+            console.log("numchats from server inside getInfo in Home Screen", numChats);
+            const questFlag = JSON.parse(flags).questSent;
+            setAnalFlags({questSent: questFlag, chatSent: numChats});
+            const storedChats = JSON.parse(flags).chatsSent;
+            if(storedChats !== numChats)
+            {
+                const stored = await store("analysisFlags", JSON.stringify({ questSent: questFlag, chatsSent: numChats }));
+                if(!stored)
+                    OkAlert({ title: "Error", message: "No se ha podido guardar un dato en el storage de tu dispositivo" });
+            }
         }
-    }
+    }//getInfo
+
+    async function getNumChats(idResFinal){
+        const url = `http:${localHost}:3030/analysis/get-num-chats/${idResFinal}`;
+        return await getRequest(url)
+        .then(response => {
+            if (response.success) {
+                return response.numChats
+            }
+            else {
+                let mess = "Hubo un error en el servidor";
+                if(response.idNotFound)
+                    mess = "No existe análisis iniciado" 
+                OkAlert({ title: "Error", message: mess });
+            }
+        })
+        .then(numChats => numChats)
+        .catch(error => {
+            OkAlert({ title: "Error", message: "No se pudo conectar con el servidor para obtener el número de chats enviados" });
+            console.log(error);
+        });
+    }//getNumChats
 
     async function resetFlags() {
         const storedFlags = await store("analysisFlags", JSON.stringify({ questSent: false, chatsSent: 0 }));
         if (!storedFlags)
-            OkAlert({ title: "Error", message: "No se ha podido iniciar un nuevo análisis por favor inténtelo más tarde" },
-                () => { props.navigation.navigate('Inicio'); }
-            );
-    }
+            OkAlert({ title: "Error", message: "No se ha podido iniciar un nuevo análisis por favor inténtelo más tarde" });
+        else
+            setAnalFlags({ questSent: false, chatsSent: 0 });
+    }//resetFlags
 
     useEffect(() => {
-        getStorage();
+        console.log("useEfect in HomeScreen");
+        if(reloadValue)
+            getInfo();
     }, []);
 
     if(!reloadValue)
@@ -44,7 +91,7 @@ function HomeScreen(props) {
                 reloadLogged={reloadLogged}
             />
         );
-
+    console.log("analFlags en omeScreen", analFlags);
     return (
         <ScrollView style={styles.container}>
             <ActionBtn
@@ -52,12 +99,15 @@ function HomeScreen(props) {
                 onPressFunc={() => navigateTo('Cuestionario')}
                 hidden={analFlags.questSent}
             />
-            <ChatUpload hidden={false} />
+            <ChatUpload
+                hidden={false}
+                numChats={analFlags.chatSent}
+            />
 
             <ActionBtn
                 btnText={"Mostrar Resultado"}
                 onPressFunc={() => navigateTo('Resultado')}
-                hidden={!(analFlags.questSent === true && analFlags.chatsSent === 3)}
+                hidden={!(analFlags.chatsSent === 3)}
             />
             <ActionBtn
                 btnText={"Nuevo análisis"}
