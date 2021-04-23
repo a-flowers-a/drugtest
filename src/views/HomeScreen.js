@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import ActionBtn from '../components/ActionBtn';
 import ChatUpload from '../components/ChatUpload';
 import { getRequest } from '../utils/HttpRequest';
-import { iosGet } from '../utils/iosStorage';
+import { iosGet, iosStore } from '../utils/iosStorage';
 import { get, store } from '../utils/storage';
 import Login from './Login';
 import {androidHost} from '../utils/hosts';
@@ -45,7 +45,7 @@ function HomeScreen(props) {
             const storedChats = JSON.parse(flags).chatsSent;
             if(storedChats !== numChats)
             {
-                const stored = await store("analysisFlags", JSON.stringify({ questSent: questFlag, chatsSent: numChats }));
+                const stored = await store("analysisFlags", JSON.stringify({ questSent: questFlag, chatsSent: numChats, idResFinal:idResFin }));
                 if(!stored)
                     OkAlert({ title: "Error", message: "No se ha podido guardar un dato en el storage de tu dispositivo" });
             }
@@ -75,9 +75,12 @@ function HomeScreen(props) {
     }//getNumChats
 
     async function resetFlags() {
-        const storedFlags = await store("analysisFlags", JSON.stringify({ questSent: false, chatsSent: 0 }));
-        if (!storedFlags)
-            OkAlert({ title: "Error", message: "No se ha podido iniciar un nuevo análisis por favor inténtelo más tarde" });
+        let storedios = true;
+        if(Platform.OS === 'ios')
+            storedios = await iosStore("");
+        const storedFlags = await store("analysisFlags", JSON.stringify({ questSent: false, chatsSent: 0, idResFinal:null }));
+        if (!storedFlags || !storedios)
+            OkAlert({ title: "Error", message: "No se ha podido reiniciar valores en el storage del dispositivo" });
         else
             setAnalFlags({ questSent: false, chatsSent: 0 });
     }//resetFlags
