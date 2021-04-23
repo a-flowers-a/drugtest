@@ -33,7 +33,6 @@ const App: () => React$Node = () => {
   const [reloadAll, setReloadAll] = useState(false);
 
   function handleReloadLogged(reloadValue){
-    console.log("handleReload triggered in app.js");
     setReloadAll(reloadValue);
   }//handleReloadLogged
 
@@ -65,7 +64,6 @@ const App: () => React$Node = () => {
   }, []);
 
   useEffect(()=>{
-    console.log("useeffect app.js");
     getSharedChat();
   }, [sharedData, reloadAll]);
 
@@ -164,18 +162,6 @@ const App: () => React$Node = () => {
           }}>
             {props => <OptionsStack {...props} reloadLogged={handleReloadLogged}/>}
           </Tabs.Screen>
-        {/*<Tabs.Screen
-          component={nameOfTheStackComponent}
-          name="Name which it will be used to be referenced"
-          options={{
-            tabBarIcon: ({size, color}) => (
-              <Image
-                source={require('drugtest/src/assets/image.png')}
-                style={{ tintColor: color, width: size, height: size}}
-              />
-            )
-          }}
-        />*/}
 
       </Tabs.Navigator>
     </NavigationContainer>
