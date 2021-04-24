@@ -13,12 +13,19 @@ import { OkAlert } from '../components/CustomAlerts';
 const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
 
 function HomeScreen(props) {
+    const { reloadHS } = props.route.params || false;
     const {reloadLogged, reloadValue} = props;
     const [analFlags, setAnalFlags] = useState({
         questSent: false,
         chatSent: 0,
     });
     const [refreshing, setRefreshing] = useState(false);
+
+    if(reloadHS)
+    {
+        props.route.params.reloadHS = false;
+        getInfo();
+    }
 
     function navigateTo(screenOption) {
         props.navigation.navigate(screenOption);
@@ -37,8 +44,8 @@ function HomeScreen(props) {
             {
                 idResFin = JSON.parse(flags).idResFinal;
             }
+            console.log("flags in hs", JSON.parse(flags));
             const numChats = await getNumChats(idResFin);
-            console.log("las flags", JSON.parse(flags));
             const questFlag = JSON.parse(flags).questSent;
             setAnalFlags({questSent: questFlag, chatSent: numChats || JSON.parse(flags).chatsSent});
             const storedChats = JSON.parse(flags).chatsSent;
@@ -54,7 +61,6 @@ function HomeScreen(props) {
 
     async function getNumChats(idResFinal){
         const url = `http:${localHost}:3030/analysis/get-num-chats/${idResFinal}`;
-        console.log("la url",url);
         return await getRequest(url)
         .then(response => {
             if (response.success) {
