@@ -38,11 +38,11 @@ function HomeScreen(props) {
                 idResFin = JSON.parse(flags).idResFinal;
             }
             const numChats = await getNumChats(idResFin);
-            console.log("numchats from server inside getInfo in Home Screen", numChats);
+            console.log("las flags", JSON.parse(flags));
             const questFlag = JSON.parse(flags).questSent;
-            setAnalFlags({questSent: questFlag, chatSent: numChats});
+            setAnalFlags({questSent: questFlag, chatSent: numChats || JSON.parse(flags).chatsSent});
             const storedChats = JSON.parse(flags).chatsSent;
-            if(storedChats !== numChats)
+            if(numChats && (storedChats !== numChats))
             {
                 const stored = await store("analysisFlags", JSON.stringify({ questSent: questFlag, chatsSent: numChats, idResFinal:idResFin }));
                 if(!stored)
