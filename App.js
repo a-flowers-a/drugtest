@@ -32,9 +32,18 @@ const App: () => React$Node = () => {
   const [loading, setLoading] = useState(false);
   const [reloadAll, setReloadAll] = useState(false);
 
-  function handleReloadLogged(){
-    setReloadAll(!reloadAll);
+  function handleReloadLogged(reloadValue){
+    setReloadAll(reloadValue);
   }//handleReloadLogged
+
+    async function getUser(){
+      const fndUser = await get("user");
+      if(fndUser)
+      {
+        console.log("user found in appjs", fndUser);
+        setReloadAll(true);
+      }
+    }//getUser
 
   const handleShare = useCallback((item: ?SharedItem) => {
     if (!item) {
@@ -48,6 +57,7 @@ const App: () => React$Node = () => {
   }, []);
 
   useEffect(() => {
+    getUser();
     ShareMenu.getInitialShare(handleShare);
     const listener = ShareMenu.addNewShareListener(handleShare);
     return () => listener.remove();
@@ -67,15 +77,23 @@ const App: () => React$Node = () => {
         setLoading(true);
         const idResFinal = JSON.parse(analysisFlags).idResFinal;
         console.log("idResFinal got from android in chat.js", idResFinal);
-        var chatURI = sharedData.toString();
-        const ret = await handleChatURI(chatURI,idResFinal);
-        setLoading(false);
-        if (!ret.success)
+        if(!idResFinal)
         {
           success = false;
-          errMess = ret.message;
+          errMess = "No se encontró un dato en el storage de tu dispositivo necesario para realizar el envío, realiza el cuestionario nuevamente.";
         }
-      }
+        else
+        {
+          var chatURI = sharedData.toString();
+          const ret = await handleChatURI(chatURI,idResFinal);
+          if (!ret.success)
+          {
+            success = false;
+            errMess = ret.message;
+          }
+        }
+        setLoading(false);
+      }//analysisFlags
       else
       {
         success = false;
@@ -92,11 +110,10 @@ const App: () => React$Node = () => {
 
 
   return (
-    <NavigationContainer>
+    <NavigationContainer key={reloadAll}>
       { loading && <Loading />}
       <Tabs.Navigator
         tabBarOptions={{
-          //tintColor: "#fefefe",
           activeTintColor: '#1db954', //fefefe #1db954
           inactiveTintColor: '#fefefe', //fefefe 9A9F99
           style: {
@@ -108,6 +125,7 @@ const App: () => React$Node = () => {
         <Tabs.Screen
           name="Analysis"
           options={{
+            tabBarVisible: reloadAll,
             tabBarIcon: ({ color }) => (
               <FontAwesomeIcon
                 icon={faDiceD20}
@@ -116,13 +134,18 @@ const App: () => React$Node = () => {
               />
             )
           }}>
-            {props => <AnalysisStack {...props} reloadLogged={handleReloadLogged}/>}
+            {props => <AnalysisStack
+              {...props}
+              reloadLogged={handleReloadLogged}
+              reloadValue={reloadAll}
+            />}
         </Tabs.Screen>
 
         <Tabs.Screen
           component={AdminStack}
           name="Admin"
           options={{
+            tabBarVisible: reloadAll,
             tabBarIcon: ({ color }) => (
               <FontAwesomeIcon
                 icon={faFeather /*faFilter faFeather*/}
@@ -134,9 +157,9 @@ const App: () => React$Node = () => {
         />
 
         <Tabs.Screen
-          component={OptionsStack}
           name="Options"
           options={{
+            tabBarVisible: reloadAll,
             tabBarIcon: ({ color }) => (
               <FontAwesomeIcon
                 icon={faBars}
@@ -144,21 +167,9 @@ const App: () => React$Node = () => {
                 size={30}
               />
             )
-          }}
-        />
-
-        {/*<Tabs.Screen
-          component={nameOfTheStackComponent}
-          name="Name which it will be used to be referenced"
-          options={{
-            tabBarIcon: ({size, color}) => (
-              <Image
-                source={require('drugtest/src/assets/image.png')}
-                style={{ tintColor: color, width: size, height: size}}
-              />
-            )
-          }}
-        />*/}
+          }}>
+            {props => <OptionsStack {...props} reloadLogged={handleReloadLogged}/>}
+          </Tabs.Screen>
 
       </Tabs.Navigator>
     </NavigationContainer>

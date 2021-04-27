@@ -227,7 +227,7 @@ function QuestScreen(props) {
                         title: tit,
                         message: mess
                     },
-                    () => {props.navigation.navigate('Inicio');}
+                    () => {props.navigation.navigate('Inicio', {reloadHS:true});}
                 );
             })
             .catch(err => {

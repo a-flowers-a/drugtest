@@ -42,7 +42,10 @@ export default function StatsScreen(props) {
     },[]);
 
     if(!user)
-        return <Login navigation={props.navigation}/>
+        return <Login 
+                navigation={props.navigation}
+                reloadLogged={props.reloadLogged}
+            />
 
     return (
         <View style={styles.container}>

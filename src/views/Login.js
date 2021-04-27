@@ -13,7 +13,6 @@ import {androidHost} from '../utils/hosts';
 
 
 function Login(props) {
-    console.log("props de log in", props);
     const { control, handleSubmit, errors } = useForm();
     const [display, setDisplay] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -37,7 +36,7 @@ function Login(props) {
                         OkAlert({ title: "Error", message: "No se pudo guardar sesión, tendrás que iniciar nuevamente al cerrar la aplicación" });
 
                     OkAlert({ title: "Bienvenido", message: result.user.name },
-                        () => { reloadLogged();/*props.navigation.navigate('Inicio');*/ }
+                        () => { reloadLogged(true); }
                     );
                 }
                 else {
@@ -62,6 +61,7 @@ function Login(props) {
     }//displayRecover
 
     async function recoverPassword(data) {
+        displayRecover();
         setLoading(true);
         const url = `http:${localHost}:3030/student/reset-pass`;
         const twoVals = await hash(data.boleta);
@@ -70,7 +70,6 @@ function Login(props) {
         postRequest(url, finalData)
             .then(response => {
                 setLoading(false);
-                displayRecover();
                 if (response.success) {
                     OkAlert({ title: "Éxito", message: "Se envió un correo con las instrucciones para acceder" });
                 } else {

@@ -9,7 +9,7 @@ import { OkAlert } from '../components/CustomAlerts';
 import { get, store } from '../utils/storage';
 import Loading from '../components/Loading';
 import { hash } from '../utils/hashing';
-import {androidHost} from '../utils/hosts';
+import { androidHost } from '../utils/hosts';
 
 function AccountForm(props) {
 
@@ -67,6 +67,7 @@ function AccountForm(props) {
     const { control, handleSubmit, reset, errors } = useForm();
     const [loading, setLoading] = useState(false);
     const [stBoleta, setStBoleta] = useState("");
+    const { reloadLogged } = props;
 
     const onSubmit = async data => {
         setLoading(true);
@@ -108,7 +109,7 @@ function AccountForm(props) {
                             title: titl,
                             message: result.message
                         },
-                        () => { props.navigation.navigate('Inicio'); }
+                        () => { result.new && reloadLogged(true); }
                     );
                 }
                 else {

@@ -19,10 +19,12 @@ function HomeScreen(props) {
     const [user, setUser] = useState(null);
     const [displayDelete, setDisplayDelete] = useState(false);
     const [loading, setLoading] = useState(false);
+    const {reloadLogged} = props;
 
     const handleDisplay = () => setDisplayDelete(prevVal => !prevVal);
 
     async function deleteAccount(data) {
+        handleDisplay();
         setLoading(true);
         const url = `http:${localHost}:3030/student/delete-account`;
         const hashPass = await hash(data.password);
@@ -31,7 +33,6 @@ function HomeScreen(props) {
         postRequest(url, finalData)
             .then(async response => {
                 setLoading(false);
-                handleDisplay();
                 if (response.success) {
                     const removed = await remove("user");
                     const removedFlags = await remove("analysisFlags");
@@ -40,7 +41,7 @@ function HomeScreen(props) {
                     if (!removedFlags)
                         console.log("couldn't remove flags from storage");
                     OkAlert({ title: "Éxito", message: "Se eliminó la cuenta correctamente" },
-                        () => {setUser(null);setReloadFlag(!reloadFlag);}
+                        () => {setUser(null);reloadLogged(false);}
                     );
                 }
                 else {
@@ -77,7 +78,10 @@ function HomeScreen(props) {
 
     if(!user)
         return (
-            <Login navigation={props.navigation} />
+            <Login
+                navigation={props.navigation}
+                reloadLogged={props.reloadLogged}
+            />
         );
     return (
         <ScrollView style={styles.container}>
@@ -98,8 +102,7 @@ function HomeScreen(props) {
                             const removedFlags = await remove("analysisFlags");
                             if (removed && removedFlags)
                             {
-                                setUser(null);
-                                setReloadFlag(!reloadFlag);
+                                setUser(null);reloadLogged(false);
                             }
                             else{
                                 !removed ? mess = "No se ha podido cerrar sesión, inténtalo nuevamente": "Algo salió mal por favor intenté nuevamente";
