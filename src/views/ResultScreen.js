@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
@@ -12,6 +12,12 @@ import { androidHost } from '../utils/hosts';
 function ResultScreen(props) {
 
     const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
+    const [clasificadorKeys, setClasificadorKeys] = useState([]);
+    const [clasificadorValues, setClasificadorValues] = useState([]);
+    const [sentimentResult, setSentimentResult] = useState(0);
+    const [questResult, setQuestResult] = useState(0);
+    const [globalResult, setGlobalResult] = useState("Bajo");
+    const [progBar, setProgBar] = useState(0.33);
 
     const styles = StyleSheet.create({
         container: {
@@ -50,8 +56,30 @@ function ResultScreen(props) {
         const idResFinal = props.route.params.idResFinal;
         const url = `http:${localHost}:3030/analysis/get-results/${idResFinal}`;
         getRequest(url)
-            .then((result) => {
-                console.log("resultado del get results en results screen", result);
+            .then((response) => {
+
+                //clasificador
+                setClasificadorKeys(response.result[0]);
+                setClasificadorValues(response.result[1]);
+
+
+                setSentimentResult(response.result[1]);
+
+                //cuestionario
+                setQuestResult(response.result[3].questionSum);
+
+                //Riesgo
+                let resulFinal = response.result[3].globalFinalScore;
+                if (resulFinal > 3) {
+                    setGlobalResult("Medio");
+                    setProgBar(0.66);
+                }
+                else if (resulFinal > 5) {
+                    setGlobalResult("Alto");
+                    setProgBar(1);
+                }
+
+
             }).catch(
                 (err) => { console.error(err) }
             );
@@ -70,15 +98,15 @@ function ResultScreen(props) {
                 <Text style={[styles.text, styles.title]}>Resultado</Text>
             </View>
             <View style={styles.row}>
-                <Progress.Bar progress={0.6} width={300} />
+                <Progress.Bar progress={progBar} width={300} />
             </View>
-            <Text style={styles.text}>Bajo/Medio/Alto</Text>
+            <Text style={styles.text}>{globalResult} </Text>
 
             <View style={styles.row}>
                 <Text style={[styles.text, styles.subtitle]}>Análisis Chats</Text>
             </View>
             <View style={styles.row}>
-                <TableChat />
+                <TableChat keys={clasificadorKeys} valores={clasificadorValues} />
             </View>
             <View style={styles.row}>
                 <Text style={[styles.text, styles.subtitle]}>Análisis de Sentimientos</Text>
@@ -104,7 +132,7 @@ function ResultScreen(props) {
                 <Text style={[styles.text, styles.subtitle]}>Resultado Cuestionario</Text>
             </View>
             <View style={styles.row}>
-                <Text style={[styles.text, styles.subtitle]}>3</Text>
+                <Text style={[styles.text, styles.subtitle]}>{questResult} </Text>
             </View>
 
             <ActionBtn
