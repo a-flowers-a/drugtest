@@ -7,6 +7,7 @@ import {androidHost} from '../utils/hosts';
 import Login from './Login';
 import { get } from '../utils/storage';
 import RadioBtn from '../components/RadioBtn';
+import RNPickerSelect from 'react-native-picker-select';
 
 export default function StatsScreen(props) {
     const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
@@ -18,6 +19,8 @@ export default function StatsScreen(props) {
         shift: false,
         final: false,
     });
+    const [finalLevel, setFinalLevel] = useState();
+
 
     async function getUser(){
         const userSt = await get("user");
@@ -79,12 +82,27 @@ export default function StatsScreen(props) {
                     selected={filters.shift}
                     onPressFunc={() => handleFilters("shift", filters.shift)}
                 />
-                <RadioBtn 
-                    name="resultado final"
-                    selected={filters.final}
-                    onPressFunc={() => handleFilters("final", filters.final)}
-                />
+                <View style={styles.row}>
+                    <RadioBtn 
+                        name="resultado final"
+                        selected={filters.final}
+                        onPressFunc={() => handleFilters("final", filters.final)}
+                    />
+                </View>
             </View>
+
+            
+            <RNPickerSelect
+                placeholder={{label: "Seleccione un riesgo", value: null}}
+                onValueChange={(value) => console.log(value)}
+                items={[
+                    { label: 'Bajo', value: 'football' },
+                    { label: 'Medio', value: 'baseball' },
+                    { label: 'Alto', value: 'hockey' },
+                ]}
+                style={pickerStyle}
+            />
+
             <ActionBtn
                 btnText={"Obtener datos"}
                 onPressFunc={submitData}
@@ -92,7 +110,25 @@ export default function StatsScreen(props) {
         </View>
     );
 }//StatsScreen
-
+const pickerStyle = StyleSheet.create({
+    inputIOS: {
+        color: 'black',
+        fontSize: 18,
+        paddingHorizontal: 10,
+        backgroundColor: 'white',
+        borderRadius: 5,
+    },
+    placeholder: {
+        color: 'black',
+    },
+    inputAndroid: {
+        color: 'black',
+        fontSize: 16,
+        paddingHorizontal: 10,
+        backgroundColor: 'white',
+        borderRadius: 5,
+    },
+});
 const styles = StyleSheet.create({
     container: {
         backgroundColor: "#120078",/*120078 */
@@ -101,6 +137,9 @@ const styles = StyleSheet.create({
     radiosSection: {
         marginHorizontal: 25,
         marginVertical: 20,
+    },
+    row: {
+        flexDirection: "row",
     },
     text: {
         color: "#f5f4f4",
