@@ -190,12 +190,12 @@ function AccountForm(props) {
                     <RadioBtn
                         name="Hombre"
                         selected={sex}
-                        onPressFunc={handleRadios("Hombre")}
+                        onPressFunc={() => handleRadios("Hombre")}
                     />
                     <RadioBtn
                         name="Mujer"
                         selected={!sex}
-                        onPressFunc={handleRadios("Mujer")}
+                        onPressFunc={() => handleRadios("Mujer")}
                     />
                 </View>
             </View>
@@ -227,12 +227,12 @@ function AccountForm(props) {
                     <RadioBtn
                         name="Matutino"
                         selected={shift}
-                        onPressFunc={handleShift("Matutino")}
+                        onPressFunc={() => handleShift("Matutino")}
                     />
                     <RadioBtn
                         name="Vespertino"
                         selected={!shift}
-                        onPressFunc={handleShift("Vespertino")}
+                        onPressFunc={() => handleShift("Vespertino")}
                     />
                 </View>
             </View>
