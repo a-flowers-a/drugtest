@@ -4,19 +4,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSpa, faLightbulb } from '@fortawesome/free-solid-svg-icons';
 
 function ResultItem(props) {
-    const { riesgo } = props;
-    
+    const { riesgo, quest } = props;
+
     return (
         <View style={styles.card}>
             <FontAwesomeIcon
-                icon={faLightbulb}
+                icon={faSpa}
                 style={styles.icon}
                 size={40}
             />
             <View style={styles.infoContainer}>
                 <Text style={styles.textRisk}>Riesgo {riesgo}</Text>
                 <View style={styles.row}>
-                    <Text style={styles.textDate}>Número de análisis</Text>
+                    <Text style={styles.textDate}>Resultado del cuestionario: {quest} </Text>
                 </View>
             </View>
         </View>

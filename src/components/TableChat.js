@@ -4,8 +4,6 @@ import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-componen
 
 function TableChat(props) {
 
-    //const valores = [0][, [0], [0]];
-
     const tableHead = ['Etiqueta', 'Incidencias'];
     const tableTitle = ["Alcohol", "Tabaco", "Drogas"];
     const { values } = props;

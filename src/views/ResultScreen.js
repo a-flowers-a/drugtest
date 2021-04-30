@@ -23,7 +23,6 @@ function ResultScreen(props) {
     const [faMehColor, setfaMehColor] = useState("white");
     const [faSmileColor, setfaSmileColor] = useState("white");
 
-
     function navigateTo(screenOption) {
         props.navigation.navigate(screenOption);
     }//navigateTo
@@ -93,10 +92,7 @@ function ResultScreen(props) {
     }, []);
 
     return (
-        <ScrollView
-            style={styles.container}
-            contentContainerStyle={styles.contentContainer}
-        >
+        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
             {loading && <Loading />}
             <View style={styles.row}>
                 <Text style={[styles.text, styles.title]}>Resultado</Text>
