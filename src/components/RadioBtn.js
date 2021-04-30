@@ -38,7 +38,7 @@ function RadioBtn(props){
 
     return(
         <View style={styles.row}>
-            <TouchableOpacity onPress={() =>{onPressFunc(name);}} style={styles.radioButton}>
+            <TouchableOpacity onPress={onPressFunc} style={styles.radioButton}>
                 {selected && <View style={styles.radioButtonIcon} />}
             </TouchableOpacity>
             <Text style={styles.radioButtonText}>{name}</Text>

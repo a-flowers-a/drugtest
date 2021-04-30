@@ -6,17 +6,30 @@ import Loading from '../components/Loading';
 import {androidHost} from '../utils/hosts';
 import Login from './Login';
 import { get } from '../utils/storage';
+import RadioBtn from '../components/RadioBtn';
 
 export default function StatsScreen(props) {
     const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
-    
+    const [filters, toggleFilters] = useState({
+        sex: false,
+        semester: false,
+        shift: false,
+        final: false,
+    });
+
     async function getUser(){
         const userSt = await get("user");
         console.log("user in StatsScreen", userSt);
         setUser(userSt);
     }//getUser
+
+    function handleFilters(name, value){
+        toggleFilters(prevFilVals => {
+            return {...prevFilVals, [name]: !value}
+        });
+    }//handleFilters
 
     function submitData() {
         setLoading(true);
@@ -36,7 +49,6 @@ export default function StatsScreen(props) {
                 console.log(err);
             });
     }//submitData
-
     useEffect(()=>{
         getUser();
     },[]);
@@ -50,8 +62,29 @@ export default function StatsScreen(props) {
     return (
         <View style={styles.container}>
             {loading && <Loading />}
-            <Text style={styles.text}>Here is going to be the selection of the data</Text>
-
+            <Text style={styles.text}>Seleccione los filtros que desee:</Text>
+            <View style={styles.radiosSection}>
+                <RadioBtn 
+                    name="sexo"
+                    selected={filters.sex}
+                    onPressFunc={() => handleFilters("sex", filters.sex)}
+                />
+                <RadioBtn 
+                    name="semestre"
+                    selected={filters.semester}
+                    onPressFunc={() => handleFilters("semester", filters.semester)}
+                />
+                <RadioBtn 
+                    name="turno"
+                    selected={filters.shift}
+                    onPressFunc={() => handleFilters("shift", filters.shift)}
+                />
+                <RadioBtn 
+                    name="resultado final"
+                    selected={filters.final}
+                    onPressFunc={() => handleFilters("final", filters.final)}
+                />
+            </View>
             <ActionBtn
                 btnText={"Obtener datos"}
                 onPressFunc={submitData}
@@ -64,6 +97,10 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: "#120078",/*120078 */
         flex: 1,
+    },
+    radiosSection: {
+        marginHorizontal: 25,
+        marginVertical: 20,
     },
     text: {
         color: "#f5f4f4",
