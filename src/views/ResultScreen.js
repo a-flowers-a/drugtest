@@ -35,7 +35,7 @@ function ResultScreen(props) {
             .then((response) => {
                 setLoading(false);
                 if (response.success) {
-                    console.log("Valores del analisis", response.result);
+                    //console.log("Valores del analisis", response.result);
 
                     //sentiment
                     var sentMagni = response.result[0].magnitude;
@@ -63,7 +63,7 @@ function ResultScreen(props) {
                     sustancias.push([response.result[2].etiquetasAlcohol]);
                     sustancias.push([response.result[2].etiquetasTabaco]);
                     sustancias.push([response.result[2].drogas]);
-                    console.log("valores sustanicas", sustancias);
+                    //console.log("valores sustanicas", sustancias);
                     setClasificadorValues(sustancias);
 
                     //Riesgo
