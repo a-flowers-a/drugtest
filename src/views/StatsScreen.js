@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, processColor, Platform } from 'react-native';
 import ActionBtn from '../components/ActionBtn';
-import { getRequest, postRequest } from '../utils/HttpRequest';
+import { postRequest } from '../utils/HttpRequest';
 import Loading from '../components/Loading';
 import {androidHost} from '../utils/hosts';
 import Login from './Login';
 import { get } from '../utils/storage';
 import RadioBtn from '../components/RadioBtn';
-import RNPickerSelect from 'react-native-picker-select';
 import { OkAlert } from '../components/CustomAlerts';
 
 export default function StatsScreen(props) {
@@ -15,13 +14,12 @@ export default function StatsScreen(props) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
     const [filters, toggleFilters] = useState({
-        sex: false,
-        semester: false,
-        shift: false,
+        students: false,
         final: false,
-        finalLevel: "",
+        classifier: false,
+        questionnaire: false,
+        sentiments: false,
     });
-    console.log("filters", filters);
 
     async function getUser(){
         const userSt = await get("user");
@@ -31,7 +29,7 @@ export default function StatsScreen(props) {
 
     function handleFilters(name, value){
         toggleFilters(prevFilVals => {
-            return {...prevFilVals, [name]: name === "finalLevel" ? value : !value}
+            return {...prevFilVals, [name]: !value}
         });
     }//handleFilters
 
@@ -54,6 +52,8 @@ export default function StatsScreen(props) {
                     tit = "Error";
                     mess = "Hubo un problema en el servidor";
                     if(result.wrongPass) mess = "Contraseña incorrecta";
+                    if(result.mailFailed) mess = "Hubo un error enviando el email";
+
                 }
                 OkAlert({title: tit, message: mess});
             })
@@ -77,42 +77,33 @@ export default function StatsScreen(props) {
     return (
         <View style={styles.container}>
             {loading && <Loading />}
-            <Text style={styles.text}>Seleccione los filtros que deseé:</Text>
+            <Text style={styles.text}>Seleccione las tablas que deseé:</Text>
             <View style={styles.radiosSection}>
                     <RadioBtn 
-                        name="sexo"
-                        selected={filters.sex}
-                        onPressFunc={() => handleFilters("sex", filters.sex)}
+                        name="Estudiantes"
+                        selected={filters.students}
+                        onPressFunc={() => handleFilters("students", filters.students)}
                     />
                     <RadioBtn 
-                        name="semestre"
-                        selected={filters.semester}
-                        onPressFunc={() => handleFilters("semester", filters.semester)}
-                    />
-                    <RadioBtn 
-                        name="turno"
-                        selected={filters.shift}
-                        onPressFunc={() => handleFilters("shift", filters.shift)}
-                    />
-                <View style={styles.row}>
-                    <RadioBtn 
-                        name="resultado final"
+                        name="Resultado Final"
                         selected={filters.final}
                         onPressFunc={() => handleFilters("final", filters.final)}
                     />
-                    {filters.final && <View style={styles.pickerContainer}>
-                        <RNPickerSelect
-                            placeholder={{label: "Seleccione un riesgo", value: null}}
-                            onValueChange={(value) => {handleFilters("finalLevel",value);}}
-                            items={[
-                                { label: 'Bajo', value: 'bajo' },
-                                { label: 'Medio', value: 'medio' },
-                                { label: 'Alto', value: 'alto' },
-                            ]}
-                            style={pickerStyle}
-                        />
-                    </View>}
-                </View>
+                    <RadioBtn 
+                        name="Resultado clasificador"
+                        selected={filters.classifier}
+                        onPressFunc={() => handleFilters("classifier", filters.classifier)}
+                    />
+                    <RadioBtn 
+                        name="Resultado sentimientos"
+                        selected={filters.sentiments}
+                        onPressFunc={() => handleFilters("sentiments", filters.sentiments)}
+                    />
+                    <RadioBtn 
+                        name="Resultado cuestionario"
+                        selected={filters.questionnaire}
+                        onPressFunc={() => handleFilters("questionnaire", filters.questionnaire)}
+                    />
             </View>
 
             <ActionBtn
@@ -122,34 +113,10 @@ export default function StatsScreen(props) {
         </View>
     );
 }//StatsScreen
-const pickerStyle = StyleSheet.create({
-    inputIOS: {
-        color: 'black',
-        fontSize: 18,
-        paddingHorizontal: 10,
-        backgroundColor: 'white',
-        borderRadius: 5,
-        width: 190,
-    },
-    placeholder: {
-        color: 'black',
-    },
-    inputAndroid: {
-        color: 'black',
-        fontSize: 16,
-        paddingHorizontal: 10,
-        backgroundColor: 'white',
-        borderRadius: 5,
-        width: 190,
-    },
-});
 const styles = StyleSheet.create({
     container: {
         backgroundColor: "#120078",/*120078 */
         flex: 1,
-    },
-    pickerContainer: {
-        marginHorizontal: 10,
     },
     radiosSection: {
         marginHorizontal: 25,
