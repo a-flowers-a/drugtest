@@ -162,6 +162,7 @@ function Login(props) {
                     control={control}
                     render={({ onChange, onBlur, value }) => (
                         <TextInput
+                            autoCapitalize={"none"}
                             onBlur={onBlur}
                             style={styles.input}
                             onChangeText={value => onChange(value)}

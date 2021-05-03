@@ -92,7 +92,9 @@ function HomeScreen(props) {
                     style={styles.icon}
                     size={40}
                 />
-                <Text style={[styles.text, styles.title]}>{user.name}</Text>
+                <View style={styles.textContainer}>
+                    <Text style={[styles.text, styles.title]}>{user.name}</Text>
+                </View>
             </View>
             <TouchableOpacity
                 onPress={() => {
@@ -118,7 +120,9 @@ function HomeScreen(props) {
                     style={styles.icon}
                     size={20}
                 />
-                <Text style={[styles.text]}>Cerrar Sesión</Text>
+                <View style={styles.textContainer}>
+                    <Text style={[styles.text]}>Cerrar Sesión</Text>
+                </View>
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => { navigateTo('Datos Cuenta', { create: false }); }}
@@ -129,7 +133,9 @@ function HomeScreen(props) {
                     style={styles.icon}
                     size={20}
                 />
-                <Text style={[styles.text]}>Modificar datos de la cuenta</Text>
+                <View style={styles.textContainer}>
+                    <Text style={[styles.text]}>Modificar datos de la cuenta</Text>
+                </View>
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={handleDisplay}
@@ -140,7 +146,9 @@ function HomeScreen(props) {
                     style={styles.icon}
                     size={20}
                 />
-                <Text style={[styles.text]}>Eliminar Cuenta</Text>
+                <View style={styles.textContainer}>
+                    <Text style={[styles.text]}>Eliminar Cuenta</Text>
+                </View>
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => { navigateTo('Qué hacemos'); }}
@@ -151,7 +159,9 @@ function HomeScreen(props) {
                     style={styles.icon}
                     size={20}
                 />
-                <Text style={[styles.text]}>¿Qué hacemos con tus chats?</Text>
+                <View style={styles.textContainer}>
+                    <Text style={[styles.text]}>¿Qué hacemos con tus chats?</Text>
+                </View>
             </TouchableOpacity>
 
             {displayDelete &&
@@ -185,7 +195,6 @@ const styles = StyleSheet.create({
     },
     row: {
         alignItems: "center", //vertically
-        //backgroundColor: "black",
         //flex: 1,
         flexDirection: "row",
         marginHorizontal: 20,
@@ -193,6 +202,9 @@ const styles = StyleSheet.create({
     text: {
         color: "#f5f4f4",
         fontSize: 20,
+    },
+    textContainer: {
+        flex:1,
     },
     title: {
         fontSize: 40,

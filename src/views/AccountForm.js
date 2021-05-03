@@ -239,12 +239,12 @@ function AccountForm(props) {
                     <RadioBtn
                         name="Hombre"
                         selected={sex}
-                        onPressFunc={handleRadios}
+                        onPressFunc={() => handleRadios("Hombre")}
                     />
                     <RadioBtn
                         name="Mujer"
                         selected={!sex}
-                        onPressFunc={handleRadios}
+                        onPressFunc={() => handleRadios("Mujer")}
                     />
                 </View>
             </View>
@@ -276,12 +276,12 @@ function AccountForm(props) {
                     <RadioBtn
                         name="Matutino"
                         selected={shift}
-                        onPressFunc={handleShift}
+                        onPressFunc={() => handleShift("Matutino")}
                     />
                     <RadioBtn
                         name="Vespertino"
                         selected={!shift}
-                        onPressFunc={handleShift}
+                        onPressFunc={() => handleShift("Vespertino")}
                     />
                 </View>
             </View>
@@ -293,6 +293,7 @@ function AccountForm(props) {
                     control={control}
                     render={({ onChange, onBlur, value }) => (
                         <TextInput
+                            autoCapitalize={"none"}
                             onBlur={onBlur}
                             style={styles.input}
                             onChangeText={value => onChange(value)}
