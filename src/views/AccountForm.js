@@ -185,7 +185,7 @@ function AccountForm(props) {
                         />
                     )}
                     name="name"
-                    rules={{ required: true, pattern: /^[A-Za-z]+$/i }}
+                    rules={{ required: true, pattern: /^[A-Za-zÀ-ú ]+$/i }}
                     defaultValue=""
                 />
                 {errors.name && <Text style={[styles.text, styles.errorText]}>{errors.name.type == 'pattern' ? "Nombre inválido" : "Campo requerido"}</Text>}
