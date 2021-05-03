@@ -31,6 +31,7 @@ const App: () => React$Node = () => {
   const [sharedMimeType, setSharedMimeType] = useState('');
   const [loading, setLoading] = useState(false);
   const [reloadAll, setReloadAll] = useState(false);
+  const [admin, setAdmin] = useState(false);
 
   function handleReloadLogged(reloadValue){
     setReloadAll(reloadValue);
@@ -41,6 +42,8 @@ const App: () => React$Node = () => {
       if(fndUser)
       {
         console.log("user found in appjs", fndUser);
+        if(fndUser.admin) setAdmin(true);
+        else setAdmin(false);
         setReloadAll(true);
       }
     }//getUser
@@ -122,6 +125,7 @@ const App: () => React$Node = () => {
         }}
 
       >
+        {!admin &&
         <Tabs.Screen
           name="Analysis"
           options={{
@@ -139,22 +143,24 @@ const App: () => React$Node = () => {
               reloadLogged={handleReloadLogged}
               reloadValue={reloadAll}
             />}
-        </Tabs.Screen>
+        </Tabs.Screen>}
 
-        <Tabs.Screen
-          component={AdminStack}
-          name="Admin"
-          options={{
-            tabBarVisible: reloadAll,
-            tabBarIcon: ({ color }) => (
-              <FontAwesomeIcon
-                icon={faFeather /*faFilter faFeather*/}
-                style={{ color: color }}
-                size={30}
-              />
-            )
-          }}
-        />
+        {admin && 
+          <Tabs.Screen
+            component={AdminStack}
+            name="Admin"
+            options={{
+              tabBarVisible: reloadAll,
+              tabBarIcon: ({ color }) => (
+                <FontAwesomeIcon
+                  icon={faFeather /*faFilter faFeather*/}
+                  style={{ color: color }}
+                  size={30}
+                />
+              )
+            }}
+          />
+        }
 
         <Tabs.Screen
           name="Options"
