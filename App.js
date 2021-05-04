@@ -34,16 +34,27 @@ const App: () => React$Node = () => {
   const [admin, setAdmin] = useState(false);
 
   function handleReloadLogged(reloadValue){
+    console.log("handle reload triggered");
     setReloadAll(reloadValue);
   }//handleReloadLogged
 
     async function getUser(){
       const fndUser = await get("user");
-      if(fndUser)
+      if(fndUser != null)
       {
-        console.log("user found in appjs", fndUser);
-        if(fndUser.admin) setAdmin(true);
-        else setAdmin(false);
+
+        const parsUsr = JSON.parse(fndUser);
+        console.log("user found in appjs", parsUsr);
+        if(parsUsr.admin)
+        {
+          console.log("parsUsr.admin true");
+          setAdmin(true);
+        }
+        else
+        {
+          console.log("parsUsr.admin false");
+          setAdmin(false);
+        }
         setReloadAll(true);
       }
     }//getUser
@@ -60,13 +71,13 @@ const App: () => React$Node = () => {
   }, []);
 
   useEffect(() => {
-    getUser();
     ShareMenu.getInitialShare(handleShare);
     const listener = ShareMenu.addNewShareListener(handleShare);
     return () => listener.remove();
   }, []);
 
   useEffect(()=>{
+    getUser();
     getSharedChat();
   }, [sharedData, reloadAll]);
 
@@ -147,7 +158,6 @@ const App: () => React$Node = () => {
 
         {admin && 
           <Tabs.Screen
-            component={AdminStack}
             name="Admin"
             options={{
               tabBarVisible: reloadAll,
@@ -159,7 +169,13 @@ const App: () => React$Node = () => {
                 />
               )
             }}
-          />
+          >
+            {props => <AdminStack
+              {...props}
+              reloadLogged={handleReloadLogged}
+              reloadValue={reloadAll}
+            />}
+          </Tabs.Screen>
         }
 
         <Tabs.Screen
