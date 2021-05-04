@@ -34,10 +34,9 @@ const App: () => React$Node = () => {
   const [admin, setAdmin] = useState(false);
 
   function handleReloadLogged(reloadValue){
-    console.log("handle reload triggered");
     setReloadAll(reloadValue);
   }//handleReloadLogged
-
+  
     async function getUser(){
       const fndUser = await get("user");
       if(fndUser != null)
@@ -45,18 +44,12 @@ const App: () => React$Node = () => {
 
         const parsUsr = JSON.parse(fndUser);
         console.log("user found in appjs", parsUsr);
-        if(parsUsr.admin)
-        {
-          console.log("parsUsr.admin true");
-          setAdmin(true);
-        }
-        else
-        {
-          console.log("parsUsr.admin false");
-          setAdmin(false);
-        }
+        if(parsUsr.admin) setAdmin(true);
+        else setAdmin(false);
         setReloadAll(true);
       }
+      else
+        setAdmin(true);
     }//getUser
 
   const handleShare = useCallback((item: ?SharedItem) => {

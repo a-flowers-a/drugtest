@@ -20,6 +20,7 @@ export default function StatsScreen(props) {
         questionnaire: false,
         sentiments: false,
     });
+    const {navigation, reloadLogged, reloadValue } = props;
 
     async function getUser(){
         const userSt = await get("user");
@@ -65,13 +66,14 @@ export default function StatsScreen(props) {
     }//submitData
 
     useEffect(()=>{
-        getUser();
+        if(reloadValue)
+            getUser();
     },[]);
 
-    if(!user)
+    if(!reloadValue)
         return <Login 
-                navigation={props.navigation}
-                reloadLogged={props.reloadLogged}
+                navigation={navigation}
+                reloadLogged={reloadLogged}
             />
 
     return (

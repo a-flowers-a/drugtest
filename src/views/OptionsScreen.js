@@ -65,7 +65,7 @@ function HomeScreen(props) {
         const stUser = await get("user");
         if (stUser !== null) {
             const parsObj = JSON.parse(stUser);
-            console.log("user in storage", parsObj);
+            console.log("user in storage in optionss", parsObj);
             setUser(parsObj);
         }
         else
