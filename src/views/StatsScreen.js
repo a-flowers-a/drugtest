@@ -24,8 +24,13 @@ export default function StatsScreen(props) {
 
     async function getUser(){
         const userSt = await get("user");
-        console.log("user in StatsScreen", userSt);
-        setUser(userSt);
+        if(userSt != null)
+        {
+            console.log("user in StatsScreen", JSON.parse(userSt));
+            setUser(JSON.parse(userSt));
+        }
+        else
+            OkAlert({title: "Error", message: "No se ha podido encontrar usuario en storage"});
     }//getUser
 
     function handleFilters(name, value){
@@ -39,8 +44,8 @@ export default function StatsScreen(props) {
         const url = `http:${localHost}:3030/admin/get-stats`;
 
         const data = {
-            id: 2,//user.id,
-            password: 'unacontra',//answPt2,
+            id: user.id,
+            password: user.contrasenia,
             filters: filters,
         };
         postRequest(url, data)
