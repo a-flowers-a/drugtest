@@ -33,24 +33,23 @@ const App: () => React$Node = () => {
   const [reloadAll, setReloadAll] = useState(false);
   const [admin, setAdmin] = useState(false);
 
-  function handleReloadLogged(reloadValue){
+  function handleReloadLogged(reloadValue) {
     setReloadAll(reloadValue);
   }//handleReloadLogged
-  
-    async function getUser(){
-      const fndUser = await get("user");
-      if(fndUser != null)
-      {
 
-        const parsUsr = JSON.parse(fndUser);
-        console.log("user found in appjs", parsUsr);
-        if(parsUsr.admin) setAdmin(true);
-        else setAdmin(false);
-        setReloadAll(true);
-      }
-      else
-        setAdmin(true);
-    }//getUser
+  async function getUser() {
+    const fndUser = await get("user");
+    if (fndUser != null) {
+
+      const parsUsr = JSON.parse(fndUser);
+      console.log("user found in appjs", parsUsr);
+      if (parsUsr.admin) setAdmin(true);
+      else setAdmin(false);
+      setReloadAll(true);
+    }
+    else
+      setAdmin(true);
+  }//getUser
 
   const handleShare = useCallback((item: ?SharedItem) => {
     if (!item) {
@@ -69,7 +68,7 @@ const App: () => React$Node = () => {
     return () => listener.remove();
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     getUser();
     getSharedChat();
   }, [sharedData, reloadAll]);
@@ -79,34 +78,30 @@ const App: () => React$Node = () => {
       let errMess = "";
       let success = true;
       const analysisFlags = await get("analysisFlags");
-      if (analysisFlags)
-      {
+      if (analysisFlags) {
         setLoading(true);
         const idResFinal = JSON.parse(analysisFlags).idResFinal;
         console.log("idResFinal got from android in chat.js", idResFinal);
-        if(!idResFinal)
-        {
+        if (!idResFinal) {
           success = false;
           errMess = "No se encontró un dato en el storage de tu dispositivo necesario para realizar el envío, realiza el cuestionario nuevamente.";
         }
-        else
-        {
+        else {
           var chatURI = sharedData.toString();
-          const ret = await handleChatURI(chatURI,idResFinal);
-          if (!ret.success)
-          {
+          const ret = await handleChatURI(chatURI, idResFinal);
+          if (!ret.success) {
             success = false;
             errMess = ret.message;
           }
+          setSharedData('');
         }
         setLoading(false);
       }//analysisFlags
-      else
-      {
+      else {
         success = false;
         errMess = "No se encontró un dato en el storage de tu dispositivo necesario para realizar el envío, realiza el cuestionario nuevamente."
       }
-      if(success)
+      if (success)
         OkAlert({ title: "Éxito", message: "Chat enviado correctamente." });
       else
         OkAlert({ title: "Error", message: errMess });
@@ -130,26 +125,26 @@ const App: () => React$Node = () => {
 
       >
         {!admin &&
-        <Tabs.Screen
-          name="Analysis"
-          options={{
-            tabBarVisible: reloadAll,
-            tabBarIcon: ({ color }) => (
-              <FontAwesomeIcon
-                icon={faDiceD20}
-                style={{ color: color }}
-                size={30}
-              />
-            )
-          }}>
+          <Tabs.Screen
+            name="Analysis"
+            options={{
+              tabBarVisible: reloadAll,
+              tabBarIcon: ({ color }) => (
+                <FontAwesomeIcon
+                  icon={faDiceD20}
+                  style={{ color: color }}
+                  size={30}
+                />
+              )
+            }}>
             {props => <AnalysisStack
               {...props}
               reloadLogged={handleReloadLogged}
               reloadValue={reloadAll}
             />}
-        </Tabs.Screen>}
+          </Tabs.Screen>}
 
-        {admin && 
+        {admin &&
           <Tabs.Screen
             name="Admin"
             options={{
@@ -183,8 +178,8 @@ const App: () => React$Node = () => {
               />
             )
           }}>
-            {props => <OptionsStack {...props} reloadLogged={handleReloadLogged}/>}
-          </Tabs.Screen>
+          {props => <OptionsStack {...props} reloadLogged={handleReloadLogged} />}
+        </Tabs.Screen>
 
       </Tabs.Navigator>
     </NavigationContainer>
