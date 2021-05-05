@@ -36,20 +36,21 @@ const App: () => React$Node = () => {
   function handleReloadLogged(reloadValue) {
     setReloadAll(reloadValue);
   }//handleReloadLogged
+  
+    async function getUser(){
+      const fndUser = await get("user");
+      if(fndUser != null)
+      {
 
-  async function getUser() {
-    const fndUser = await get("user");
-    if (fndUser != null) {
-
-      const parsUsr = JSON.parse(fndUser);
-      console.log("user found in appjs", parsUsr);
-      if (parsUsr.admin) setAdmin(true);
-      else setAdmin(false);
-      setReloadAll(true);
-    }
-    else
-      setAdmin(true);
-  }//getUser
+        const parsUsr = JSON.parse(fndUser);
+        console.log("user found in appjs", parsUsr);
+        if(parsUsr.admin) setAdmin(true);
+        else setAdmin(false);
+        setReloadAll(true);
+      }
+      else
+        setAdmin(false);
+    }//getUser
 
   const handleShare = useCallback((item: ?SharedItem) => {
     if (!item) {
@@ -124,7 +125,7 @@ const App: () => React$Node = () => {
         }}
 
       >
-        {!admin &&
+        {!admin && 
           <Tabs.Screen
             name="Analysis"
             options={{
@@ -137,14 +138,14 @@ const App: () => React$Node = () => {
                 />
               )
             }}>
-            {props => <AnalysisStack
-              {...props}
-              reloadLogged={handleReloadLogged}
-              reloadValue={reloadAll}
-            />}
-          </Tabs.Screen>}
-
-        {admin &&
+              {props => <AnalysisStack
+                {...props}
+                reloadLogged={handleReloadLogged}
+                reloadValue={reloadAll}
+              />}
+          </Tabs.Screen>
+        }
+        { admin &&
           <Tabs.Screen
             name="Admin"
             options={{
@@ -165,6 +166,7 @@ const App: () => React$Node = () => {
             />}
           </Tabs.Screen>
         }
+        
 
         <Tabs.Screen
           name="Options"
