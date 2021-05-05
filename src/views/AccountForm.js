@@ -77,6 +77,9 @@ function AccountForm(props) {
         if (!create) {
             const { newPass, password } = data;
             newAndPass = await hash(newPass, password);
+            if (newPass === "")
+                newAndPass[0] = null;
+
             bolAndPass[0] = stBoleta;
             bolAndPass[1] = newAndPass[1];
         }
