@@ -49,7 +49,7 @@ const App: () => React$Node = () => {
         setReloadAll(true);
       }
       else
-        setAdmin(true);
+        setAdmin(false);
     }//getUser
 
   const handleShare = useCallback((item: ?SharedItem) => {
@@ -129,27 +129,27 @@ const App: () => React$Node = () => {
         }}
 
       >
-        {!admin &&
-        <Tabs.Screen
-          name="Analysis"
-          options={{
-            tabBarVisible: reloadAll,
-            tabBarIcon: ({ color }) => (
-              <FontAwesomeIcon
-                icon={faDiceD20}
-                style={{ color: color }}
-                size={30}
-              />
-            )
-          }}>
-            {props => <AnalysisStack
-              {...props}
-              reloadLogged={handleReloadLogged}
-              reloadValue={reloadAll}
-            />}
-        </Tabs.Screen>}
-
-        {admin && 
+        {!admin && 
+          <Tabs.Screen
+            name="Analysis"
+            options={{
+              tabBarVisible: reloadAll,
+              tabBarIcon: ({ color }) => (
+                <FontAwesomeIcon
+                  icon={faDiceD20}
+                  style={{ color: color }}
+                  size={30}
+                />
+              )
+            }}>
+              {props => <AnalysisStack
+                {...props}
+                reloadLogged={handleReloadLogged}
+                reloadValue={reloadAll}
+              />}
+          </Tabs.Screen>
+        }
+        { admin &&
           <Tabs.Screen
             name="Admin"
             options={{
@@ -170,6 +170,7 @@ const App: () => React$Node = () => {
             />}
           </Tabs.Screen>
         }
+        
 
         <Tabs.Screen
           name="Options"
