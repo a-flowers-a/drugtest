@@ -10,18 +10,22 @@ import { store, get } from '../utils/storage';
 import Loading from '../components/Loading';
 import { hash } from '../utils/hashing';
 import {androidHost} from '../utils/hosts';
+import RadioBtn from '../components/RadioBtn';
 
 
 function Login(props) {
     const { control, handleSubmit, errors } = useForm();
     const [display, setDisplay] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [imAdmin, toggleImAdmin] = useState(false);
     const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
     const {reloadLogged} = props;
 
     const onSubmit = async data => {
         setLoading(true);
-        const url = `http:${localHost}:3030/student/log-in`;
+        let userType = "student";
+        if(imAdmin) userType = "admin";
+        const url = `http:${localHost}:3030/${userType}/log-in`;
         const twoVals = await hash(data.boleta, data.password);
         const finalData = { boleta: twoVals[0], password: twoVals[1] };
 
@@ -87,52 +91,6 @@ function Login(props) {
             })
     }//recoverPassword
 
-    const styles = StyleSheet.create({
-        container: {
-            backgroundColor: "#120078",/*120078 120078 */
-            flex: 1,
-        },
-        errorText: {
-            fontSize: 14,
-            marginTop: 5,
-            marginHorizontal: 25,
-        },
-        hr: {
-            borderBottomColor: "#f5f4f4",
-            borderBottomWidth: 1,
-            marginHorizontal: 20,
-            marginVertical: 5,
-        },
-        input: {
-            //box-sizing: border-box,
-            borderRadius: 5,
-            borderStyle: "solid",
-            borderWidth: 1,
-            borderColor: "white",
-            color: "#f5f4f4",
-            fontSize: 18,
-            marginHorizontal: 15,
-            marginBottom: 5,
-            padding: 10,
-            //width: 300,
-        },
-        pressText: {
-            color: "#dddddd",
-            fontSize: 16,
-            marginLeft: 30
-        },
-        row: {
-            flexDirection: "row",
-            justifyContent: "center",
-            marginTop: 5,
-        },
-        text: {
-            color: "#f5f4f4",
-            fontSize: 20,
-            textAlign: "left",
-            margin: 10,
-        },
-    });
     return (
         <ScrollView style={styles.container}>
             {loading && <Loading />}
@@ -162,6 +120,7 @@ function Login(props) {
                     control={control}
                     render={({ onChange, onBlur, value }) => (
                         <TextInput
+                            autoCapitalize={"none"}
                             onBlur={onBlur}
                             style={styles.input}
                             onChangeText={value => onChange(value)}
@@ -174,6 +133,13 @@ function Login(props) {
                     defaultValue=""
                 />
                 {errors.password && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
+            </View>
+            <View style={styles.radioContainer}>
+                <RadioBtn
+                    name="Admin"
+                    selected={imAdmin}
+                    onPressFunc={() => toggleImAdmin(!imAdmin)}
+                />
             </View>
             <ActionBtn
                 btnText={"Iniciar Sesión"}
@@ -205,5 +171,55 @@ function Login(props) {
         </ScrollView>
     );
 }//Login
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: "#120078",/*120078 120078 */
+        flex: 1,
+    },
+    errorText: {
+        fontSize: 14,
+        marginTop: 5,
+        marginHorizontal: 25,
+    },
+    hr: {
+        borderBottomColor: "#f5f4f4",
+        borderBottomWidth: 1,
+        marginHorizontal: 20,
+        marginVertical: 5,
+    },
+    input: {
+        //box-sizing: border-box,
+        borderRadius: 5,
+        borderStyle: "solid",
+        borderWidth: 1,
+        borderColor: "white",
+        color: "#f5f4f4",
+        fontSize: 18,
+        marginHorizontal: 15,
+        marginBottom: 5,
+        padding: 10,
+        //width: 300,
+    },
+    pressText: {
+        color: "#dddddd",
+        fontSize: 16,
+        marginLeft: 30
+    },
+    radioContainer:{
+        flexDirection: "row",
+        marginHorizontal: 25
+    },
+    row: {
+        flexDirection: "row",
+        justifyContent: "center",
+        marginTop: 5,
+    },
+    text: {
+        color: "#f5f4f4",
+        fontSize: 20,
+        textAlign: "left",
+        margin: 10,
+    },
+});
 
 export default Login;

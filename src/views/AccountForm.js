@@ -9,9 +9,55 @@ import { OkAlert } from '../components/CustomAlerts';
 import { get, store } from '../utils/storage';
 import Loading from '../components/Loading';
 import { hash } from '../utils/hashing';
-import {androidHost} from '../utils/hosts';
+import { androidHost } from '../utils/hosts';
 
 function AccountForm(props) {
+
+    const styles = StyleSheet.create({
+        container: {
+            backgroundColor: "#120078",/*120078 */
+            flex: 1,
+        },
+        errorText: {
+            fontSize: 14,
+            marginTop: 5,
+            marginHorizontal: 25,
+        },
+        hr: {
+            borderBottomColor: "#f5f4f4",
+            borderBottomWidth: 1,
+            marginHorizontal: 20,
+            marginVertical: 5,
+        },
+        input: {
+            //box-sizing: border-box,
+            borderRadius: 5,
+            borderStyle: "solid",
+            borderWidth: 1,
+            borderColor: "white",
+            color: "#f5f4f4",
+            fontSize: 18,
+            marginHorizontal: 15,
+            marginBottom: 5,
+            padding: 10,
+            //width: 300,
+        },
+        pressText: {
+            color: "#dddddd",
+            fontSize: 16,
+            marginLeft: 30
+        },
+        row: {
+            flexDirection: "row",
+            justifyContent: "center",
+        },
+        text: {
+            color: "#f5f4f4",
+            fontSize: 20,
+            textAlign: "left",
+            margin: 10,
+        },
+    });
 
     const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
 
@@ -21,7 +67,7 @@ function AccountForm(props) {
     const { control, handleSubmit, reset, errors } = useForm();
     const [loading, setLoading] = useState(false);
     const [stBoleta, setStBoleta] = useState("");
-    const {reloadLogged} = props;
+    const { reloadLogged } = props;
 
     const onSubmit = async data => {
         setLoading(true);
@@ -31,6 +77,9 @@ function AccountForm(props) {
         if (!create) {
             const { newPass, password } = data;
             newAndPass = await hash(newPass, password);
+            if (newPass === "")
+                newAndPass[0] = null;
+
             bolAndPass[0] = stBoleta;
             bolAndPass[1] = newAndPass[1];
         }
@@ -63,7 +112,7 @@ function AccountForm(props) {
                             title: titl,
                             message: result.message
                         },
-                        () => { result.new && reloadLogged(true); }
+                        () => { result.new ? reloadLogged(true) : props.navigation.navigate("Opciones", { refreshOS: true }); }
                     );
                 }
                 else {
@@ -93,6 +142,9 @@ function AccountForm(props) {
                 name: parsedUser.name,
                 semester: (parsedUser.semester).toString(),
             });
+            /*setValue("email", parsedUser.email);
+            setValue("name", parsedUser.name);
+            setValue("semester", (parsedUser.semester).toString());*/
             setSex(parsedUser.sex);
             setShift(parsedUser.shift);
         }
@@ -136,7 +188,7 @@ function AccountForm(props) {
                         />
                     )}
                     name="name"
-                    rules={{ required: true, pattern: /^[A-Za-z]+$/i }}
+                    rules={{ required: true, pattern: /^[A-Za-zÀ-ú ]+$/i }}
                     defaultValue=""
                 />
                 {errors.name && <Text style={[styles.text, styles.errorText]}>{errors.name.type == 'pattern' ? "Nombre inválido" : "Campo requerido"}</Text>}
@@ -190,12 +242,12 @@ function AccountForm(props) {
                     <RadioBtn
                         name="Hombre"
                         selected={sex}
-                        onPressFunc={handleRadios}
+                        onPressFunc={() => handleRadios("Hombre")}
                     />
                     <RadioBtn
                         name="Mujer"
                         selected={!sex}
-                        onPressFunc={handleRadios}
+                        onPressFunc={() => handleRadios("Mujer")}
                     />
                 </View>
             </View>
@@ -227,12 +279,12 @@ function AccountForm(props) {
                     <RadioBtn
                         name="Matutino"
                         selected={shift}
-                        onPressFunc={handleShift}
+                        onPressFunc={() => handleShift("Matutino")}
                     />
                     <RadioBtn
                         name="Vespertino"
                         selected={!shift}
-                        onPressFunc={handleShift}
+                        onPressFunc={() => handleShift("Vespertino")}
                     />
                 </View>
             </View>
@@ -244,6 +296,7 @@ function AccountForm(props) {
                     control={control}
                     render={({ onChange, onBlur, value }) => (
                         <TextInput
+                            autoCapitalize={"none"}
                             onBlur={onBlur}
                             style={styles.input}
                             onChangeText={value => onChange(value)}
@@ -289,52 +342,5 @@ function AccountForm(props) {
         </ScrollView>
     );
 }//AccountForm
-
-
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: "#120078",/*120078 */
-        flex: 1,
-    },
-    errorText: {
-        fontSize: 14,
-        marginTop: 5,
-        marginHorizontal: 25,
-    },
-    hr: {
-        borderBottomColor: "#f5f4f4",
-        borderBottomWidth: 1,
-        marginHorizontal: 20,
-        marginVertical: 5,
-    },
-    input: {
-        //box-sizing: border-box,
-        borderRadius: 5,
-        borderStyle: "solid",
-        borderWidth: 1,
-        borderColor: "white",
-        color: "#f5f4f4",
-        fontSize: 18,
-        marginHorizontal: 15,
-        marginBottom: 5,
-        padding: 10,
-        //width: 300,
-    },
-    pressText: {
-        color: "#dddddd",
-        fontSize: 16,
-        marginLeft: 30
-    },
-    row: {
-        flexDirection: "row",
-        justifyContent: "center",
-    },
-    text: {
-        color: "#f5f4f4",
-        fontSize: 20,
-        textAlign: "left",
-        margin: 10,
-    },
-});
 
 export default AccountForm;

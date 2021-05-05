@@ -31,18 +31,25 @@ const App: () => React$Node = () => {
   const [sharedMimeType, setSharedMimeType] = useState('');
   const [loading, setLoading] = useState(false);
   const [reloadAll, setReloadAll] = useState(false);
+  const [admin, setAdmin] = useState(false);
 
-  function handleReloadLogged(reloadValue){
+  function handleReloadLogged(reloadValue) {
     setReloadAll(reloadValue);
   }//handleReloadLogged
-
+  
     async function getUser(){
       const fndUser = await get("user");
-      if(fndUser)
+      if(fndUser != null)
       {
-        console.log("user found in appjs", fndUser);
+
+        const parsUsr = JSON.parse(fndUser);
+        console.log("user found in appjs", parsUsr);
+        if(parsUsr.admin) setAdmin(true);
+        else setAdmin(false);
         setReloadAll(true);
       }
+      else
+        setAdmin(false);
     }//getUser
 
   const handleShare = useCallback((item: ?SharedItem) => {
@@ -57,13 +64,13 @@ const App: () => React$Node = () => {
   }, []);
 
   useEffect(() => {
-    getUser();
     ShareMenu.getInitialShare(handleShare);
     const listener = ShareMenu.addNewShareListener(handleShare);
     return () => listener.remove();
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
+    getUser();
     getSharedChat();
   }, [sharedData, reloadAll]);
 
@@ -72,34 +79,30 @@ const App: () => React$Node = () => {
       let errMess = "";
       let success = true;
       const analysisFlags = await get("analysisFlags");
-      if (analysisFlags)
-      {
+      if (analysisFlags) {
         setLoading(true);
         const idResFinal = JSON.parse(analysisFlags).idResFinal;
         console.log("idResFinal got from android in chat.js", idResFinal);
-        if(!idResFinal)
-        {
+        if (!idResFinal) {
           success = false;
           errMess = "No se encontró un dato en el storage de tu dispositivo necesario para realizar el envío, realiza el cuestionario nuevamente.";
         }
-        else
-        {
+        else {
           var chatURI = sharedData.toString();
-          const ret = await handleChatURI(chatURI,idResFinal);
-          if (!ret.success)
-          {
+          const ret = await handleChatURI(chatURI, idResFinal);
+          if (!ret.success) {
             success = false;
             errMess = ret.message;
           }
+          setSharedData('');
         }
         setLoading(false);
       }//analysisFlags
-      else
-      {
+      else {
         success = false;
         errMess = "No se encontró un dato en el storage de tu dispositivo necesario para realizar el envío, realiza el cuestionario nuevamente."
       }
-      if(success)
+      if (success)
         OkAlert({ title: "Éxito", message: "Chat enviado correctamente." });
       else
         OkAlert({ title: "Error", message: errMess });
@@ -122,39 +125,48 @@ const App: () => React$Node = () => {
         }}
 
       >
-        <Tabs.Screen
-          name="Analysis"
-          options={{
-            tabBarVisible: reloadAll,
-            tabBarIcon: ({ color }) => (
-              <FontAwesomeIcon
-                icon={faDiceD20}
-                style={{ color: color }}
-                size={30}
-              />
-            )
-          }}>
-            {props => <AnalysisStack
+        {!admin && 
+          <Tabs.Screen
+            name="Analysis"
+            options={{
+              tabBarVisible: reloadAll,
+              tabBarIcon: ({ color }) => (
+                <FontAwesomeIcon
+                  icon={faDiceD20}
+                  style={{ color: color }}
+                  size={30}
+                />
+              )
+            }}>
+              {props => <AnalysisStack
+                {...props}
+                reloadLogged={handleReloadLogged}
+                reloadValue={reloadAll}
+              />}
+          </Tabs.Screen>
+        }
+        { admin &&
+          <Tabs.Screen
+            name="Admin"
+            options={{
+              tabBarVisible: reloadAll,
+              tabBarIcon: ({ color }) => (
+                <FontAwesomeIcon
+                  icon={faFeather /*faFilter faFeather*/}
+                  style={{ color: color }}
+                  size={30}
+                />
+              )
+            }}
+          >
+            {props => <AdminStack
               {...props}
               reloadLogged={handleReloadLogged}
               reloadValue={reloadAll}
             />}
-        </Tabs.Screen>
-
-        <Tabs.Screen
-          component={AdminStack}
-          name="Admin"
-          options={{
-            tabBarVisible: reloadAll,
-            tabBarIcon: ({ color }) => (
-              <FontAwesomeIcon
-                icon={faFeather /*faFilter faFeather*/}
-                style={{ color: color }}
-                size={30}
-              />
-            )
-          }}
-        />
+          </Tabs.Screen>
+        }
+        
 
         <Tabs.Screen
           name="Options"
@@ -168,8 +180,8 @@ const App: () => React$Node = () => {
               />
             )
           }}>
-            {props => <OptionsStack {...props} reloadLogged={handleReloadLogged}/>}
-          </Tabs.Screen>
+          {props => <OptionsStack {...props} reloadLogged={handleReloadLogged} />}
+        </Tabs.Screen>
 
       </Tabs.Navigator>
     </NavigationContainer>

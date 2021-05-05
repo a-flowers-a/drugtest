@@ -3,23 +3,28 @@ import { StyleSheet, Text, View } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { OkAlert, OkCancelAlert } from '../components/CustomAlerts';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCloud, faComment, faCommentDots, faEraser, faMinus, faMinusCircle, faMinusSquare, faPen, faPencilAlt, faPenFancy, faPowerOff, faQuestion, faTrash, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCommentDots, faEraser, faPen, faPowerOff, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { remove } from '../utils/storage';
 import { get } from '../utils/storage';
 import Loading from '../components/Loading';
 import CustomModal from '../components/CustomModal';
 import { hash } from '../utils/hashing';
 import { postRequest } from '../utils/HttpRequest';
-import {androidHost} from '../utils/hosts';
+import { androidHost } from '../utils/hosts';
 import Login from './Login';
 
 function HomeScreen(props) {
-
+    const { refreshOS } = props.route.params || false;
     const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
     const [user, setUser] = useState(null);
     const [displayDelete, setDisplayDelete] = useState(false);
     const [loading, setLoading] = useState(false);
-    const {reloadLogged} = props;
+    const { reloadLogged } = props;
+
+    if (refreshOS) {
+        props.route.params.refreshOS = false;
+        getUser();
+    }
 
     const handleDisplay = () => setDisplayDelete(prevVal => !prevVal);
 
@@ -41,7 +46,7 @@ function HomeScreen(props) {
                     if (!removedFlags)
                         console.log("couldn't remove flags from storage");
                     OkAlert({ title: "Éxito", message: "Se eliminó la cuenta correctamente" },
-                        () => {setUser(null);reloadLogged(false);}
+                        () => { setUser(null); reloadLogged(false); }
                     );
                 }
                 else {
@@ -65,7 +70,7 @@ function HomeScreen(props) {
         const stUser = await get("user");
         if (stUser !== null) {
             const parsObj = JSON.parse(stUser);
-            console.log("user in storage", parsObj);
+            console.log("user in storage in optionss", parsObj);
             setUser(parsObj);
         }
         else
@@ -76,7 +81,7 @@ function HomeScreen(props) {
         getUser();
     }, []);
 
-    if(!user)
+    if (!user)
         return (
             <Login
                 navigation={props.navigation}
@@ -92,7 +97,9 @@ function HomeScreen(props) {
                     style={styles.icon}
                     size={40}
                 />
-                <Text style={[styles.text, styles.title]}>{user.name}</Text>
+                <View style={styles.textContainer}>
+                    <Text style={[styles.text, styles.title]}>{user.name}</Text>
+                </View>
             </View>
             <TouchableOpacity
                 onPress={() => {
@@ -100,13 +107,12 @@ function HomeScreen(props) {
                         async () => {
                             const removed = await remove("user");
                             const removedFlags = await remove("analysisFlags");
-                            if (removed && removedFlags)
-                            {
-                                setUser(null);reloadLogged(false);
+                            if (removed && removedFlags) {
+                                setUser(null); reloadLogged(false);
                             }
-                            else{
-                                !removed ? mess = "No se ha podido cerrar sesión, inténtalo nuevamente": "Algo salió mal por favor intenté nuevamente";
-                                OkAlert({ title: "Error", message: mess});
+                            else {
+                                !removed ? mess = "No se ha podido cerrar sesión, inténtalo nuevamente" : "Algo salió mal por favor intenté nuevamente";
+                                OkAlert({ title: "Error", message: mess });
                             }
                         }
                     );
@@ -118,41 +124,55 @@ function HomeScreen(props) {
                     style={styles.icon}
                     size={20}
                 />
-                <Text style={[styles.text]}>Cerrar Sesión</Text>
+                <View style={styles.textContainer}>
+                    <Text style={[styles.text]}>Cerrar Sesión</Text>
+                </View>
             </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() => { navigateTo('Datos Cuenta', { create: false }); }}
-                style={[styles.row, styles.optionContainer]}
-            >
-                <FontAwesomeIcon
-                    icon={faPen /*faPencilAlt faPen faPenFancy*/}
-                    style={styles.icon}
-                    size={20}
-                />
-                <Text style={[styles.text]}>Modificar datos de la cuenta</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={handleDisplay}
-                style={[styles.row, styles.optionContainer]}
-            >
-                <FontAwesomeIcon
-                    icon={faEraser /*faEraser faTrash faMinus*/}
-                    style={styles.icon}
-                    size={20}
-                />
-                <Text style={[styles.text]}>Eliminar Cuenta</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() => { navigateTo('Qué hacemos'); }}
-                style={[styles.row, styles.optionContainer]}
-            >
-                <FontAwesomeIcon
-                    icon={faCommentDots /*faCloud faComment faQuestion*/}
-                    style={styles.icon}
-                    size={20}
-                />
-                <Text style={[styles.text]}>¿Qué hacemos con tus chats?</Text>
-            </TouchableOpacity>
+            {!user.admin &&
+                <TouchableOpacity
+                    onPress={() => { navigateTo('Datos Cuenta', { create: false }); }}
+                    style={[styles.row, styles.optionContainer]}
+                >
+                    <FontAwesomeIcon
+                        icon={faPen /*faPencilAlt faPen faPenFancy*/}
+                        style={styles.icon}
+                        size={20}
+                    />
+                    <View style={styles.textContainer}>
+                        <Text style={[styles.text]}>Modificar datos de la cuenta</Text>
+                    </View>
+                </TouchableOpacity>
+            }
+            {!user.admin &&
+                <TouchableOpacity
+                    onPress={handleDisplay}
+                    style={[styles.row, styles.optionContainer]}
+                >
+                    <FontAwesomeIcon
+                        icon={faEraser /*faEraser faTrash faMinus*/}
+                        style={styles.icon}
+                        size={20}
+                    />
+                    <View style={styles.textContainer}>
+                        <Text style={[styles.text]}>Eliminar Cuenta</Text>
+                    </View>
+                </TouchableOpacity>
+            }
+            {!user.admin &&
+                <TouchableOpacity
+                    onPress={() => { navigateTo('Qué hacemos'); }}
+                    style={[styles.row, styles.optionContainer]}
+                >
+                    <FontAwesomeIcon
+                        icon={faCommentDots /*faCloud faComment faQuestion*/}
+                        style={styles.icon}
+                        size={20}
+                    />
+                    <View style={styles.textContainer}>
+                        <Text style={[styles.text]}>¿Qué hacemos con tus chats?</Text>
+                    </View>
+                </TouchableOpacity>
+            }
 
             {displayDelete &&
                 <CustomModal
@@ -185,7 +205,6 @@ const styles = StyleSheet.create({
     },
     row: {
         alignItems: "center", //vertically
-        //backgroundColor: "black",
         //flex: 1,
         flexDirection: "row",
         marginHorizontal: 20,
@@ -193,6 +212,9 @@ const styles = StyleSheet.create({
     text: {
         color: "#f5f4f4",
         fontSize: 20,
+    },
+    textContainer: {
+        flex: 1,
     },
     title: {
         fontSize: 40,
