@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { OkAlert, OkCancelAlert } from '../components/CustomAlerts';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCloud, faComment, faCommentDots, faEraser, faMinus, faMinusCircle, faMinusSquare, faPen, faPencilAlt, faPenFancy, faPowerOff, faQuestion, faTrash, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCommentDots, faEraser, faPen, faPowerOff, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { remove } from '../utils/storage';
 import { get } from '../utils/storage';
 import Loading from '../components/Loading';
@@ -124,45 +124,51 @@ function HomeScreen(props) {
                     <Text style={[styles.text]}>Cerrar Sesión</Text>
                 </View>
             </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() => { navigateTo('Datos Cuenta', { create: false }); }}
-                style={[styles.row, styles.optionContainer]}
-            >
-                <FontAwesomeIcon
-                    icon={faPen /*faPencilAlt faPen faPenFancy*/}
-                    style={styles.icon}
-                    size={20}
-                />
-                <View style={styles.textContainer}>
-                    <Text style={[styles.text]}>Modificar datos de la cuenta</Text>
-                </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={handleDisplay}
-                style={[styles.row, styles.optionContainer]}
-            >
-                <FontAwesomeIcon
-                    icon={faEraser /*faEraser faTrash faMinus*/}
-                    style={styles.icon}
-                    size={20}
-                />
-                <View style={styles.textContainer}>
-                    <Text style={[styles.text]}>Eliminar Cuenta</Text>
-                </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() => { navigateTo('Qué hacemos'); }}
-                style={[styles.row, styles.optionContainer]}
-            >
-                <FontAwesomeIcon
-                    icon={faCommentDots /*faCloud faComment faQuestion*/}
-                    style={styles.icon}
-                    size={20}
-                />
-                <View style={styles.textContainer}>
-                    <Text style={[styles.text]}>¿Qué hacemos con tus chats?</Text>
-                </View>
-            </TouchableOpacity>
+            {!user.admin &&
+                <TouchableOpacity
+                    onPress={() => { navigateTo('Datos Cuenta', { create: false }); }}
+                    style={[styles.row, styles.optionContainer]}
+                >
+                    <FontAwesomeIcon
+                        icon={faPen /*faPencilAlt faPen faPenFancy*/}
+                        style={styles.icon}
+                        size={20}
+                    />
+                    <View style={styles.textContainer}>
+                        <Text style={[styles.text]}>Modificar datos de la cuenta</Text>
+                    </View>
+                </TouchableOpacity>
+            }
+            {!user.admin &&
+                <TouchableOpacity
+                    onPress={handleDisplay}
+                    style={[styles.row, styles.optionContainer]}
+                >
+                    <FontAwesomeIcon
+                        icon={faEraser /*faEraser faTrash faMinus*/}
+                        style={styles.icon}
+                        size={20}
+                    />
+                    <View style={styles.textContainer}>
+                        <Text style={[styles.text]}>Eliminar Cuenta</Text>
+                    </View>
+                </TouchableOpacity>
+            }
+            {!user.admin &&
+                <TouchableOpacity
+                    onPress={() => { navigateTo('Qué hacemos'); }}
+                    style={[styles.row, styles.optionContainer]}
+                >
+                    <FontAwesomeIcon
+                        icon={faCommentDots /*faCloud faComment faQuestion*/}
+                        style={styles.icon}
+                        size={20}
+                    />
+                    <View style={styles.textContainer}>
+                        <Text style={[styles.text]}>¿Qué hacemos con tus chats?</Text>
+                    </View>
+                </TouchableOpacity>
+            }
 
             {displayDelete &&
                 <CustomModal
