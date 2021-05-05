@@ -10,16 +10,21 @@ import Loading from '../components/Loading';
 import CustomModal from '../components/CustomModal';
 import { hash } from '../utils/hashing';
 import { postRequest } from '../utils/HttpRequest';
-import {androidHost} from '../utils/hosts';
+import { androidHost } from '../utils/hosts';
 import Login from './Login';
 
 function HomeScreen(props) {
-
+    const { refreshOS } = props.route.params || false;
     const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
     const [user, setUser] = useState(null);
     const [displayDelete, setDisplayDelete] = useState(false);
     const [loading, setLoading] = useState(false);
-    const {reloadLogged} = props;
+    const { reloadLogged } = props;
+
+    if (refreshOS) {
+        props.route.params.refreshOS = false;
+        getUser();
+    }
 
     const handleDisplay = () => setDisplayDelete(prevVal => !prevVal);
 
@@ -41,7 +46,7 @@ function HomeScreen(props) {
                     if (!removedFlags)
                         console.log("couldn't remove flags from storage");
                     OkAlert({ title: "Éxito", message: "Se eliminó la cuenta correctamente" },
-                        () => {setUser(null);reloadLogged(false);}
+                        () => { setUser(null); reloadLogged(false); }
                     );
                 }
                 else {
@@ -76,7 +81,7 @@ function HomeScreen(props) {
         getUser();
     }, []);
 
-    if(!user)
+    if (!user)
         return (
             <Login
                 navigation={props.navigation}
@@ -102,13 +107,12 @@ function HomeScreen(props) {
                         async () => {
                             const removed = await remove("user");
                             const removedFlags = await remove("analysisFlags");
-                            if (removed && removedFlags)
-                            {
-                                setUser(null);reloadLogged(false);
+                            if (removed && removedFlags) {
+                                setUser(null); reloadLogged(false);
                             }
-                            else{
-                                !removed ? mess = "No se ha podido cerrar sesión, inténtalo nuevamente": "Algo salió mal por favor intenté nuevamente";
-                                OkAlert({ title: "Error", message: mess});
+                            else {
+                                !removed ? mess = "No se ha podido cerrar sesión, inténtalo nuevamente" : "Algo salió mal por favor intenté nuevamente";
+                                OkAlert({ title: "Error", message: mess });
                             }
                         }
                     );
@@ -210,7 +214,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     textContainer: {
-        flex:1,
+        flex: 1,
     },
     title: {
         fontSize: 40,

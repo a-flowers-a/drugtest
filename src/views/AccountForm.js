@@ -112,7 +112,7 @@ function AccountForm(props) {
                             title: titl,
                             message: result.message
                         },
-                        () => { result.new && reloadLogged(true); }
+                        () => { result.new ? reloadLogged(true) : props.navigation.navigate("Opciones", { refreshOS: true }); }
                     );
                 }
                 else {
