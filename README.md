@@ -15,6 +15,7 @@ In order to obtain statistics of the student's drugs use, an adminstrator sectio
 
 # Results
 <img src="https://user-images.githubusercontent.com/53799991/117372320-f8576c00-ae8e-11eb-9713-cc8aec2b706d.png" width=30% height=30%>
+<img src="https://user-images.githubusercontent.com/53799991/117372941-f9d56400-ae8f-11eb-96e9-f9d0f72c7e75.png" width=30% height=30%>
 
 # Contacts
 <img src="https://user-images.githubusercontent.com/53799991/117372429-1e7d0c00-ae8f-11eb-8f22-3702dd85a58e.png" width=30% height=30%>
