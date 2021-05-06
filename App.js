@@ -117,10 +117,10 @@ const App: () => React$Node = () => {
       { loading && <Loading />}
       <Tabs.Navigator
         tabBarOptions={{
-          activeTintColor: '#1db954', //fefefe #1db954
-          inactiveTintColor: '#fefefe', //fefefe 9A9F99
+          activeTintColor: '#010101', //#fefefe #1db954 #120078
+          inactiveTintColor: '#fefefe', //#fefefe
           style: {
-            backgroundColor: "#120078"
+            backgroundColor: "#aed1f5"/*#c0dcf7 #120078 #c0fefc*/
           },
         }}
 

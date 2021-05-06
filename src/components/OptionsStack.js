@@ -11,11 +11,11 @@ const OptionsStack = (props) =>{
         <Stack.Navigator
             screenOptions={{
                 headerStyle:{
-                    backgroundColor: "#120078",
+                    backgroundColor: "#aed1f5",/*c0dcf7 120078 c0fefc*/
                     //ios:
                     shadowOpacity: 0
                 },
-                headerTintColor: "#ffffff"
+                headerTintColor: "#120078"
             }}
         >
             <Stack.Screen name="Opciones">
