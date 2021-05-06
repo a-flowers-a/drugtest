@@ -6,9 +6,9 @@ Available psychologist contacts from the whole University are shown to the stude
 In order to obtain statistics of the student's drugs use, an adminstrator section was asked to be developed.
 
 # Home & Questionnaire
-<div align="center">
-    <img title="Home" src="https://user-images.githubusercontent.com/53799991/117371610-ca255c80-ae8d-11eb-9abd-5958a93edb39.png" width=30% height=30%>
-    <img title="Questionnaire" src="https://user-images.githubusercontent.com/53799991/117371835-2b4d3000-ae8e-11eb-9211-b4ac8c860f43.png" width=30% height=30%>
+<div>
+    <img align="left" title="Home" src="https://user-images.githubusercontent.com/53799991/117371610-ca255c80-ae8d-11eb-9abd-5958a93edb39.png" width=30% height=30%>
+    <img align="right" title="Questionnaire" src="https://user-images.githubusercontent.com/53799991/117371835-2b4d3000-ae8e-11eb-9211-b4ac8c860f43.png" width=30% height=30%>
 </div>
 
 # Results
