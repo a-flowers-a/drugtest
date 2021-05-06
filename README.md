@@ -6,7 +6,8 @@ Available psychologist contacts from the whole University are shown to the stude
 In order to obtain statistics of the student's drugs use, an adminstrator section was asked to be developed.
 
 # Home
-![homeOneChat](https://user-images.githubusercontent.com/53799991/117371610-ca255c80-ae8d-11eb-9abd-5958a93edb39.png)
+<img src="https://user-images.githubusercontent.com/53799991/117371610-ca255c80-ae8d-11eb-9abd-5958a93edb39.png" width=50% height=50%>
+
 # Questionnaire
 
 # Export Chats
