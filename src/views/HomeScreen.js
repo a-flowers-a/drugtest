@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Platform, StyleSheet, RefreshControl } from 'react-native';
+import { Platform, StyleSheet, RefreshControl, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import ActionBtn from '../components/ActionBtn';
 import ChatUpload from '../components/ChatUpload';
@@ -117,9 +117,11 @@ function HomeScreen(props) {
                 onPressFunc={() => navigateTo('Cuestionario')}
                 disabled={analFlags.questSent}
             />
-            <ChatUpload
-                numChats={analFlags.chatSent}
-            />
+            <View style={[styles.row, styles.center]}>
+                <ChatUpload
+                    numChats={analFlags.chatSent}
+                />
+            </View>
             <ActionBtn
                 btnText={"Mostrar Resultado"}
                 onPressFunc={() => { navigateTo('Resultado', { idResFinal: analFlags.idResFinal }); }}
@@ -147,6 +149,14 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: "#aed1f5",/*#120078 */
         flex: 1,
+        paddingVertical: 15,
+    },
+    row:{
+        flexDirection: "row",
+        flex: 1,
+    },
+    center: {
+        justifyContent: "center"
     },
 });
 

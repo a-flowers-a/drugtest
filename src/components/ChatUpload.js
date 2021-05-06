@@ -8,7 +8,7 @@ function ChatUpload(props) {
 
     const lightBlue = "#0070f3";
     const white = "white";
-    const circunference = "#120078";
+    const filledBlue = "#aed1f5";
 
     return (
         <View style={styles.chatSection}>
@@ -17,16 +17,16 @@ function ChatUpload(props) {
             </View>
             <View style={styles.row}>
                 <Svg width={40} height={30}>
-                    <TextSVG stroke={numChats >= 1 ? lightBlue : white} fontSize="12" x={16} y={19} textAnchor="middle"> 1 </TextSVG>
-                    <Circle stroke={circunference} fill="none" cx={15} cy={15} r={12} />
+                    <Circle stroke={numChats >= 1 ? "none" : lightBlue} fill={numChats >= 1 ? filledBlue : "none"} cx={15} cy={15} r={12} />
+                    <TextSVG stroke={numChats >= 1 ? white : lightBlue} fontSize="12" x={16} y={19} textAnchor="middle"> 1 </TextSVG>
                 </Svg>
                 <Svg width={40} height={30}>
-                    <TextSVG stroke={numChats >= 2 ? lightBlue : white} fontSize="12" x={15} y={19} textAnchor="middle"> 2 </TextSVG>
-                    <Circle stroke={circunference} fill="none" cx={15} cy={15} r={12} />
+                    <Circle stroke={numChats >= 2 ? "none" : lightBlue} fill={numChats >= 2 ? filledBlue : "none"} cx={15} cy={15} r={12} />
+                    <TextSVG stroke={numChats >= 2 ? white : lightBlue} fontSize="12" x={15} y={19} textAnchor="middle"> 2 </TextSVG>
                 </Svg>
                 <Svg width={40} height={30}>
-                    <TextSVG stroke={numChats == 3 ? lightBlue : white} fontSize="12" x={15} y={19} textAnchor="middle"> 3 </TextSVG>
-                    <Circle stroke={circunference} fill="none" cx={15} cy={15} r={12} />
+                    <Circle stroke={numChats == 3 ? "none" : lightBlue} fill={numChats == 3 ? filledBlue : "none"} cx={15} cy={15} r={12} />
+                    <TextSVG stroke={numChats == 3 ? white : lightBlue} fontSize="12" x={15} y={19} textAnchor="middle"> 3 </TextSVG>
                 </Svg>
             </View>
         </View>
@@ -39,19 +39,18 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     text: {
-        color: "#0070f3",
+        color: "#0070f3",//#150e56 #0070f3
         fontSize: 20,
         textAlign: "left",
         margin: 10,
     },
-    pressText: {
-        color: "#dddddd",
-        fontSize: 16,
-        textDecorationLine: 'underline',
-    },
     chatSection: {
         alignItems: "center",
-        marginTop: 5
+        backgroundColor: "#fefefe",
+        borderRadius: 10,
+        marginHorizontal: 20,
+        padding: 10,
+        width: 300,
     },
 });
 
