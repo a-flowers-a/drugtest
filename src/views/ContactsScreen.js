@@ -8,15 +8,6 @@ import { OkAlert } from '../components/CustomAlerts';
 import CardMessage from '../components/CardMessage';
 import {androidHost} from '../utils/hosts';
 
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: "#120078",/*120078 */
-        paddingVertical: 10,
-        flex: 1,
-    },
-});
-
-
 function ContactsScreen() {
     const [loading, setLoading] = useState(false);
     const [contacts, setContacts] = useState([]);
@@ -63,5 +54,14 @@ function ContactsScreen() {
         </ScrollView>
     );
 }//ContactsScreen
+
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: "#aed1f5",/*120078 */
+        paddingVertical: 10,
+        flex: 1,
+    },
+});
 
 export default ContactsScreen;

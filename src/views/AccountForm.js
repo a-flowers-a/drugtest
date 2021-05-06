@@ -307,36 +307,25 @@ const styles = StyleSheet.create({
         marginTop: 5,
         marginHorizontal: 25,
     },
-    hr: {
-        borderBottomColor: "#f5f4f4",
-        borderBottomWidth: 1,
-        marginHorizontal: 20,
-        marginVertical: 5,
-    },
     input: {
         //box-sizing: border-box,
         borderRadius: 5,
         borderStyle: "solid",
         borderWidth: 1,
         borderColor: "white",
-        color: "#f5f4f4",
+        color: "black",//#f5f4f4
         fontSize: 18,
         marginHorizontal: 15,
         marginBottom: 5,
         padding: 10,
         //width: 300,
     },
-    pressText: {
-        color: "#dddddd",
-        fontSize: 16,
-        marginLeft: 30
-    },
     row: {
         flexDirection: "row",
         justifyContent: "center",
     },
     text: {
-        color: "#f5f4f4",
+        color: "#150e56",//#150e56 #f5f4f4
         fontSize: 20,
         textAlign: "left",
         margin: 10,

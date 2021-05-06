@@ -18,7 +18,7 @@ function Loading(props){
                 style={styles.inModalContainer}>
                 <ActivityIndicator
                     size="large"
-                    color="#79d70f"/*f1f1f1 f8f4e1 edffec f6c065*/
+                    color="#fefefe"/*#f1f1f1 #f8f4e1 #edffec #f6c065 #79d70f*/
                 />
             </View>
         </Modal>

@@ -15,7 +15,7 @@ const OptionsStack = (props) =>{
                     //ios:
                     shadowOpacity: 0
                 },
-                headerTintColor: "#120078"
+                headerTintColor: "black"
             }}
         >
             <Stack.Screen name="Opciones">
