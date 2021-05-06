@@ -10,12 +10,13 @@ import { getRequest } from '../utils/HttpRequest';
 import { androidHost } from '../utils/hosts';
 import { OkAlert } from '../components/CustomAlerts';
 import Loading from '../components/Loading';
+import TableQuest from '../components/TableQuest';
 
 function ResultScreen(props) {
 
     const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
     const [clasificadorValues, setClasificadorValues] = useState([[0], [0], [0]]);
-    const [questResult, setQuestResult] = useState(0);
+    const [questResult, setQuestResult] = useState([]);
     const [globalResult, setGlobalResult] = useState("Bajo");
     const [progBar, setProgBar] = useState(0.33);
     const [loading, setLoading] = useState(false);
@@ -50,13 +51,14 @@ function ResultScreen(props) {
                     var sentScore = response.result[0].score;
                     if (sentScore <= -0.3)
                         setfaFrownColor(color);
-                    else if (sentScore > -0.3 && sentScore <= 0.4)
+                    else if (sentScore > -0.3 && sentScore < 0.2)
                         setfaMehColor(color);
-                    else if (sentScore > 0.4)
+                    else if (sentScore >= 0.2)
                         setfaSmileColor(color);
 
                     //cuestionario
-                    setQuestResult(response.result[1].questionSum);
+                    const QuestToArray = response.result[1].questResults.map(x => ["" + x])
+                    setQuestResult(QuestToArray);
 
                     //clasificador
                     var sustancias = [];
@@ -138,7 +140,7 @@ function ResultScreen(props) {
                 <Text style={[styles.text, styles.subtitle]}>Resultado Cuestionario</Text>
             </View>
             <View style={styles.row}>
-                <Text style={[styles.text, styles.subtitle]}>{questResult} </Text>
+                <TableQuest values={questResult} />
             </View>
 
             <ActionBtn
