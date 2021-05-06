@@ -12,6 +12,8 @@ import { hash } from '../utils/hashing';
 import { postRequest } from '../utils/HttpRequest';
 import { androidHost } from '../utils/hosts';
 import Login from './Login';
+import { removeMany } from '../utils/storage';
+
 
 function HomeScreen(props) {
     const { refreshOS } = props.route.params || false;
@@ -66,6 +68,14 @@ function HomeScreen(props) {
         props.navigation.navigate(screenOption, paramts);
     }//navigateTo
 
+    async function deleteStorage() {
+        const deleted = await removeMany(["display", "subQstIndex", "fstQNum", "answPt1", "answPt2", "secQNum", "subsIndxToDspl"]);
+        if (!deleted)
+            console.log("couldnt delete quest Storage");
+        else
+            console.log("quest Storage deleted");
+    }//deleteStorage
+
     async function getUser() {
         const stUser = await get("user");
         if (stUser !== null) {
@@ -107,6 +117,7 @@ function HomeScreen(props) {
                         async () => {
                             const removed = await remove("user");
                             const removedFlags = await remove("analysisFlags");
+                            await deleteStorage();
                             if (removed && removedFlags) {
                                 setUser(null); reloadLogged(false);
                             }
