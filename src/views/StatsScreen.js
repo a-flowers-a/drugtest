@@ -122,7 +122,7 @@ export default function StatsScreen(props) {
 }//StatsScreen
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "#120078",/*120078 */
+        backgroundColor: "#aed1f5",/*#120078 */
         flex: 1,
     },
     radiosSection: {
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     text: {
-        color: "#f5f4f4",
+        color: "black",
         fontSize: 20,
         textAlign: "center"
     },

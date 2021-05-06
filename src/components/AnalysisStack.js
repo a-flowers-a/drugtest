@@ -18,11 +18,11 @@ const AnalysisStack = (props) =>{
         <Stack.Navigator
             screenOptions={{
                 headerStyle:{
-                    backgroundColor: "#120078",
+                    backgroundColor: "#aed1f5",
                     //ios:
                     shadowOpacity: 0
                 },
-                headerTintColor: "#ffffff"
+                headerTintColor: "#010101"
             }}
         >
             <Stack.Screen name="Inicio">

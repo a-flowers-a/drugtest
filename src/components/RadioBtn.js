@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         backgroundColor: "black"//#98CFB6
       },
       radioButtonText: {
-        color: "#f5f4f4",
+        color: "#150e56",
         margin: 10,
         fontSize: 16,
         marginHorizontal: 10

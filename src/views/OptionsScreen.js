@@ -191,12 +191,12 @@ function HomeScreen(props) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "#120078",/*120078 */
+        backgroundColor: "#aed1f5",/*#c0dcf7 #120078 #c0fefc #aed1f5 #faf9fb*/
         flex: 1,
         paddingVertical: 20,
     },
     icon: {
-        color: "#f5f4f4",
+        color: "#0070f3", /*#120078 #f5f4f4 drs #1579fe #0070f3 #faf9fb*/
         marginRight: 15,
     },
     optionContainer: {
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
     },
     text: {
-        color: "#f5f4f4",
+        color: "#010101",/*#150e56 #120078 #1f368d #010101*/
         fontSize: 20,
     },
     textContainer: {

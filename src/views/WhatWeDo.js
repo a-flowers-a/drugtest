@@ -4,19 +4,6 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 
 function HomeScreen() {
-    const styles = StyleSheet.create({
-        container: {
-            backgroundColor: "#120078",/*120078 */
-            flex: 1,
-        },
-        text:{
-            color: "#f5f4f4",
-            fontSize: 20,
-            textAlign: "justify" ,
-            padding: 20,
-        },
-    });
-
 
     return (
         <ScrollView style={styles.container}>
@@ -26,4 +13,16 @@ function HomeScreen() {
     );
 }//HomeScreen
 
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: "#aed1f5",/*#120078 */
+        flex: 1,
+    },
+    text:{
+        color: "black",
+        fontSize: 20,
+        textAlign: "justify" ,
+        padding: 20,
+    },
+});
 export default HomeScreen;

@@ -14,17 +14,6 @@ import {androidHost} from '../utils/hosts';
 
 function QuestScreen(props) {
 
-    const styles = StyleSheet.create({
-        container: {
-            backgroundColor: "#120078",/* 120078 */
-            //flex: 1,
-        },
-        contentContainer: {
-            flexGrow: 1,
-            justifyContent: 'center'
-        },
-    });
-
     const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
 
     /*if they do not have state, since it needs to be initialized with 0,
@@ -327,5 +316,16 @@ function QuestScreen(props) {
         </ScrollView>
     );
 }//QuestScreen
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: "#aed1f5",/* 120078 */
+        //flex: 1,
+    },
+    contentContainer: {
+        flexGrow: 1,
+        justifyContent: 'center'
+    },
+});
 
 export default QuestScreen;

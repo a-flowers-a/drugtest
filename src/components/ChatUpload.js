@@ -6,8 +6,9 @@ import Svg, { Circle, Text as TextSVG } from "react-native-svg";
 function ChatUpload(props) {
     const { numChats } = props;
 
-    const green = "#1db954";
+    const lightBlue = "#0070f3";
     const white = "white";
+    const circunference = "#120078";
 
     return (
         <View style={styles.chatSection}>
@@ -16,16 +17,16 @@ function ChatUpload(props) {
             </View>
             <View style={styles.row}>
                 <Svg width={40} height={30}>
-                    <TextSVG stroke={numChats >= 1 ? green : white} fontSize="12" x={16} y={19} textAnchor="middle"> 1 </TextSVG>
-                    <Circle stroke="#2162cc" fill="none" cx={15} cy={15} r={12} />
+                    <TextSVG stroke={numChats >= 1 ? lightBlue : white} fontSize="12" x={16} y={19} textAnchor="middle"> 1 </TextSVG>
+                    <Circle stroke={circunference} fill="none" cx={15} cy={15} r={12} />
                 </Svg>
                 <Svg width={40} height={30}>
-                    <TextSVG stroke={numChats >= 2 ? green : white} fontSize="12" x={15} y={19} textAnchor="middle"> 2 </TextSVG>
-                    <Circle stroke="#2162cc" fill="none" cx={15} cy={15} r={12} />
+                    <TextSVG stroke={numChats >= 2 ? lightBlue : white} fontSize="12" x={15} y={19} textAnchor="middle"> 2 </TextSVG>
+                    <Circle stroke={circunference} fill="none" cx={15} cy={15} r={12} />
                 </Svg>
                 <Svg width={40} height={30}>
-                    <TextSVG stroke={numChats == 3 ? green : white} fontSize="12" x={15} y={19} textAnchor="middle"> 3 </TextSVG>
-                    <Circle stroke="#2162cc" fill="none" cx={15} cy={15} r={12} />
+                    <TextSVG stroke={numChats == 3 ? lightBlue : white} fontSize="12" x={15} y={19} textAnchor="middle"> 3 </TextSVG>
+                    <Circle stroke={circunference} fill="none" cx={15} cy={15} r={12} />
                 </Svg>
             </View>
         </View>
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     text: {
-        color: "#dddddd",
+        color: "#0070f3",
         fontSize: 20,
         textAlign: "left",
         margin: 10,

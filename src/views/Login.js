@@ -173,7 +173,7 @@ function Login(props) {
 }//Login
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "#120078",/*120078 120078 */
+        backgroundColor: "#aed1f5",/*120078 120078 */
         flex: 1,
     },
     errorText: {
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
         borderStyle: "solid",
         borderWidth: 1,
         borderColor: "white",
-        color: "#f5f4f4",
+        color: "black",
         fontSize: 18,
         marginHorizontal: 15,
         marginBottom: 5,
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
         //width: 300,
     },
     pressText: {
-        color: "#dddddd",
+        color: "#f2f2f2",//#fefefe
         fontSize: 16,
         marginLeft: 30
     },
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
         marginTop: 5,
     },
     text: {
-        color: "#f5f4f4",
+        color: "#150e56",
         fontSize: 20,
         textAlign: "left",
         margin: 10,
