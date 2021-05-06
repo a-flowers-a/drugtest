@@ -17,6 +17,7 @@ const AnalysisStack = (props) =>{
     return (
         <Stack.Navigator
             screenOptions={{
+                headerTitleAlign: 'center',
                 headerStyle:{
                     backgroundColor: "#aed1f5",
                     //ios:

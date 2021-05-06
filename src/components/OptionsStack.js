@@ -10,6 +10,7 @@ const OptionsStack = (props) =>{
     return (
         <Stack.Navigator
             screenOptions={{
+                headerTitleAlign: 'center',
                 headerStyle:{
                     backgroundColor: "#aed1f5",/*c0dcf7 120078 c0fefc*/
                     //ios:
