@@ -25,7 +25,7 @@ function ResultItem(props) {
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: "#e7e6e1",/*120078 */
+        backgroundColor: "#fefefe",/*#120078 #fefefe #e7e6e1*/
         borderRadius: 10,
         flex: 1,
         flexDirection: "row",
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         //font color 0a043c
     },
     icon: {
-        color: "#0a043c",
+        color: "#0070f3", //0a043c
         marginRight: 15,
     },
     infoContainer: {
