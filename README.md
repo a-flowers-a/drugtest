@@ -5,11 +5,13 @@ The chats are txt files exported from WA by the student which are then sent to a
 Available psychologist contacts from the whole University are shown to the student in case he wants or require such professional help.
 In order to obtain statistics of the student's drugs use, an adminstrator section was asked to be developed.
 
-# Home
-<img src="https://user-images.githubusercontent.com/53799991/117371610-ca255c80-ae8d-11eb-9abd-5958a93edb39.png" width=30% height=30%>
+<p align="center">
+  # Home
+  <img src="https://user-images.githubusercontent.com/53799991/117371610-ca255c80-ae8d-11eb-9abd-5958a93edb39.png" width=30% height=30%>
 
-# Questionnaire
-<img src="https://user-images.githubusercontent.com/53799991/117371835-2b4d3000-ae8e-11eb-9211-b4ac8c860f43.png" width=30% height=30%>
+  # Questionnaire
+  <img src="https://user-images.githubusercontent.com/53799991/117371835-2b4d3000-ae8e-11eb-9211-b4ac8c860f43.png" width=30% height=30%>
+</p>
 
 # Results
 <img src="https://user-images.githubusercontent.com/53799991/117372320-f8576c00-ae8e-11eb-9713-cc8aec2b706d.png" width=30% height=30%>
