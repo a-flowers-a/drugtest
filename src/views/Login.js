@@ -173,7 +173,7 @@ function Login(props) {
 }//Login
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "#120078",/*120078 120078 */
+        backgroundColor: "#aed1f5",/*120078 120078 */
         flex: 1,
     },
     errorText: {
