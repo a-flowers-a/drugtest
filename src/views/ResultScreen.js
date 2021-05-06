@@ -70,11 +70,11 @@ function ResultScreen(props) {
 
                     //Riesgo
                     let resulFinal = response.result[3].globalFinalScore;
-                    if (resulFinal > 3) {
+                    if (resulFinal >= 3) {
                         setGlobalResult("Medio");
                         setProgBar(0.66);
                     }
-                    else if (resulFinal > 5) {
+                    if (resulFinal > 5) {
                         setGlobalResult("Alto");
                         setProgBar(1);
                     }
