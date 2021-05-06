@@ -7,7 +7,7 @@ In order to obtain statistics of the student's drugs use, an adminstrator sectio
 
 <div align="center">
   <div>
-    # Home
+    <h2>Home</h2>
     <img src="https://user-images.githubusercontent.com/53799991/117371610-ca255c80-ae8d-11eb-9abd-5958a93edb39.png" width=30% height=30%>
   </div>
   <div>
