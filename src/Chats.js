@@ -10,7 +10,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import { PermissionsAndroid, Platform } from 'react-native';
 import { OkAlert } from './components/CustomAlerts';
 import { iosGet } from './utils/iosStorage';
-import {androidHost} from './utils/hosts';
+import { androidHost } from './utils/hosts';
 
 const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;//"192.168.1.89";
 let idResFinal = 0;
@@ -30,7 +30,7 @@ async function handleChatURI(chatURI, andResFin) {
         idResFinal = andResFin;
     }
 
-    if (Platform.OS === 'android' && !requestStoragePermission())
+    if (Platform.OS === 'android' && !await requestStoragePermission())
         OkAlert({ title: "Permiso necesario", message: "Sin permiso para acceder a tu almacenamiento, no se puede realizar el análisis." });
     else
         return await sendChat(chatPath);
@@ -53,7 +53,7 @@ const sendChat = async (chatURI) => {
                 let mess = "Hubo un problema en el servidor, no se pudo guardar chat.";
                 if (parsedRes.complete)
                     mess = "Chats completos, espera resultado de análisis."
-                else if(parsedRes.notFound)
+                else if (parsedRes.notFound)
                     mess = "Primero se debe finalizar un Cuestionario, para que esté asociado a los chats";
                 return { success: false, message: mess };
             }
@@ -71,9 +71,9 @@ const requestStoragePermission = async () => {
         const granted1 = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
             {
-                title: "Drugtest storage Permission",
+                title: "Drugtest",
                 message:
-                    "Drugtest read external storage Permission",
+                    "Drugtest quiere LEER del almacenamiento",
                 buttonNeutral: "Ask Me Later",
                 buttonNegative: "Cancel",
                 buttonPositive: "OK"
@@ -84,9 +84,9 @@ const requestStoragePermission = async () => {
         const granted2 = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
             {
-                title: "Drugtest storage Permission",
+                title: "Drugtest",
                 message:
-                    "Drugtest write external storage Permission",
+                    "Drugtest quiere ESCRIBIR en el almacenamiento",
                 buttonNeutral: "Ask Me Later",
                 buttonNegative: "Cancel",
                 buttonPositive: "OK"
