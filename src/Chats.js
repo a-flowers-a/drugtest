@@ -72,8 +72,7 @@ const requestStoragePermission = async () => {
             PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
             {
                 title: "Drugtest",
-                message:
-                    "Drugtest quiere LEER del almacenamiento",
+                message: "Drugtest quiere LEER del almacenamiento",
                 buttonNeutral: "Ask Me Later",
                 buttonNegative: "Cancel",
                 buttonPositive: "OK"
@@ -85,8 +84,7 @@ const requestStoragePermission = async () => {
             PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
             {
                 title: "Drugtest",
-                message:
-                    "Drugtest quiere ESCRIBIR en el almacenamiento",
+                message: "Drugtest quiere ESCRIBIR en el almacenamiento",
                 buttonNeutral: "Ask Me Later",
                 buttonNegative: "Cancel",
                 buttonPositive: "OK"
@@ -94,10 +92,10 @@ const requestStoragePermission = async () => {
         );
 
         if (granted1 && granted2 === PermissionsAndroid.RESULTS.GRANTED) {
-            console.log('You can open the mobile storage');
+            //console.log('You can open the mobile storage');
             return true;
         } else {
-            console.log('Files permission denied');
+            //console.log('Files permission denied');
             return false;
         }
     } catch (err) {

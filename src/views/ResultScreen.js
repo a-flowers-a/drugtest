@@ -85,9 +85,11 @@ function ResultScreen(props) {
                         () => { props.navigation.navigate('Inicio'); });
                 }
             })
-            .catch((err) => { 
+            .catch((err) => {
                 setLoading(false);
-                console.error(err); 
+                OkAlert({ title: "Error", message: "No fue posible obtener el resultado final, por favor intente más tarde" },
+                    () => { props.navigation.navigate('Inicio'); });
+                console.error(err);
             });
     }//getData
 
