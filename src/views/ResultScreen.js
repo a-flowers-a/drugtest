@@ -40,13 +40,13 @@ function ResultScreen(props) {
 
                     //sentiment
                     var sentMagni = response.result[0].magnitude;
-                    var color = ""
+                    var color = "";
                     if (sentMagni <= 3)
-                        color = "green";
+                        color = "#B3EB9E";
                     else if (sentMagni > 3 && sentMagni <= 4)
-                        color = "yellow";
+                        color = "#EAD154";
                     else if (sentMagni > 4)
-                        color = "red";
+                        color = "#FD7E77";
 
                     var sentScore = response.result[0].score;
                     if (sentScore <= -0.3)
