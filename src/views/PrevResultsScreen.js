@@ -42,6 +42,7 @@ function PrevResultsScreen(props) {
 
             })
             .catch(error => {
+                setLoading(false);
                 console.error(error);
             })
     }
