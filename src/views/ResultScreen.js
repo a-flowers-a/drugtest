@@ -20,9 +20,9 @@ function ResultScreen(props) {
     const [globalResult, setGlobalResult] = useState("Bajo");
     const [progBar, setProgBar] = useState(0.33);
     const [loading, setLoading] = useState(false);
-    const [faFrownColor, setfaFrownColor] = useState("#fefefe");
-    const [faMehColor, setfaMehColor] = useState("#fefefe");
-    const [faSmileColor, setfaSmileColor] = useState("#fefefe");
+    const [faFrownColor, setfaFrownColor] = useState("#b0deff");
+    const [faMehColor, setfaMehColor] = useState("#b0deff");
+    const [faSmileColor, setfaSmileColor] = useState("#b0deff");
 
     function navigateTo(screenOption) {
         props.navigation.navigate(screenOption);
@@ -112,7 +112,7 @@ function ResultScreen(props) {
                 <Text style={[styles.text, styles.subtitle]}>Análisis Chats</Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>Se hace mención de las siguientes sustancias en sus chats </Text>
+                <Text style={styles.text}>Se hace mención de las siguientes sustancias en sus chats: </Text>
             </View>
             <View style={styles.row}>
                 <TableChat values={clasificadorValues} />
@@ -120,25 +120,27 @@ function ResultScreen(props) {
             <View style={styles.row}>
                 <Text style={[styles.text, styles.subtitle]}>Análisis de Sentimientos</Text>
             </View>
-            <View style={styles.row}>
-                <FontAwesomeIcon
-                    icon={faFrown}
-                    style={styles.icon}
-                    size={40}
-                    color={faFrownColor}
-                />
-                <FontAwesomeIcon
-                    icon={faMeh}
-                    style={styles.icon}
-                    size={40}
-                    color={faMehColor}
-                />
-                <FontAwesomeIcon
-                    icon={faSmile}
-                    style={styles.icon}
-                    size={40}
-                    color={faSmileColor}
-                />
+            <View style={[styles.card]}>
+                <View style={styles.row}>
+                    <FontAwesomeIcon
+                        icon={faFrown}
+                        style={styles.icon}
+                        size={40}
+                        color={faFrownColor}
+                    />
+                    <FontAwesomeIcon
+                        icon={faMeh}
+                        style={styles.icon}
+                        size={40}
+                        color={faMehColor}
+                    />
+                    <FontAwesomeIcon
+                        icon={faSmile}
+                        style={styles.icon}
+                        size={40}
+                        color={faSmileColor}
+                    />
+                </View>
             </View>
             <View style={styles.row}>
                 <Text style={[styles.text, styles.subtitle]}>Resultado Cuestionario</Text>
@@ -157,6 +159,18 @@ function ResultScreen(props) {
 }//ResultScreen
 
 const styles = StyleSheet.create({
+    card: {
+        backgroundColor: "#fefefe",
+        borderRadius: 10,
+        shadowColor: "#120078",//#b0deff #5edfff #010a43 #000 #120078
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4,
+    },
     container: {
         backgroundColor: "#aed1f5",/*#120078 */
         flex: 1,
@@ -172,7 +186,6 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: "row",
         marginVertical: 20,
-        //alignItems: "center"
     },
     subtitle: {
         fontSize: 25,

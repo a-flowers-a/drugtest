@@ -7,43 +7,18 @@ import { store } from '../utils/storage';
 
 function QuestionSPt(props){
 
-    const styles = StyleSheet.create({
-        container: {
-            alignItems: "center",
-        },
-        textInput: {
-            borderWidth: 1,
-            color: "#f5f4f4",
-            fontSize: 18,
-            height: 46,
-            marginBottom: 10,
-        },
-        textInputAndroid:{
-            borderWidth: 2,
-            color: "#fff",
-        },
-        textInputIOS:{
-            borderRadius: 8,
-            borderColor: "#fff",
-        },
-        textContainer: {
-            backgroundColor: "#3399FF", /*#3e64ff */
-            borderRadius: 10,
-            marginHorizontal: 15,
-            marginVertical: 20,
-            paddingHorizontal: 15,
-            paddingVertical: 30,
-        },
-        qText: {
-            color: "#f5f4f4",
-            fontSize: 20,
-            textAlign: "center"
-        },
-    });
-
     const {onPressFunc, txtInput, secQNum,
-        subQstIndex, subsIndxToDspl, display} = props;
+        subQstIndex, subsIndxToDspl, display, sex} = props;
     const [textValue, onChangeText] = useState("");
+
+    let questionText = questionsII[subsIndxToDspl[secQNum]][subQstIndex];
+    console.log("secQNum "+secQNum+" y subQstIndex "+subQstIndex);
+    if(subsIndxToDspl[secQNum] == 1 && subQstIndex == 1)
+    {
+        console.log("question is "+ questionsII[subsIndxToDspl[secQNum]][subQstIndex]);
+        const numDrinks = sex ? '5' : '4';
+        questionText = questionText.replace("#", numDrinks);
+    }
 
     async function saveQstIndex(){
         const stsecQNum = await store("secQNum", secQNum.toString());
@@ -71,7 +46,7 @@ function QuestionSPt(props){
     return (
         <View style={styles.container}>
             <View style={styles.textContainer}>
-                <Text style={styles.qText}>{questionsII[subsIndxToDspl[secQNum]][subQstIndex]}</Text>
+                <Text style={styles.qText}>{questionText}</Text>
             </View>
             
             {!txtInput && (
@@ -102,6 +77,7 @@ function QuestionSPt(props){
                             styles.textInputIOS :
                             styles.textInputAndroid
                         ]}
+                        autoCapitalize={"none"}
                         onChangeText={text => onChangeText(text)}
                         value={textValue}
                     />
@@ -118,5 +94,42 @@ function QuestionSPt(props){
         </View>
     );
 }//QuestionSPt
+
+
+const styles = StyleSheet.create({
+    container: {
+        alignItems: "center",
+    },
+    textInput: {
+        borderWidth: 1,
+        color: "#010101",
+        fontSize: 18,
+        height: 46,
+        marginBottom: 10,
+    },
+    textInputAndroid:{
+        borderWidth: 2,
+        color: "#fefefe",
+        padding: 5,
+    },
+    textInputIOS:{
+        borderRadius: 8,
+        borderColor: "#fefefe",//#0070f3
+        padding: 5,
+    },
+    textContainer: {
+        backgroundColor: "#3399FF", /*#3399FF #3e64ff */
+        borderRadius: 10,
+        marginHorizontal: 15,
+        marginVertical: 20,
+        paddingHorizontal: 15,
+        paddingVertical: 30,
+    },
+    qText: {
+        color: "#fefefe",//#010101 #f5f4f4
+        fontSize: 20,
+        textAlign: "center"
+    },
+});
 
 export default QuestionSPt;
