@@ -26,6 +26,7 @@ function QuestScreen(props) {
     const [subQstIndex, setSubQIndex] = useState(0);
     const [user, setUser] = useState({
         boleta: "",
+        sex: false,
     });
     const [subsIndxToDspl, setSubsIndxToDspl] = useState([]);
 
@@ -285,6 +286,7 @@ function QuestScreen(props) {
                     onPressFunc={handleFAnswers}
                     fstQNum={fstQNum}
                     display={display}
+                    sex={user.sex}
                 />
             }
             {display.part2 &&
@@ -295,6 +297,7 @@ function QuestScreen(props) {
                     subsIndxToDspl={subsIndxToDspl}
                     display={display}
                     txtInput={(subsIndxToDspl[secQNum] == 2 && subQstIndex == 10) && true}
+                    sex={user.sex}
                 />
             }
 

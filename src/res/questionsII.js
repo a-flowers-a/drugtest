@@ -4,8 +4,8 @@ const questionsII = [
     "En los últimos 3 meses, ¿fumabas normalmente dentro de los 30 minutos después de despertar?"],
     
 
-    ["En los últimos 3 meses, ¿bebiste alcohol? * Una bebida estándar es aproximadamente 1 vaso pequeño de vino (5 onzas), 1 cerveza (12 onzas) o 1 solo trago de licor.",
-    "En los últimos 3 meses, ¿tomaste 4/5 o más bebidas que contienen alcohol en un día? * (Nota: HOMBRE 5 / MUJER 4).",
+    ["En los últimos 3 meses, ¿bebiste alcohol?",
+    "En los últimos 3 meses, ¿tomaste # o más bebidas que contienen alcohol en un día? *Una bebida estándar es aproximadamente 1 vaso pequeño de vino (5 onzas), 1 cerveza (12 onzas) o 1 solo trago de licor.",
     "En los últimos 3 meses, ¿has tratado de controlar, reducir o dejar de beber?",
     "En los últimos 3 meses, ¿alguien ha expresado preocupación por tu consumo de alcohol?"],
     

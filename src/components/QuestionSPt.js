@@ -8,8 +8,17 @@ import { store } from '../utils/storage';
 function QuestionSPt(props){
 
     const {onPressFunc, txtInput, secQNum,
-        subQstIndex, subsIndxToDspl, display} = props;
+        subQstIndex, subsIndxToDspl, display, sex} = props;
     const [textValue, onChangeText] = useState("");
+
+    let questionText = questionsII[subsIndxToDspl[secQNum]][subQstIndex];
+    console.log("secQNum "+secQNum+" y subQstIndex "+subQstIndex);
+    if(subsIndxToDspl[secQNum] == 1 && subQstIndex == 1)
+    {
+        console.log("question is "+ questionsII[subsIndxToDspl[secQNum]][subQstIndex]);
+        const numDrinks = sex ? '5' : '4';
+        questionText = questionText.replace("#", numDrinks);
+    }
 
     async function saveQstIndex(){
         const stsecQNum = await store("secQNum", secQNum.toString());
@@ -37,7 +46,7 @@ function QuestionSPt(props){
     return (
         <View style={styles.container}>
             <View style={styles.textContainer}>
-                <Text style={styles.qText}>{questionsII[subsIndxToDspl[secQNum]][subQstIndex]}</Text>
+                <Text style={styles.qText}>{questionText}</Text>
             </View>
             
             {!txtInput && (
