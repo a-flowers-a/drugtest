@@ -9,8 +9,9 @@ import { OkAlert } from '../components/CustomAlerts';
 import { store, get } from '../utils/storage';
 import Loading from '../components/Loading';
 import { hash } from '../utils/hashing';
-import {androidHost} from '../utils/hosts';
+import { androidHost } from '../utils/hosts';
 import RadioBtn from '../components/RadioBtn';
+import UrlButton from '../components/UrlButton';
 
 
 function Login(props) {
@@ -19,12 +20,12 @@ function Login(props) {
     const [loading, setLoading] = useState(false);
     const [imAdmin, toggleImAdmin] = useState(false);
     const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
-    const {reloadLogged} = props;
+    const { reloadLogged } = props;
 
     const onSubmit = async data => {
         setLoading(true);
         let userType = "student";
-        if(imAdmin) userType = "admin";
+        if (imAdmin) userType = "admin";
         const url = `http:${localHost}:3030/${userType}/log-in`;
         const twoVals = await hash(data.boleta, data.password);
         const finalData = { boleta: twoVals[0], password: twoVals[1] };
@@ -159,6 +160,8 @@ function Login(props) {
                 onPressFunc={() => { props.navigation.navigate('Datos Cuenta', { create: true }); }}
             />
 
+            <UrlButton />
+
             {display &&
                 <CustomModal
                     input={true}
@@ -173,6 +176,7 @@ function Login(props) {
     );
 }//Login
 const styles = StyleSheet.create({
+
     container: {
         backgroundColor: "#aed1f5",/*120078 120078 */
         flex: 1,
@@ -206,7 +210,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginLeft: 30
     },
-    radioContainer:{
+    radioContainer: {
         flexDirection: "row",
         marginHorizontal: 25
     },
