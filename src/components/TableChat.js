@@ -26,7 +26,17 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 16,
         paddingTop: 30,
-        backgroundColor: '#fff'
+        backgroundColor: '#fefefe',
+        borderRadius: 10,
+        marginHorizontal: 20,
+        shadowColor: "#120078",//#b0deff #5edfff #010a43 #000 #120078
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4,
     },
     head: {
         height: 40,
