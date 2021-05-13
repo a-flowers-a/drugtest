@@ -67,10 +67,11 @@ function Login(props) {
     async function recoverPassword(data) {
         displayRecover();
         setLoading(true);
-        const url = `http:${localHost}:3030/student/reset-pass`;
+        let userType = "student";
+        if(imAdmin) userType = "admin";
+        const url = `http:${localHost}:3030/${userType}/reset-pass`;
         const twoVals = await hash(data.boleta);
         const finalData = { boleta: twoVals[0] };
-        console.log("finalData", finalData);
         postRequest(url, finalData)
             .then(response => {
                 setLoading(false);
