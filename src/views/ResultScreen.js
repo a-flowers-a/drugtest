@@ -114,7 +114,7 @@ function ResultScreen(props) {
             <View style={[styles.row, styles.lgTopSpace]}>
                 <Text style={[styles.text, styles.subtitle]}>Análisis Chats</Text>
             </View>
-            <Text style={styles.text}>Se hace mención de las siguientes sustancias en sus chats: </Text>
+            <Text style={styles.text}>Se hace mención de las siguientes sustancias en los chats: </Text>
             <View style={[styles.row, styles.lgBtmSpace]}>
                 <TableChat values={clasificadorValues} />
             </View>
