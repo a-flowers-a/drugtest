@@ -100,27 +100,28 @@ function ResultScreen(props) {
     return (
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
             {loading && <Loading />}
-            <View style={styles.row}>
-                <Text style={[styles.text, styles.title]}>Resultado</Text>
+            <View style={[styles.row, styles.lgBtmSpace]}>
+                <Text style={[styles.text, styles.title]}>Resultado de análisis</Text>
             </View>
             <View style={styles.row}>
-                <Progress.Bar color={"#fefefe"} progress={progBar} width={300} />
+                <Text style={[styles.text, styles.subtitle]}>Riesgo</Text>
             </View>
-            <Text style={styles.text}>{globalResult} </Text>
+            <Progress.Bar color={"#fefefe"} progress={progBar} width={300} />
+            <View style={[styles.row, styles.lgBtmSpace]}>
+                <Text style={[styles.text]}>{globalResult} </Text>
+            </View>
 
-            <View style={styles.row}>
+            <View style={[styles.row, styles.lgTopSpace]}>
                 <Text style={[styles.text, styles.subtitle]}>Análisis Chats</Text>
             </View>
-            <View style={styles.row}>
-                <Text style={styles.text}>Se hace mención de las siguientes sustancias en sus chats: </Text>
-            </View>
-            <View style={styles.row}>
+            <Text style={styles.text}>Se hace mención de las siguientes sustancias en sus chats: </Text>
+            <View style={[styles.row, styles.lgBtmSpace]}>
                 <TableChat values={clasificadorValues} />
             </View>
-            <View style={styles.row}>
+            <View style={[styles.row, styles.lgTopSpace]}>
                 <Text style={[styles.text, styles.subtitle]}>Análisis de Sentimientos</Text>
             </View>
-            <View style={[styles.card]}>
+            <View style={[styles.card, styles.lgBtmSpace]}>
                 <View style={styles.row}>
                     <FontAwesomeIcon
                         icon={faFrown}
@@ -142,10 +143,10 @@ function ResultScreen(props) {
                     />
                 </View>
             </View>
-            <View style={styles.row}>
+            <View style={[styles.row, styles.lgTopSpace]}>
                 <Text style={[styles.text, styles.subtitle]}>Resultado Cuestionario</Text>
             </View>
-            <View style={styles.row}>
+            <View style={[styles.row, styles.lgBtmSpace]}>
                 <TableQuest values={questResult} />
             </View>
 
@@ -183,9 +184,15 @@ const styles = StyleSheet.create({
         //color: "#0070f3",//#f5f4f4
         marginHorizontal: 20
     },
+    lgBtmSpace:{
+        marginBottom: 20,
+    },
+    lgTopSpace:{
+        marginTop: 20,
+    },
     row: {
         flexDirection: "row",
-        marginVertical: 20,
+        marginVertical: 10,
     },
     subtitle: {
         fontSize: 25,
