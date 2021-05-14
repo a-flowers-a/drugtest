@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Platform, StyleSheet, RefreshControl, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { Platform, StyleSheet, RefreshControl, View, Text } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import ActionBtn from '../components/ActionBtn';
 import ChatUpload from '../components/ChatUpload';
 import { getRequest } from '../utils/HttpRequest';
@@ -112,52 +112,109 @@ function HomeScreen(props) {
                 />
             }
         >
-            <ActionBtn
-                btnText={"Realizar Cuestionario"}
-                onPressFunc={() => navigateTo('Cuestionario')}
-                disabled={analFlags.questSent}
-            />
-            <View style={[styles.row, styles.center]}>
+            <View style={[styles.row, styles.center, styles.midVerticalSpace]}>    
+                <ActionBtn
+                    btnText={"Realizar cuestionario"}
+                    onPressFunc={() => navigateTo('Cuestionario')}
+                    disabled={analFlags.questSent}
+                />
+            </View>
+            <View style={[styles.row, styles.center, styles.midVerticalSpace]}>
                 <ChatUpload
                     numChats={analFlags.chatSent}
                 />
             </View>
-            <ActionBtn
-                btnText={"Mostrar Resultado"}
-                onPressFunc={() => { navigateTo('Resultado', { idResFinal: analFlags.idResFinal }); }}
-                disabled={!(analFlags.chatSent == 3)}
-            />
-            <ActionBtn
-                btnText={"Nuevo análisis"}
-                onPressFunc={resetFlags}
-                disabled={!analFlags.questSent}
-            />
-            <ActionBtn
-                btnText={"Ver Contactos de apoyo"}
-                onPressFunc={() => navigateTo('Contactos')}
-            />
-            <ActionBtn
-                btnText={"Ver resultados anteriores"}
-                onPressFunc={() => navigateTo('Resultados Anteriores')}
-            />
+            <View style={[styles.row, styles.center]}>
+                <View style={styles.messageContainer} >
+                    <Text style={[styles.text, styles.blue]}>Los chats sólo serán utilizados para un análisis que es realizado por el sistema.</Text>
+                </View>
+            </View>
+            <View style={[styles.row, styles.center, styles.midVerticalSpace]}>
+                <ActionBtn
+                    btnText={"Mostrar resultado"}
+                    onPressFunc={() => { navigateTo('Resultado', { idResFinal: analFlags.idResFinal }); }}
+                    disabled={!(analFlags.chatSent == 3)}
+                />
+            </View>
+            <View style={[styles.row, styles.center, styles.midVerticalSpace]}>  
+                <ActionBtn
+                    btnText={"Nuevo análisis"}
+                    onPressFunc={resetFlags}
+                    disabled={!analFlags.questSent}
+                />
+            </View>
+            <View style={styles.lastRow}>
+                <TouchableOpacity
+                    style={[styles.cardButton]}
+                    onPress={() => navigateTo('Contactos')}>
+                    <Text style={styles.text}>Ver contactos de apoyo</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={[styles.cardButton]}
+                    onPress={() => navigateTo('Resultados Anteriores')}>
+                    <Text style={styles.text}>Ver resultados anteriores</Text>
+                </TouchableOpacity>
+            </View>
 
         </ScrollView>
     );
 }//HomeScreen
 
 const styles = StyleSheet.create({
+    blue:{
+        color: "#3a80f8",
+        fontSize: 16,
+    },
+    cardButton : {
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#3a80f8", //0028ff 0d0cb5 0900c3 3e64ff 342ead 0779e4 sombra 
+        borderRadius: 10,
+        height: 100,
+        width: 150,
+        marginHorizontal:10,
+        padding: 15,
+        shadowColor: "#120078",//#b0deff #5edfff #010a43 #000 #120078
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4,
+    },
+    center: {
+        justifyContent: "center"
+    },
     container: {
         backgroundColor: "#aed1f5",/*#120078 */
         flex: 1,
         paddingVertical: 15,
     },
+    lastRow: {
+        flexDirection: "row",
+        flex: 1,
+        justifyContent: "center",
+        marginHorizontal: 15,
+        marginTop: "30%",
+        padding: 10,
+    },
+    midVerticalSpace:{
+        marginVertical: 10,
+    },
     row:{
         flexDirection: "row",
         flex: 1,
     },
-    center: {
-        justifyContent: "center"
+    text: {
+        color: "#f5f4f4",
+        fontSize: 18,
+        textAlign: "center" ,
     },
+    messageContainer: {
+        marginBottom: 10,
+        width: 280,
+    }
 });
 
 export default HomeScreen;

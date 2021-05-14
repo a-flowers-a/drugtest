@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
     button: {
         alignItems: "center",
         backgroundColor: "#3a80f8", //0028ff 0d0cb5 0900c3 3e64ff 342ead 0779e4 sombra 
-        borderColor: "#3a80f8",//#0070f3 #0d0cb5
         borderRadius: 10,
         height: 50,
         marginVertical: 10,
@@ -45,6 +44,7 @@ const styles = StyleSheet.create({
     },
     disabledBtn: {
         backgroundColor: "#5a94f9", //rgba(13, 12, 181,0.3)
+        borderColor: "#3a80f8",//#0070f3 #0d0cb5
         borderWidth: 1,
     },
     disabledTxt: {
