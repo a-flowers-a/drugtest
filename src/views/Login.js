@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, StyleSheet, Platform } from "react-native";
+import { Text, View, TextInput, StyleSheet, Platform, YellowBox } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import ActionBtn from '../components/ActionBtn';
@@ -69,7 +69,7 @@ function Login(props) {
         displayRecover();
         setLoading(true);
         let userType = "student";
-        if(imAdmin) userType = "admin";
+        if (imAdmin) userType = "admin";
         const url = `http:${localHost}:3030/${userType}/reset-pass`;
         const twoVals = await hash(data.boleta);
         const finalData = { boleta: twoVals[0] };
@@ -159,8 +159,9 @@ function Login(props) {
                 btnText={"Crear Cuenta"}
                 onPressFunc={() => { props.navigation.navigate('Datos Cuenta', { create: true }); }}
             />
-
-            <UrlButton />
+            <View style={styles.UrlView}>
+                <UrlButton />
+            </View>
 
             {display &&
                 <CustomModal
@@ -224,6 +225,11 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: "left",
         margin: 10,
+    },
+    UrlView: {
+        marginBottom: 0,
+        marginVertical: "40%",
+        alignSelf: "center",
     },
 });
 
