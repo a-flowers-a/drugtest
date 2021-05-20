@@ -18,15 +18,12 @@ function Login(props) {
     const { control, handleSubmit, errors } = useForm();
     const [display, setDisplay] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [imAdmin, toggleImAdmin] = useState(false);
     const localHost = Platform.OS == 'ios' ? "localhost" : androidHost;
     const { reloadLogged } = props;
 
     const onSubmit = async data => {
         setLoading(true);
-        let userType = "student";
-        if (imAdmin) userType = "admin";
-        const url = `http:${localHost}:3030/${userType}/log-in`;
+        const url = `http:${localHost}:3030/student/log-in`;
         const twoVals = await hash(data.boleta, data.password);
         const finalData = { boleta: twoVals[0], password: twoVals[1] };
 
@@ -68,9 +65,7 @@ function Login(props) {
     async function recoverPassword(data) {
         displayRecover();
         setLoading(true);
-        let userType = "student";
-        if (imAdmin) userType = "admin";
-        const url = `http:${localHost}:3030/${userType}/reset-pass`;
+        const url = `http:${localHost}:3030/student/reset-pass`;
         const twoVals = await hash(data.boleta);
         const finalData = { boleta: twoVals[0] };
         postRequest(url, finalData)
@@ -135,13 +130,6 @@ function Login(props) {
                     defaultValue=""
                 />
                 {errors.password && <Text style={[styles.text, styles.errorText]}>Campo requerido</Text>}
-            </View>
-            <View style={styles.radioContainer}>
-                <RadioBtn
-                    name="Admin"
-                    selected={imAdmin}
-                    onPressFunc={() => toggleImAdmin(!imAdmin)}
-                />
             </View>
             <ActionBtn
                 btnText={"Iniciar Sesión"}
