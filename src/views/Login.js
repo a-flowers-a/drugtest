@@ -98,15 +98,14 @@ function Login(props) {
                     render={({ onChange, onBlur, value }) => (
                         <TextInput
                             onBlur={onBlur}
-                            keyboardType='numeric'
-                            maxLength={10}
+                            maxLength={15}
                             style={styles.input}
                             onChangeText={value => onChange(value)}
                             value={value}
                         />
                     )}
                     name="boleta"
-                    rules={{ required: true, pattern: /^[0-9]{3,10}$/ }}
+                    rules={{ required: true, pattern: /^[A-Z-a-z0-9]{2,15}$/ }}
                     defaultValue=""
                 />
                 {errors.boleta && <Text style={[styles.text, styles.errorText]}>{errors.boleta.type == 'pattern' ? "Boleta inválida" : "Campo requerido"}</Text>}
