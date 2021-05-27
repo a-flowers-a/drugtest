@@ -10,7 +10,6 @@ import { store, get } from '../utils/storage';
 import Loading from '../components/Loading';
 import { hash } from '../utils/hashing';
 import { androidHost } from '../utils/hosts';
-import RadioBtn from '../components/RadioBtn';
 import UrlButton from '../components/UrlButton';
 
 
@@ -154,7 +153,6 @@ function Login(props) {
                 <CustomModal
                     input={true}
                     inputName={"boleta"}
-                    numericInp={true}
                     onAcceptFunc={recoverPassword}
                     onCancelFunc={displayRecover}
                     text={"Ingresa la boleta con la que te registraste:"}
