@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component';
+import InfoModal from '../components/InfoModal';
+import QuestMarkBtn from '../components/QuestMarkBtn';
 
 function TableQuest(props) {
 
     const tableHead = ['Sustancia', 'Puntaje'];
     const tableTitle = ["Tabaco", "Alcohol", "Marihuana", "Cocaína", "Heroína", "Otras Drogas", "Análgesico", "Ansiolítico", "TDAH Meds"];
     const { values } = props;
+    const [modalVisible, setModalVisible] = useState(false);
 
     return (
         <View style={styles.container}>
@@ -17,6 +20,15 @@ function TableQuest(props) {
                     <Rows data={values} flexArr={[1]} style={styles.row} textStyle={styles.text} />
                 </TableWrapper>
             </Table>
+            <View style={[styles.rowDir]} >
+                <QuestMarkBtn
+                    onPressFunc={() => setModalVisible(!modalVisible)}
+                    extraStyles={[styles.marginLeft]}
+                />
+                {modalVisible && <InfoModal
+                    onAcceptFunc={() => setModalVisible(!modalVisible)}
+                    text={questExplanation} />}
+            </View>
         </View>
     );
 }//TableQuest
@@ -54,7 +66,15 @@ const styles = StyleSheet.create({
     },
     text: {
         textAlign: 'center'
+    },
+    rowDir: {
+        flexDirection: "row",
+    },
+    marginLeft: {
+        marginLeft: 340
     }
 });
+
+const questExplanation = "Se muestra una calificación para cada sustancia. Si el puntaje es mayor a dos para alcohol o tabaco, se recomienda acudir con un especialista ,mientras que para el resto de las sustancias, se recomienda acudir con el especialista desde el puntaje uno.";
 
 export default TableQuest;

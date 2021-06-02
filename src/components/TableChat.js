@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component';
+import InfoModal from '../components/InfoModal';
+import QuestMarkBtn from '../components/QuestMarkBtn';
 
 function TableChat(props) {
 
     const tableHead = ['Etiqueta', 'Incidencias'];
     const tableTitle = ["Alcohol", "Tabaco", "Drogas"];
     const { values } = props;
+    const [modalVisible, setModalVisible] = useState(false);
 
     return (
         <View style={styles.container}>
@@ -17,6 +20,15 @@ function TableChat(props) {
                     <Rows data={values} flexArr={[1]} style={styles.row} textStyle={styles.text} />
                 </TableWrapper>
             </Table>
+            <View style={[styles.rowDir]} >
+                <QuestMarkBtn
+                    extraStyles={[styles.marginLeft]}
+                    onPressFunc={() => setModalVisible(!modalVisible)}
+                />
+                {modalVisible && <InfoModal
+                    onAcceptFunc={() => setModalVisible(!modalVisible)}
+                    text={clasifExplanation} />}
+            </View>
         </View>
     );
 }//TableChat
@@ -54,7 +66,15 @@ const styles = StyleSheet.create({
     },
     text: {
         textAlign: 'center'
+    },
+    rowDir: {
+        flexDirection: "row",
+    },
+    marginLeft: {
+        marginLeft: 340
     }
 });
+
+const clasifExplanation = "Se muestra en forma de tabla el número de frases encontradas que hacen referencia al consumo de alguna de las sustancias mostradas en la tabla, así como las incidencias o número de veces que fueron encontradas dichas frases.";
 
 export default TableChat;

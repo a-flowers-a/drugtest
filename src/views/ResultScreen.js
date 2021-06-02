@@ -11,6 +11,8 @@ import { androidHost } from '../utils/hosts';
 import { OkAlert } from '../components/CustomAlerts';
 import Loading from '../components/Loading';
 import TableQuest from '../components/TableQuest';
+import InfoModal from '../components/InfoModal';
+import QuestMarkBtn from '../components/QuestMarkBtn';
 
 function ResultScreen(props) {
 
@@ -23,6 +25,7 @@ function ResultScreen(props) {
     const [faFrownColor, setfaFrownColor] = useState("#b0deff");
     const [faMehColor, setfaMehColor] = useState("#b0deff");
     const [faSmileColor, setfaSmileColor] = useState("#b0deff");
+    const [modalVisible, setModalVisible] = useState(false);
 
     function navigateTo(screenOption) {
         props.navigation.navigate(screenOption);
@@ -110,7 +113,6 @@ function ResultScreen(props) {
             <View style={[styles.row, styles.lgBtmSpace]}>
                 <Text style={[styles.text]}>{globalResult} </Text>
             </View>
-
             <View style={[styles.row, styles.lgTopSpace]}>
                 <Text style={[styles.text, styles.subtitle]}>Análisis Chats</Text>
             </View>
@@ -121,7 +123,7 @@ function ResultScreen(props) {
             <View style={[styles.row, styles.lgTopSpace]}>
                 <Text style={[styles.text, styles.subtitle]}>Análisis de Sentimientos</Text>
             </View>
-            <View style={[styles.card, styles.lgBtmSpace]}>
+            <View style={[styles.card]}>
                 <View style={styles.row}>
                     <FontAwesomeIcon
                         icon={faFrown}
@@ -142,6 +144,15 @@ function ResultScreen(props) {
                         color={faSmileColor}
                     />
                 </View>
+            </View>
+            <View style={[styles.rowDir, styles.lgBtmSpace]} >
+                <QuestMarkBtn
+                    extraStyles={[styles.marginLeft]}
+                    onPressFunc={() => setModalVisible(!modalVisible)}
+                />
+                {modalVisible && <InfoModal
+                    onAcceptFunc={() => setModalVisible(!modalVisible)}
+                    text={sentExplanation} />}
             </View>
             <View style={[styles.row, styles.lgTopSpace]}>
                 <Text style={[styles.text, styles.subtitle]}>Resultado Cuestionario</Text>
@@ -184,10 +195,10 @@ const styles = StyleSheet.create({
         //color: "#0070f3",//#f5f4f4
         marginHorizontal: 20
     },
-    lgBtmSpace:{
+    lgBtmSpace: {
         marginBottom: 20,
     },
-    lgTopSpace:{
+    lgTopSpace: {
         marginTop: 20,
     },
     row: {
@@ -205,6 +216,15 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 30,
     },
+    rowDir: {
+        flexDirection: "row",
+
+    },
+    marginLeft: {
+        marginLeft: 105,
+    }
 });
 
+
+const sentExplanation = "Se muestra por medio de emojis,de izquierda a derecha: sentimiento negativo, neutro y positivo, el emoji se iluminará en verde, amarillo o rojo, dependiendo de la intensidad del sentimiento más común encontrado en sus chats";
 export default ResultScreen;
