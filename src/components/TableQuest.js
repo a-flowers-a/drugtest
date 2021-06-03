@@ -75,6 +75,6 @@ const styles = StyleSheet.create({
     }
 });
 
-const questExplanation = "Se muestra una calificación para cada sustancia. Si el puntaje es mayor a dos para alcohol o tabaco, se recomienda acudir con un especialista ,mientras que para el resto de las sustancias, se recomienda acudir con el especialista desde el puntaje uno.";
+const questExplanation = "Se muestra una calificación para cada sustancia. Si el puntaje es mayor a dos para alcohol o tabaco, se recomienda acudir con un especialista. Para el resto de las sustancias se recomienda acudir con el especialista desde el puntaje de uno.";
 
 export default TableQuest;

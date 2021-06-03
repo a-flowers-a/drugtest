@@ -226,5 +226,5 @@ const styles = StyleSheet.create({
 });
 
 
-const sentExplanation = "Se muestra por medio de emojis,de izquierda a derecha: sentimiento negativo, neutro y positivo, el emoji se iluminará en verde, amarillo o rojo, dependiendo de la intensidad del sentimiento más común encontrado en sus chats";
+const sentExplanation = "Es posible que el sentimiento general de los chats sea negativo, neutro o positivo, dicha propiedad está representada por un emoji triste, neutro o feliz que se ilumina dependiendo de la intensidad del sentimiento. Siendo: color verde el menos intenso, amarillo intenso o rojo el muy intenso.";
 export default ResultScreen;

@@ -75,6 +75,6 @@ const styles = StyleSheet.create({
     }
 });
 
-const clasifExplanation = "Se muestra en forma de tabla el número de frases encontradas que hacen referencia al consumo de alguna de las sustancias mostradas en la tabla, así como las incidencias o número de veces que fueron encontradas dichas frases.";
+const clasifExplanation = "En la columna de la izquierda se muestran sustancias, en la columna de la derecha se muestra el posible número de veces que se hace mención de dicha sustancia en los chats.";
 
 export default TableChat;
