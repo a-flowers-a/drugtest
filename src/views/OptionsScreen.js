@@ -115,11 +115,12 @@ function HomeScreen(props) {
                 onPress={() => {
                     OkCancelAlert({ title: "Log Out", message: "¿Quieres cerrar sesión?" },
                         async () => {
-                            const removed = await remove("user");
-                            const removedFlags = await remove("analysisFlags");
+                            const removed = await removeMany(["user", "analysisFlags"]);
                             await deleteStorage();
-                            if (removed && removedFlags) {
-                                setUser(null); reloadLogged(false);
+                            if (removed) {
+                                setUser(null);
+                                reloadLogged(false);
+                                console.log("Log-out: removed analysis flags and user");
                             }
                             else {
                                 !removed ? mess = "No se ha podido cerrar sesión, inténtalo nuevamente" : "Algo salió mal por favor intenté nuevamente";

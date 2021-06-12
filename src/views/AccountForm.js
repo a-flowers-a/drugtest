@@ -258,7 +258,7 @@ function AccountForm(props) {
                         />
                     )}
                     name="password"
-                    rules={{ required: true, pattern: /.{3,12}/ }}
+                    rules={{ required: true, pattern: /.{8,12}/ }}
                     defaultValue=""
                 />
                 {errors.password && <Text style={[styles.text, styles.errorText]}>{errors.password.type == 'pattern' ? "La contraseña es muy corta" : "Campo requerido"}</Text>}
@@ -279,7 +279,7 @@ function AccountForm(props) {
                             />
                         )}
                         name="newPass"
-                        rules={{ pattern: /.{3,12}/ }}
+                        rules={{ pattern: /.{8,12}/ }}
                         defaultValue=""
                     />
                     {errors.newPass && <Text style={[styles.text, styles.errorText]}>La contraseña es muy corta</Text>}

@@ -32,25 +32,26 @@ const App: () => React$Node = () => {
   const [loading, setLoading] = useState(false);
   const [reloadAll, setReloadAll] = useState(false);
   const [admin, setAdmin] = useState(false);
+  const [user, setUser] = useState(false);
 
   function handleReloadLogged(reloadValue) {
     setReloadAll(reloadValue);
   }//handleReloadLogged
-  
-    async function getUser(){
-      const fndUser = await get("user");
-      if(fndUser != null)
-      {
 
-        const parsUsr = JSON.parse(fndUser);
-        console.log("user found in appjs", parsUsr);
-        if(parsUsr.admin) setAdmin(true);
-        else setAdmin(false);
-        setReloadAll(true);
-      }
-      else
-        setAdmin(false);
-    }//getUser
+  async function getUser() {
+    const fndUser = await get("user");
+    if (fndUser != null) {
+
+      const parsUsr = JSON.parse(fndUser);
+      console.log("user found in appjs", parsUsr);
+      setUser(true);
+      if (parsUsr.admin) setAdmin(true);
+      else setAdmin(false);
+      setReloadAll(true);
+    }
+    else
+      setAdmin(false);
+  }//getUser
 
   const handleShare = useCallback((item: ?SharedItem) => {
     if (!item) {
@@ -98,14 +99,22 @@ const App: () => React$Node = () => {
         }
         setLoading(false);
       }//analysisFlags
-      else {
+      else if (user) {
+        console.log("no hay flags de analisis pero hay shared data y user");
         success = false;
         errMess = "No se encontró un dato en el storage de tu dispositivo necesario para realizar el envío, realiza el cuestionario nuevamente."
       }
+      else {
+        //there is no user or analysis flags
+        console.log("no hay flags de analisis ni user pero hay shared data ");
+        success = false;
+      }
       if (success)
         OkAlert({ title: "Éxito", message: "Chat enviado correctamente." });
-      else
+      else if (user && !success)
         OkAlert({ title: "Error", message: errMess });
+      else
+        setSharedData('');
     }
   }//getSharedChat
   /*-----------------------------End of get chat--------------- */
@@ -114,7 +123,7 @@ const App: () => React$Node = () => {
 
   return (
     <NavigationContainer key={reloadAll}>
-      { loading && <Loading />}
+      {loading && <Loading />}
       <Tabs.Navigator
         tabBarOptions={{
           activeTintColor: '#010101', //#fefefe #1db954 #120078
@@ -126,7 +135,7 @@ const App: () => React$Node = () => {
         }}
 
       >
-        {!admin && 
+        {!admin &&
           <Tabs.Screen
             name="Analysis"
             options={{
@@ -139,14 +148,14 @@ const App: () => React$Node = () => {
                 />
               )
             }}>
-              {props => <AnalysisStack
-                {...props}
-                reloadLogged={handleReloadLogged}
-                reloadValue={reloadAll}
-              />}
+            {props => <AnalysisStack
+              {...props}
+              reloadLogged={handleReloadLogged}
+              reloadValue={reloadAll}
+            />}
           </Tabs.Screen>
         }
-        { admin &&
+        {admin &&
           <Tabs.Screen
             name="Admin"
             options={{
@@ -167,7 +176,7 @@ const App: () => React$Node = () => {
             />}
           </Tabs.Screen>
         }
-        
+
 
         <Tabs.Screen
           name="Options"
